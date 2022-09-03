@@ -12,23 +12,37 @@
 import { onBeforeMount } from 'vue';
 // import { firebase } from 'firebase';
 // import * as firebase from "firebase/app"
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router';
+import firebase from 'firebase/compat/app';
+// import 'firebase/compat/auth';
+// import 'firebase/compat/firestore';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBfNtrggmhOCX3Z8Db-hZZmd5dvDqzUhSI",
+  authDomain: "smug-b36fc.firebaseapp.com",
+  projectId: "smug-b36fc",
+  storageBucket: "smug-b36fc.appspot.com",
+  messagingSenderId: "626641004276",
+  appId: "1:626641004276:web:344dcf15a6b2216ec6e0a1",
+  measurementId: "G-4D1CPFLCNZ"
+};
+firebase.initializeApp(firebaseConfig);
 
 export default{
-  // setup() {
-  //   const router = useRouter();
-  //   const route = useRoute();
+  setup() {
+    const router = useRouter();
+    const route = useRoute();
 
-  //   onBeforeMount(() => {
-  //     firebase.auth().onAuthStateChanged((user) => {
-  //       if(!user) {
-  //         router.replace('/login');
-  //       } else if (route.path == "/login" || route.path == "/register") {
-  //         router.replace('/');
-  //       }
-  //     });
-  //   });
-  // },
+    onBeforeMount(() => {
+      firebase.auth().onAuthStateChanged((user) => {
+        if(!user) {
+          router.replace('/login');
+        } else if (route.path == "/login" || route.path == "/register") {
+          router.replace('/');
+        }
+      });
+    });
+  },
 }
 </script>
 

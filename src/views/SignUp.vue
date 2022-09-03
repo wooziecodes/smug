@@ -1,38 +1,44 @@
 <template>
     <div>
       <h1>Sign Up</h1>
-      <input type="email" placeholder="email" v-model="email">
-      <input type="password" placeholder="password" v-model="password">
-      <button @click="signup">Sign Up</button>
-  
+      <form @submit.prevent="SignUp">
+      <input type="email" placeholder="Email" v-model="email">
+      <input type="password" placeholder="Password" v-model="password">
+      <input type="submit" value="SignUp">
+      <p>Have an account? <router-link to="/login">Login Here</router-link></p>
+    </form>
     </div>
   </template>
   
   <script>
+      import {ref} from 'vue';
     // import firebase from "firebase"
     // src='https://cdn.firebase.com/js/client/2.2.1/firebase.js';
+    import firebase from 'firebase/compat/app';
+    import 'firebase/compat/auth';
+    import 'firebase/compat/firestore';
 
   export default {
-      name: "SignUp",
-      data() {
-          return {
-              email: "",
-              password: "",
-              initials: "",
-          }
-      },
-      methods: {
-          signup() {
-            firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-                (user) => {
-                    console.log(user)
-                },
-                (err) => {
-                    alert(err)
-                }
-            )
-          }
-      }
+    setup() {
+        const email = ref("");
+        const password = ref("");
+
+        const SignUp = () => {
+            firebase
+                .auth()
+                .createUserWithEmailAndPassword(email.value, password.value)
+                .then(user => {
+                    alert(user);
+                })
+                .catch(err => alert(err.message));
+        }
+
+        return {
+            SignUp,
+            email,
+            password
+        }
+    }
   }
   </script>
   
