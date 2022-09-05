@@ -30,8 +30,9 @@
           firebase
               .auth()
               .signInWithEmailAndPassword(email.value, password.value)
-              .then(data => console.log(data))
-              .catch(err => alert(err.message));
+              // console.log(data)
+              .then(data => this.$router.push('/views/'))
+              // .catch(err => alert(err.message));
           }
           return {
               Login,

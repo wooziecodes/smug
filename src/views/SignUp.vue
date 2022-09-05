@@ -28,9 +28,11 @@
                 .auth()
                 .createUserWithEmailAndPassword(email.value, password.value)
                 .then(user => {
-                    alert(user);
+                    alert("You have successfully signed up!");
+                    // this.$router.push('/views/login');
                 })
-                .catch(err => alert(err.message));
+                .catch(err => 
+                alert(err.message));
         }
 
         return {
