@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import * as firebase from "firebase/app";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.js';
 // import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
