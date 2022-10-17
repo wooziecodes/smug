@@ -4,6 +4,7 @@
     <router-link to="/about">About</router-link> |
     <router-link to="/login">Login</router-link> |
     <router-link to="/signup">SignUp</router-link>
+    <router-link to="/landing">Landing</router-link>
   </nav>
   <router-view/>
 </template>
@@ -16,6 +17,22 @@ import { useRouter, useRoute } from 'vue-router';
 import firebase from 'firebase/compat/app';
 // import 'firebase/compat/auth';
 // import 'firebase/compat/firestore';
+import TheNavbar from './views/TheNavbar'
+import Landing from './views/Landing'
+import 'animate.css';
+import 'aos/dist/aos.css'
+import wow from 'wowjs';
+
+
+
+// import TheBrands from './components/TheBrands'
+// import TheFeatures from './components/TheFeatures'
+// import TheAbout from './components/TheAbout'
+// import TheFacts from './components/TheFacts'
+// import TheTestimonials from './components/TheTestimonials'
+// import ThePosts from './components/ThePosts'
+// import TheFooter from './components/TheFooter'
+// import BackToTopButton from './components/BackToTopButton'
 
 const firebaseConfig = {
   apiKey: "AIzaSyCIs-jCOTCgMspvCH3C3EKd_rszakumjyY",
@@ -47,12 +64,15 @@ export default{
       });
     });
   },
+  components:{
+
+  }
 }
 </script>
 
 
 
-<style lang="scss">
+<style>
 body {
   background: #2c3e50;
   color: #FFF;
