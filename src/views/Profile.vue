@@ -61,7 +61,7 @@
           </tr>
           <tr>
             <th>Email</th>
-            <td>chester@dean.com</td>
+            <td>chester@gods.com</td>
           </tr>
           <tr>
             <th>Description</th>
@@ -130,15 +130,18 @@
     margin-top: 20px;
     margin-left: 340px;
     margin-right: 240px;
-    text-align: right;
+    
+    
     
 
 }
 th {
     white-space: nowrap;
     vertical-align: top;
+    text-align: right;
 }
 td {
     text-align: left;
     padding-left: 10px;
+    width: fixed;
 }</style>
