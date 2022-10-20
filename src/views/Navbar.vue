@@ -53,7 +53,7 @@
                 </div> <!-- navbar collapse -->
   
                 <div class="navbar-btn d-none d-sm-inline-block">
-                  <a class="main-btn" data-scroll-nav="0" href="#pricing">Get Started</a>
+                  <a class="main-btn" data-scroll-nav="0" href="#login">Get Started</a>
                 </div>
               </nav> <!-- navbar -->
             </div>

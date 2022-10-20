@@ -19,8 +19,8 @@
         >
           <div class="single-services text-center mt-30 wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s">
             <div class="services-icon">
-              <img class="shape" src="~/assets/basic/assets/images/services-shape.svg" alt="shape">
-              <img class="shape-1" :src="'basic/assets/images/services-shape-' + (index + 1) + '.svg'" alt="shape">
+              <img class="shape" src="../assets/images/services-shape.svg" alt="shape">
+              <img class="shape-1" :src="'../assets/images/services-shape-' + (index + 1) + '.svg'" alt="shape">
               <v-icon class="ml-n1">
                 {{ feature.icon }}
               </v-icon>

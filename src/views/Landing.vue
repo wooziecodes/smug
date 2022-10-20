@@ -23,7 +23,10 @@
                 Lorem ipsum dolor sit amet,
                 consetetur sadipscing elitr, sed diam nonumy eirmod tempor
               </p>
-              <a href="#" class="main-btn animate__fadeIn" data-wow-duration="1.3s" data-wow-delay="1.1s">Get Started</a>
+              
+              <button class="main-btn animate__fadeIn" data-wow-duration="1.3s" data-wow-delay="1.1s" onclick="this.$router.push('/login')">Get Started</button>
+              <!-- <v-btn to="/newpage">Next Page</v-btn> -->
+
             </div> <!-- header hero content -->
           </div>
         </div> <!-- row -->
@@ -46,13 +49,26 @@
 <script>
 import TheAbout from './TheAbout.vue'
 import Navbar from './TheNavbar.vue'
+import Login from './Login.vue'
 
 require('../assets/css/style.css')
 export default{
 
   components:{
-    Navbar, TheAbout
+    Navbar, TheAbout, Login
+  },
+
+  methods:{
+
+    gotoLogin(){
+      this.$router.push('/Login.vue'); 
+    }
+
+
+
   }
+
+
 
 }
 
