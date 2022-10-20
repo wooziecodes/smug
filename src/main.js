@@ -5,6 +5,9 @@ import store from './store'
 import * as firebase from "firebase/app";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
+import {library} from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import {faStar} from '@fortawesome/free-solid-svg-icons'
 // import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -20,5 +23,6 @@ const firebaseConfig = {
   
   
 firebase.initializeApp(firebaseConfig);
+library.add(faStar)
 // const analytics = getAnalytics(app);
-createApp(App).use(store).use(router).mount('#app')
+createApp(App).component("font-awesome-icon",FontAwesomeIcon).use(store).use(router).mount('#app')
