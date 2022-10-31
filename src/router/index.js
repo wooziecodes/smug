@@ -4,6 +4,7 @@ import Login from '../views/Login.vue'
 import SignUp from '../views/SignUp.vue'
 import Profile from '../views/Profile.vue'
 import Landing from '../views/Landing.vue'
+import Listings from '../views/Listings.vue'
 
 const routes = [
   {
@@ -40,6 +41,11 @@ const routes = [
     meta: {
       requiresAuth: true,
     },
+  },
+  {
+    path: '/listings',
+    name: 'Listings',
+    component: Listings
   },
   {
     path: '/profile',

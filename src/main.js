@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { Vue, createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -7,9 +7,7 @@ import * as firebase from "firebase/app";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faHatWizard, faChevronUp} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import Vue from 'vue';
 import AOS from 'aos';
 import 'aos/dist/aos.css'
 import 'animate.css';
@@ -19,14 +17,8 @@ import Vue3Transitions from 'vue3-transitions'
 import VueKinesis from "vue-kinesis";
 import { Icon } from '@iconify/vue';
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
+import { faStar, faHeart, faCommentDots, faBookmark, faFilter, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
-
-
-
-
-
-
-import {faStar} from '@fortawesome/free-solid-svg-icons'
 // import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -43,12 +35,11 @@ const firebaseConfig = {
 
   
 firebase.initializeApp(firebaseConfig);
-library.add(faStar)
+library.add(faStar, faHeart, faCommentDots, faBookmark, faFilter, faChevronUp, faChevronDown)
 // const analytics = getAnalytics(app);
 
-library.add(faHatWizard,faChevronUp)
 
 
 
-createApp(App).use(store).use(router).use(VueKinesis).use(autoAnimatePlugin).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+createApp(App).component("font-awesome-icon", FontAwesomeIcon).use(store).use(router).use(VueKinesis).use(autoAnimatePlugin).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
 
