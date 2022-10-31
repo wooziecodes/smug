@@ -35,24 +35,22 @@ const routes = [
     component: SignUp
   },
   {
-<<<<<<< HEAD
     path: '/landing',
     name: 'Landing',
     component: Landing
   },
 
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  },
+  // {
+  //   path: '/about',
+  //   name: 'about',
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  // }, 
 
   
-  
-=======
+  {
     path: "/feed",
     component: () => import("../views/Feed.vue"),
     meta: {
@@ -65,7 +63,6 @@ const routes = [
     component: Profile
   },
 
->>>>>>> 46f685a655401a442eb3f5fa4f107ed3d2aa8c3e
 ]
 
 const router = createRouter({

@@ -1,12 +1,14 @@
 <template>
   <nav>
-    <!-- <router-link to="/">Home</router-link> |
+     <router-link to="/">Home</router-link> |
     <router-link to="/login">Login</router-link> |
     <router-link to="/signup">SignUp</router-link> |
-    <router-link to="/feed">Feed</router-link> -->
+    <router-link to="/feed">Feed</router-link>
     <router-link to="/landing">Landing</router-link>
+
   </nav>
-  <router-view/>
+  <router-view/> 
+  
 </template>
 
 <script>
@@ -22,6 +24,7 @@ import Landing from './views/Landing'
 import 'animate.css';
 import 'aos/dist/aos.css'
 import wow from 'wowjs';
+import LoginVue from './views/Login.vue';
 
 
 
@@ -65,6 +68,7 @@ export default{
     });
   },
   components:{
+    LoginVue
 
   }
 }
