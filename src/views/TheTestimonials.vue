@@ -6,39 +6,30 @@
           <div class="section-title text-center pb-40">
             <div class="line m-auto" />
             <h3 class="title">
-              Users sharing<span> their experience</span>
+              Users sharing<span> their experience on SMUG</span>
             </h3>
           </div> <!-- section title -->
         </div>
       </div> <!-- row -->
       <div class="row testimonial-active wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.5s">
         <div v-for="testimonial in testimonials" :key="testimonial.author" style="padding: 0 20px 0 0;">
+       
           <div class="single-testimonial">
+            
             <div class="testimonial-review d-flex align-items-center justify-content-between">
-              <div class="quota">
-                <v-icon color="#119bd2">
-                  mdi-comment-quote
-                </v-icon>
-              </div>
-              <div class="star">
-                <ul>
-                  <li v-for="index in 5" :key="index">
-                    <v-icon color="#fe806d">
-                      mdi-star
-                    </v-icon>
-                  </li>
-                </ul>
-              </div>
+              <Icon icon="mdi-light:format-quote-close" height="50" />
+            
             </div>
             <div class="testimonial-text">
               <p class="text">
-                {{ testimonial.quote }}
+              {{ testimonial.quote }}
               </p>
             </div>
             <div class="testimonial-author d-flex align-items-center">
               <div class="author-image">
-                <img class="shape" src="~/assets/basic/assets/images/textimonial-shape.svg" alt="shape">
-                <img class="author" :src="testimonial.img" :alt="testimonial.author">
+                <img class="shape" :src="require('../assets/images/textimonial-shape.svg')"/>
+                <img class="author rounded-circle" :src="testimonial.img">
+                <!-- <img class="author" :src="require('../assets/images/choi.jpg')"> -->
               </div>
               <div class="author-content media-body">
                 <h6 class="holder-name">
@@ -57,40 +48,50 @@
 </template>
 
 <script>
+
+require('../assets/css/style.css')
+require('../assets/css/default.css')
 import $ from 'jquery'
 import 'slick-carousel/slick/slick.css'
+import { Icon } from '@iconify/vue';
 require('slick-carousel')
 
 export default {
+
+
   data () {
-    return {
+    return { 
       testimonials: [{
         quote: 'Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu eirmod tempor invidunt labore.Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu.',
-        author: 'Jenny Doe',
+        author: 'Choi Juhwan',
         position: 'CEO',
         company: 'SpaceX',
-        img: require('~/assets/basic/assets/images/author-1.png')
+        img: require('../assets/images/choi.jpg')
       }, {
         quote: 'Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu eirmod tempor invidunt labore.Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu.',
-        author: 'Marjin Otte',
+        author: 'Zachary Lim',
         position: 'UX Specialist',
         company: 'Yoast',
-        img: require('~/assets/basic/assets/images/author-2.png')
+        img: require('../assets/images/zach.jpg')
       }, {
         quote: 'Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu eirmod tempor invidunt labore.Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu.',
-        author: 'Jenny Doe2',
+        author: 'Chester Chia',
         position: 'CEO',
         company: 'Yoast',
-        img: require('~/assets/basic/assets/images/author-3.png')
+        img: require('../assets/images/chester.jpg')
       }, {
         quote: 'Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu eirmod tempor invidunt labore.Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu.',
-        author: 'Jenny Doe3',
+        author: 'Elijah Khor',
         position: 'CEO',
         company: 'Yoast',
-        img: require('~/assets/basic/assets/images/author-1.png')
+        img: require('../assets/images/elijah.jpg')
       }]
     }
   },
+
+  components: {
+		Icon,
+	},
 
   mounted () {
     $('.testimonial-active').slick({

@@ -1,12 +1,13 @@
 <template>
-  <section id="features" class="services-area pt-120">
+  
+  <section id="features" class="services-area pt-240">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-10">
           <div class="section-title text-center pb-40">
             <div class="line m-auto" />
             <h3 class="title">
-              Clean and simple design, <span> Comes with everything you need to get started!</span>
+             Your learning journey, <span> has never been easier</span>
             </h3>
           </div> <!-- section title -->
         </div>
@@ -19,11 +20,11 @@
         >
           <div class="single-services text-center mt-30 wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s">
             <div class="services-icon">
-              <img class="shape" src="../assets/images/services-shape.svg" alt="shape">
-              <img class="shape-1" :src="'../assets/images/services-shape-' + (index + 1) + '.svg'" alt="shape">
-              <v-icon class="ml-n1">
-                {{ feature.icon }}
-              </v-icon>
+              <img :src="require('../assets/images/services-shape.svg')"/>
+
+
+              <img class="shape" :src="require('../assets/images/services-shape.svg')"/>
+              <img class="shape-1" :src="require('../assets/images/services-shape-' +(index + 1) + '.svg')"/>
             </div>
             <div class="services-content mt-30">
               <h4 class="services-title">
@@ -32,7 +33,7 @@
               <p class="text">
                 {{ feature.content }}
               </p>
-              <a class="more" href="#">Learn More <v-icon>mdi-chevron-right</v-icon></a>
+              <a class="more" href="#">Learn More<Icon icon="ci:chevron-right" /></a>
             </div>
           </div> <!-- single services -->
         </div>
@@ -42,7 +43,19 @@
 </template>
 
 <script>
+
+import { Icon } from '@iconify/vue'; 
+
+require('../assets/css/style.css')
+require('../assets/css/default.css')
+
 export default {
+
+
+  components:{
+    Icon
+  },
+
   data () {
     return {
       features: [{

@@ -32,22 +32,16 @@
               <div id="navbarSupportedContent" class="collapse navbar-collapse sub-menu-bar">
                 <ul id="nav" class="navbar-nav ml-auto">
                   <li class="nav-item active">
-                    <a class="page-scroll" href="#home">Home</a>
+                    <a class="page-scroll" href="#home" style="color:black">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="page-scroll" href="#features">Features</a>
+                    <a class="page-scroll" href="#features" style="color:black">Features</a>
                   </li>
                   <li class="nav-item">
-                    <a class="page-scroll" href="#about">About</a>
+                    <a class="page-scroll" href="#about" style="color:black">About</a>
                   </li>
                   <li class="nav-item">
-                    <a class="page-scroll" href="#facts">Why</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="page-scroll" href="#team">Team</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="page-scroll" href="#blog">Blog</a>
+                    <a class="page-scroll" href="#facts" style="color:black">Why</a>
                   </li>
                 </ul>
               </div> <!-- navbar collapse -->
@@ -64,7 +58,8 @@
 </template>
 
 <script>
-import $ from 'jquery'
+import $ from "jquery";
+
 
 export default {
   data () {

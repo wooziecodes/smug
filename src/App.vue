@@ -24,7 +24,12 @@ import Landing from './views/Landing'
 import 'animate.css';
 import 'aos/dist/aos.css'
 import wow from 'wowjs';
-import LoginVue from './views/Login.vue';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import mdiVue from 'mdi-vue/v3'
+import * as mdijs from '@mdi/js'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 
 
@@ -68,7 +73,6 @@ export default{
     });
   },
   components:{
-    LoginVue
 
   }
 }

@@ -1,9 +1,10 @@
 <template>
   <section class="about-area pt-70">
     <div class="about-shape-2">
-      <img src="../assets/images/about-shape-2.svg" alt="shape">
+      <img :src="require('../assets/images/about-shape-2.svg')"/>
+
     </div>
-    <div class="container">
+    <div class="container mb-50">
       <div class="row">
         <div class="col-lg-6" :class="{ 'order-lg-last': right }">
           <div
@@ -36,12 +37,26 @@
         </div>
       </div> <!-- row -->
     </div> <!-- container -->
+    <kinesis-container>
+              Here, you can put
+              <kinesis-element :strength="10">
+                whatever
+              </kinesis-element>
+              <kinesis-element :strength="20">
+                content!
+              </kinesis-element>
+          </kinesis-container>
   </section>
 </template>
 
 <script>
 
 import 'animate.css'
+
+import { KinesisContainer, KinesisElement} from 'vue-kinesis'
+
+
+
 
 export default {
   props: {
@@ -52,7 +67,7 @@ export default {
     },
     img: {
       type: String,
-      default: require('../assets/images/about2.svg')
+      default: require('../assets/images/about1.png')
     },
     content: {
       type: String,

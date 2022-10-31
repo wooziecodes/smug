@@ -1,5 +1,70 @@
-import { createRouter, createWebHistory } from 'vue-router';
+// import { createRouter, createWebHistory } from 'vue-router';
 
+// import HomeView from '../views/HomeView.vue'
+// import Login from '../views/Login.vue'
+// import SignUp from '../views/SignUp.vue'
+// import Feed from '../views/Feed.vue'
+// import Profile from '../views/Profile.vue'
+// import Landing from '../views/Landing.vue'
+
+// const routes = [
+//   {
+//     path: '/',
+//     name: 'home',
+//     component: HomeView
+//   },
+//   {
+//     path: '/login',
+//     name: 'Login',
+//     component: Login
+//   },
+//   {
+//     path: '/signup',
+//     name: 'SignUp',
+//     component: SignUp
+//   },
+//   {
+//     path: '/landing',
+//     name: 'Landing',
+//     component: Landing
+//   },
+//   {
+//     path: "/feed",
+//     component: () => import("../views/Feed.vue"),
+//     meta: {
+//       requiresAuth: true,
+//     },
+//   },
+//   {
+//     path: '/profile',
+//     name: 'profile',
+//     component: Profile
+//   },
+
+// ]
+
+// const router = createRouter({
+//   history: createWebHistory(process.env.BASE_URL),
+//   routes
+// });
+
+// // router.beforeEach((to, from, next) => {
+// //       if (to.matched.some((record) => record.meta.requiresAuth)) {
+// //         if (getAuth().currentUser) {
+// //           next();
+// //         } else {
+// //         alert("you dont have access!");
+// //         next("/");
+// //         }
+// //       } else {
+// //         next();
+// //       }
+// //     });
+
+// export default router
+
+
+import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Login from '../views/Login.vue'
 import SignUp from '../views/SignUp.vue'
@@ -84,3 +149,4 @@ const router = createRouter({
 //     });
 
 export default router
+
