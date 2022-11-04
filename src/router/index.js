@@ -5,6 +5,7 @@ import SignUp from '../views/SignUp.vue'
 import Profile from '../views/Profile.vue'
 import Landing from '../views/Landing.vue'
 import Listings from '../views/Listings.vue'
+import Chat from '../views/chat.vue'
 
 const routes = [
   {
@@ -53,6 +54,11 @@ const routes = [
     meta: {
       requiresAuth: true,
     },
+  },
+  {
+    path: '/chat',
+    name: 'Chat',
+    component: Chat
   },
 
 ]
