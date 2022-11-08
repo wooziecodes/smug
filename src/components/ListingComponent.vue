@@ -54,6 +54,12 @@ export default {
         this.imgURL = url
       })
   },
+  mounted () {
+    // Sticky headesr
+    $(window).on('scroll', () => {
+      this.scrolled = $(window).scrollTop() > 20
+    })
+  },
   methods: {
     async getModules() {
       const querySnap = await getDocs(query(collection(db, "module")));

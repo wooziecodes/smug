@@ -1,28 +1,5 @@
 <template>
-    <nav class="navbar bg-white">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col">
-            <a class="navbar-brand" href="#">
-              <img src="images/smug.png" id="logo" />
-            </a>
-          </div>
-          <div class="col-6">
-            <form class="d-flex" role="search">
-              <input
-                class="form-control me-2"
-                type="search"
-                placeholder="TEMP NAVBAR PLACEHOLDER"
-                aria-label="Search"
-                style="width: 686px !important"
-              />
-
-            </form>
-          </div>
-        </div>
-      </div>
-    </nav>
-
+  <Navbar></Navbar>
     <div id="photo" class="container">
       <img
         src="https://randomuser.me/api/portraits/women/81.jpg"
@@ -69,44 +46,39 @@
           </tr>
         </table>
       </div>
-
-      <div class="container" style="margin-top: 50px">
-        <div class="row justify-content-around">
-          <div class="col">
-            <div class="card" style="width: 18rem;">
-              <img src="" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card" style="width: 18rem;">
-              <img src="" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card" style="width: 18rem;">
-              <img src="" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
+      <div class="listings-container container d-flex flex-wrap">
+    <ListingComponent v-for="listing in listings" class="listing-component" :tutor="listing.user" :code="listing.module"
+      :prof="listing.prof" :price="listing.price" :userID="listing.userID"></ListingComponent>
+  </div>
+      
 </template>
 
+<script>
+import ListingComponent from "../components/ListingComponent.vue";
+import { getDocs, query, collection } from "firebase/firestore"
+import { db } from "../firebase/init"
+import Navbar from './TheNavbar.vue'
+
+export default {
+  data() {
+    return {
+      listings: [],
+    };
+  },
+  created() {
+    this.getListings();
+  },
+  methods: {
+    async getListings() {
+      const querySnap = await getDocs(query(collection(db, "listings")));
+      querySnap.forEach((doc) => {
+        this.listings.push(doc.data());
+      });
+    },
+  },
+  components: { ListingComponent,  Navbar },
+};
+</script>
 <style>
 * {
     margin:0;
@@ -139,6 +111,7 @@ th {
     white-space: nowrap;
     vertical-align: top;
     text-align: right;
+    font-weight: bold;
 }
 td {
     text-align: left;
