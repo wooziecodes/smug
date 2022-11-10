@@ -6,6 +6,7 @@
     </div>
     <span class="greeting">Hi, {{ username }}</span>
     <img :src="imgUrl" class="profile-pic" />
+    <button class="logout" @click="Logout">Logout</button>
     <font-awesome-icon icon="fas fa-comment-dots" class="fa-chat" @click="openChat()" />
   </nav>
 </template>
@@ -14,8 +15,35 @@ import { db, auth, storage } from "../firebase/init"
 import { onAuthStateChanged } from "firebase/auth"
 import { getDocs, query, collection, where } from "firebase/firestore"
 import { ref, getDownloadURL, listAll } from "firebase/storage"
+import { onBeforeMount } from 'vue';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
 export default {
+  setup() {
+        const name = ref("");
+  
+        // onBeforeMount(() => {
+        //   const user = firebase.auth().currentUser;
+        //   if (user) {
+        //     name.value = user.email.split('@')[0];
+        //   }
+        // });
+  
+        const Logout = () =>{
+          firebase
+            .auth()
+            .signOut()
+            .then(() => console.log("Signed out"))
+            .catch(err => alert(err.message));
+        }
+        
+        return{
+          name,
+          Logout
+        }
+    },
   data() {
     return {
       username: "",
