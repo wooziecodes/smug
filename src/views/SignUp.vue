@@ -82,7 +82,8 @@ import {
 } from "firebase/auth";
 import router from "../router";
 import { getDocs, query, collection, setDoc, doc, where } from "firebase/firestore"
-import { db, auth } from "../firebase/init"
+import { ref as sRef, uploadBytes } from "firebase/storage"
+import { db, auth, storage } from "../firebase/init"
 
 export default {
   setup() {
@@ -102,6 +103,7 @@ export default {
         .then((data) => {
           alert("You have successfully signed up!");
           const newUser = {
+            bookmarked: [],
             chats: [],
             email: data.user.email,
             rating: 0,
@@ -158,11 +160,11 @@ export default {
       const provider = new GoogleAuthProvider();
       signInWithPopup(getAuth(), provider)
         .then((result) => {
-          console.log(result)
           getDocs(query(collection(db, "users"), where("uid", "==", result.user.uid)))
             .then((querySnapshot) => {
               if (querySnapshot.docs == 0) {
                 const newUser = {
+                  bookmarked: [],
                   chats: [],
                   email: result.user.email,
                   rating: 0,
@@ -171,7 +173,21 @@ export default {
                 }
                 const usersRef = collection(db, "users")
                 setDoc(doc(usersRef), newUser).then((res) => {
-                  router.push({ name: "Listings" })
+                  getDocs(query(collection(db, "users"), where("uid", "==", result.user.uid)))
+                    .then((querySnapshot) => {
+                      querySnapshot.forEach((doc) => {
+                        fetch(result.user.photoURL)
+                          .then(response => response.blob())
+                          .then(blob => {
+                            var file = new File([blob], doc.id)
+                            const storageRef = sRef(storage, "users/" + doc.id)
+                            uploadBytes(storageRef, file).then((snapshot) => {
+                              console.log("Uploaded!")
+                            })
+                          })
+                      })
+                    })
+
                 });
               }
             })

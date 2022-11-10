@@ -53,9 +53,6 @@ export default {
   created() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        if (user.photoURL != null) {
-          this.imgUrl = user.photoURL
-        }
         this.loadUser(user.uid)
       } else {
         console.log("Not signed in")
