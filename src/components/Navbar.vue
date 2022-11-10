@@ -53,6 +53,9 @@ export default {
   created() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        if (user.photoURL != null) {
+          this.imgUrl = user.photoURL
+        }
         this.loadUser(user.uid)
       } else {
         console.log("Not signed in")
@@ -107,7 +110,6 @@ export default {
 }
 
 .profile-pic {
-  margin-left: -5%;
   height: 85%;
   border-radius: 50%;
 }
