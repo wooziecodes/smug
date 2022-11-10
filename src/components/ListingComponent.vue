@@ -1,23 +1,23 @@
 <template>
-  <div class="listing-container" @click="sendId">
-    <img :src="listingImg" class="listingImg" />
+  <div class="listing-container">
+    <img :src="listingImg" class="listingImg" @click="sendId" />
     <div class="bottom-section">
       <div class="tutorInfo">
         <div class="d-flex justify-content-between align-items-center">
-          <div class="d-flex">
+          <div class="d-flex" @click="sendId">
             <img v-bind:src="tutorImg" class="tutorImg" />
             <span class="tutorName">&nbsp;{{ tutor }}</span>
           </div>
-          <font-awesome-icon icon="fa-solid fa-heart" class="fa-heart" />
+          <font-awesome-icon icon="fa-solid fa-heart" class="fa-heart" @click="bookmarked" />
         </div>
-        <span class="listingMod">{{ code }} - {{ mod }}</span>
-        <span class="prof">Taught by Prof {{ prof }}</span>
+        <span class="listingMod" @click="sendId">{{ code }} - {{ mod }}</span>
+        <span class="prof" @click="sendId">Taught by Prof {{ prof }}</span>
         <div class="
             d-flex
             rating-prices
             justify-content-between
             align-items-center
-          ">
+          " @click="sendId">
           <span class="price">${{ price }}/hr</span>
           <div class="ratings-container d-flex align-items-center">
             <font-awesome-icon icon="fa-solid fa-star" class="fa-star" />
@@ -83,7 +83,7 @@ export default {
         })
       })
   },
-  mounted () {
+  mounted() {
     // Sticky headesr
     $(window).on('scroll', () => {
       this.scrolled = $(window).scrollTop() > 20
@@ -112,9 +112,11 @@ export default {
         }
       });
     },
-
     sendId() {
       this.$emit("listingId", this.id)
+    },
+    bookmarked() {
+      this.$emit("bookmarked", this.id)
     }
   }
 };
