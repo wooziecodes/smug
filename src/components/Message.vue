@@ -63,6 +63,7 @@ export default {
     color: white;
     border-radius: 6px;
     padding: 10px;
+    margin-left: 2%;
 }
 
 .recipient {
@@ -71,23 +72,25 @@ export default {
     color: white;
     border-radius: 6px;
     padding: 10px;
-    margin-right: 0;
+    margin-right: 2%;
     margin-left: auto;
 }
 
 .leftImg {
     object-fit: cover;
-    width: 45px;
-    height: 45px;
+    height: 35px;
+    width: 35px;
     border-radius: 50%;
-    margin-right: 2%;
+    margin-left: 2%;
+    margin-top: 1%;
 }
 
 .rightImg {
     object-fit: cover;
-    width: 45px;
-    height: 45px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
-    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 1%;
 }
 </style>

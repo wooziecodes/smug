@@ -2,7 +2,7 @@
   <Navbar></Navbar>
   <div class="search-results container">
     <span class="results">search results for "IS111: Intro to Programming"</span>
-    <div class="parent-container d-flex align-items-center">
+    <div class="filter-container d-flex align-items-center">
       <div class="sort-container d-flex justify-content-between">
         <button type="button" class="btn btn-light">Recent</button>
         <button type="button" class="btn btn-light">Reviews</button>
@@ -23,8 +23,9 @@
     </div>
   </div>
   <div class="listings-container container d-flex flex-wrap">
-    <ListingComponent v-for="listing in listings" @listingId="openChat" class="listing-component" :id="listing.id" :tutor="listing.user" :code="listing.module"
-      :prof="listing.prof" :price="listing.price" :userID="listing.userID"></ListingComponent>
+    <ListingComponent v-for="listing in listings" @listingId="openChat" class="listing-component" :id="listing.id"
+      :tutor="listing.user" :code="listing.module" :prof="listing.prof" :price="listing.price" :uid="listing.userID">
+    </ListingComponent>
   </div>
   <div class="wave">
     <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -59,7 +60,7 @@ export default {
       });
     },
     openChat(e) {
-      this.$router.push({name: 'Chat', params: { id: e }})
+      this.$router.push({ name: 'Chat', params: { id: e } })
     }
   },
   components: { ListingComponent, Navbar },
@@ -80,7 +81,7 @@ export default {
   font-size: 1vw;
 }
 
-.parent-container {
+.filter-container {
   margin-top: 2%;
   height: 5vh;
 }

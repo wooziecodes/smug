@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar">
-    <img class="logo" />
+    <img class="logo" @click="goHome"/>
     <div class="input-container">
       <input class="form-control" placeholder="Search for modules here" id="searchBar" type="text" />
     </div>
@@ -54,6 +54,9 @@ export default {
     },
     openChat() {
       this.$router.push({name: 'Chat'})
+    },
+    goHome() {
+      this.$router.push({name: 'Listings'})
     }
   }
 }
@@ -71,7 +74,8 @@ export default {
 .logo {
   margin-left: 2%;
   height: 40px;
-  content: url("../assets/images/smug-logo.png")
+  content: url("../assets/images/smug-logo.png");
+  cursor: pointer;
 }
 
 .profile-pic {

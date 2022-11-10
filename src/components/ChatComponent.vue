@@ -82,17 +82,23 @@ export default {
 </script>
 <style>
 .parent-container {
+    margin-top: 0;
     display: flex;
     align-items: center;
     width: 100%;
-    height: 15vh;
-    border-bottom: 2px solid gray;
+    height: 10vh;
+    cursor: pointer;
+}
+
+.parent-container:hover {
+    background: #D9D9D9;
 }
 
 .pfp {
     object-fit: cover;
-    height: 50%;
+    height: 45%;
     border-radius: 50%;
+    margin-left: 5%;
 }
 
 .preview {
@@ -100,12 +106,13 @@ export default {
 }
 
 .name {
-    margin-top: 10%;
-    font-size: 20px;
+    margin-top: 12%;
+    font-size: 16px;
     color: black;
 }
 
 .text {
-    margin-top: -10%;
+    margin-top: -12%;
+    font-size: 14px;
 }
 </style>

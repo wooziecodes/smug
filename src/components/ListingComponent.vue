@@ -1,6 +1,6 @@
 <template>
   <div class="listing-container" @click="sendId">
-    <img v-bind:src="listingImg" class="listingImg" />
+    <img :src="listingImg" class="listingImg" />
     <div class="bottom-section">
       <div class="tutorInfo">
         <div class="d-flex justify-content-between align-items-center">
@@ -30,7 +30,7 @@
 </template>
 <script>
 import { getDocs, query, collection, getDoc, doc } from "firebase/firestore"
-import { db, storage, auth } from "../firebase/init"
+import { db, storage } from "../firebase/init"
 import { ref, getDownloadURL, listAll } from "firebase/storage"
 
 export default {
@@ -40,6 +40,7 @@ export default {
       rating: 0,
       listingImg: "",
       tutorImg: "",
+      userID: ""
     };
   },
   props: {
@@ -48,11 +49,11 @@ export default {
     code: String,
     prof: String,
     price: Number,
-    userID: String,
+    uid: String,
   },
   created() {
     this.getModules();
-    this.getRating(this.userID);
+    this.getRating();
 
     var listRef = ref(storage, "listings")
     listAll(listRef)
@@ -102,10 +103,14 @@ export default {
       });
     },
 
-    async getRating(userID) {
-      const docRef = doc(db, "users", userID);
-      const docSnap = await getDoc(docRef);
-      this.rating = docSnap.data().rating
+    async getRating() {
+      const querySnap = await getDocs(query(collection(db, "users")));
+      querySnap.forEach((doc) => {
+        if (doc.data().uid == this.uid) {
+          this.rating = doc.data().rating
+          this.userID = doc.id
+        }
+      });
     },
 
     sendId() {
@@ -130,6 +135,7 @@ export default {
   background-color: #f3f9fb;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   transition: box-shadow 0.3s;
+  cursor: pointer;
 }
 
 .listing-container:hover {

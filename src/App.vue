@@ -8,6 +8,8 @@ import { onBeforeMount } from "vue";
 // import * as firebase from "firebase/app"
 import { useRouter, useRoute } from "vue-router";
 import firebase from "firebase/compat/app";
+import { onAuthStateChanged } from "firebase/auth"
+import { auth } from "./firebase/init"
 // import 'firebase/compat/auth';
 // import 'firebase/compat/firestore';
 import TheNavbar from './views/TheNavbar'
@@ -53,9 +55,9 @@ export default {
     const route = useRoute();
 
     onBeforeMount(() => {
-      firebase.auth().onAuthStateChanged((user) => {
+      onAuthStateChanged(auth, (user) => {
         if (!user) {
-          router.replace("/login");
+          router.replace("/signup");
         } else if (route.path == "/login" || route.path == "/register") {
           router.replace("/");
         }
