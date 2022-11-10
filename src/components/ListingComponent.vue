@@ -1,10 +1,13 @@
 <template>
-  <div class="listing-container">
-    <img v-bind:src="imgURL" />
+  <div class="listing-container" @click="sendId">
+    <img v-bind:src="listingImg" class="listingImg" />
     <div class="bottom-section">
       <div class="tutorInfo">
         <div class="d-flex justify-content-between align-items-center">
-          <span class="tutorName">{{ tutor }}</span>
+          <div class="d-flex">
+            <img v-bind:src="tutorImg" class="tutorImg" />
+            <span class="tutorName">&nbsp;{{ tutor }}</span>
+          </div>
           <font-awesome-icon icon="fa-solid fa-heart" class="fa-heart" />
         </div>
         <span class="listingMod">{{ code }} - {{ mod }}</span>
@@ -27,18 +30,20 @@
 </template>
 <script>
 import { getDocs, query, collection, getDoc, doc } from "firebase/firestore"
-import { db, storage } from "../firebase/init"
-import { ref, getDownloadURL } from "firebase/storage"
+import { db, storage, auth } from "../firebase/init"
+import { ref, getDownloadURL, listAll } from "firebase/storage"
 
 export default {
   data() {
     return {
       mod: "",
       rating: 0,
-      imgURL: ""
+      listingImg: "",
+      tutorImg: "",
     };
   },
   props: {
+    id: String,
     tutor: String,
     code: String,
     prof: String,
@@ -48,10 +53,33 @@ export default {
   created() {
     this.getModules();
     this.getRating(this.userID);
-    
-    getDownloadURL(ref(storage, "users/" + this.userID + ".jpg"))
-      .then((url) => {
-        this.imgURL = url
+
+    var listRef = ref(storage, "listings")
+    listAll(listRef)
+      .then((res) => {
+        res.items.forEach((itemRef) => {
+          const prefix = itemRef.name.split(".")[0]
+          if (prefix == this.id) {
+            getDownloadURL(ref(storage, "listings/" + itemRef.name))
+              .then((url) => {
+                this.listingImg = url
+              })
+          }
+        })
+      })
+
+    var userRef = ref(storage, "users")
+    listAll(userRef)
+      .then((res) => {
+        res.items.forEach((itemRef) => {
+          const prefix = itemRef.name.split(".")[0]
+          if (prefix == this.userID) {
+            getDownloadURL(ref(storage, "users/" + itemRef.name))
+              .then((url) => {
+                this.tutorImg = url
+              })
+          }
+        })
       })
   },
   mounted () {
@@ -78,9 +106,12 @@ export default {
       const docRef = doc(db, "users", userID);
       const docSnap = await getDoc(docRef);
       this.rating = docSnap.data().rating
-    }
+    },
 
-  },
+    sendId() {
+      this.$emit("listingId", this.id)
+    }
+  }
 };
 </script>
 <style>
@@ -95,6 +126,7 @@ export default {
 .listing-container {
   border-radius: 5px;
   width: 25%;
+  height: 45vh;
   background-color: #f3f9fb;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   transition: box-shadow 0.3s;
@@ -104,11 +136,22 @@ export default {
   box-shadow: #59838a 0px 2px 6px;
 }
 
-.listing-container img {
+.listingImg {
   object-fit: cover;
   width: 90%;
+  height: 55%;
   margin-top: 5%;
   margin-left: 5%;
+}
+
+.tutorImg {
+  object-fit: cover;
+  width: 17%;
+  border-radius: 50%;
+}
+
+.listingMod {
+  margin-top: 2vh;
 }
 
 .bottom-section {
@@ -127,6 +170,10 @@ export default {
   color: #1f5c64;
   font-size: 1.1vw;
   font-weight: bold;
+}
+
+.rating-prices {
+  margin-top: 1vh;
 }
 
 .prof {

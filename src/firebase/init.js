@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app"
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore"
 import { getStorage, ref } from "firebase/storage"
+import { onUnmounted, computed } from "vue";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCIs-jCOTCgMspvCH3C3EKd_rszakumjyY",
@@ -16,4 +18,6 @@ const firebaseConfig = {
 initializeApp(firebaseConfig)
 const db = getFirestore()
 const storage = getStorage()
-export { db, storage }
+const auth = getAuth()
+
+export { db, storage, auth }

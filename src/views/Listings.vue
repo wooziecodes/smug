@@ -1,4 +1,5 @@
 <template>
+  <Navbar></Navbar>
   <div class="search-results container">
     <span class="results">search results for "IS111: Intro to Programming"</span>
     <div class="parent-container d-flex align-items-center">
@@ -22,7 +23,7 @@
     </div>
   </div>
   <div class="listings-container container d-flex flex-wrap">
-    <ListingComponent v-for="listing in listings" class="listing-component" :tutor="listing.user" :code="listing.module"
+    <ListingComponent v-for="listing in listings" @listingId="openChat" class="listing-component" :id="listing.id" :tutor="listing.user" :code="listing.module"
       :prof="listing.prof" :price="listing.price" :userID="listing.userID"></ListingComponent>
   </div>
   <div class="wave">
@@ -37,11 +38,12 @@
 import ListingComponent from "../components/ListingComponent.vue";
 import { getDocs, query, collection } from "firebase/firestore"
 import { db } from "../firebase/init"
+import Navbar from "../components/Navbar.vue";
 
 export default {
   data() {
     return {
-      listings: [],
+      listings: []
     };
   },
   created() {
@@ -51,11 +53,16 @@ export default {
     async getListings() {
       const querySnap = await getDocs(query(collection(db, "listings")));
       querySnap.forEach((doc) => {
-        this.listings.push(doc.data());
+        let listing = doc.data()
+        listing["id"] = doc.id
+        this.listings.push(listing);
       });
     },
+    openChat(e) {
+      this.$router.push({name: 'Chat', params: { id: e }})
+    }
   },
-  components: { ListingComponent },
+  components: { ListingComponent, Navbar },
 };
 </script>
 <style>

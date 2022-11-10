@@ -1,26 +1,4 @@
 <template>
-  <!-- <nav>
-    <img src="./assets/smug-logo.svg" class="logo" />
-    <div class="w-50">
-      <input
-        class="form-control"
-        placeholder="Search for modules here"
-        id="searchBar"
-        type="text"
-      />
-    </div>
-    <span>Hi, Oppa</span>
-    <font-awesome-icon
-      icon="fa-solid fa-bookmark"
-      class="fa-bookmark"
-      @click="showListings = !showListings"
-    />
-    <font-awesome-icon
-      icon="fas fa-comment-dots"
-      class="fa-chat"
-      @click="showChat = !showChat"
-    />
-  </nav> -->
   <router-view />
 </template>
 
@@ -163,15 +141,5 @@ nav span {
 
 .fa-chat {
   margin-left: 2%;
-}
-
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
 }
 </style>

@@ -5,7 +5,7 @@ import SignUp from '../views/SignUp.vue'
 import Profile from '../views/Profile.vue'
 import Landing from '../views/Landing.vue'
 import Listings from '../views/Listings.vue'
-import Chat from '../views/chat.vue'
+import Chat from '../views/Chat.vue'
 
 const routes = [
   {
@@ -47,6 +47,11 @@ const routes = [
     path: '/listings',
     name: 'Listings',
     component: Listings
+  },
+  {
+    path: '/chat/:id?',
+    name: 'Chat',
+    component: Chat
   },
   {
     path: '/profile',
