@@ -24,7 +24,7 @@
     </div>
   </div>
   <div class="listings-container container d-flex flex-wrap">
-    <ListingComponent v-for="listing in listings" @listingId="openChat" @bookmarked="addBookmark"
+    <ListingComponent v-for="listing in listings" @listingId="openChat" @bookmarked="addBookmark" @unbookmarked="removeBookmark"
       class="listing-component" :id="listing.id" :tutor="listing.user" :code="listing.module" :prof="listing.prof"
       :price="listing.price" :uid="listing.userID">
     </ListingComponent>
@@ -84,6 +84,20 @@ export default {
         const userRef = doc(db, "users", d.id)
         updateDoc(userRef, {
           bookmarked: bookmarks
+        })
+      });
+    },
+    async removeBookmark(e) {
+      const querySnap = await getDocs(query(collection(db, "users"), where("uid", "==", this.uid)));
+      querySnap.forEach((d) => {
+        var bookmarks = d.data().bookmarked
+        var idx = bookmarks.indexOf(e)
+        bookmarks.splice(idx, 1)
+        const userRef = doc(db, "users", d.id)
+        updateDoc(userRef, {
+          bookmarked: bookmarks
+        }).then((res) => {
+          this.filterBookmark()
         })
       });
     },

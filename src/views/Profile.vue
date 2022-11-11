@@ -24,7 +24,7 @@
       <button type="button" class="btn" id="edit-button" style="background-color: fuchsia;" v-if="!editing"
         @click="toggleEdit()">Edit</button>
       <button type="button" class="btn" id="edit-button" style="background-color: fuchsia;" v-if="editing"
-        @click="toggleEdit()">Save</button>
+        @click="updateData(userid)">Save</button>
       <!-- ideally the button should be like the signup page but im fucking losing my shit because background-color doesnt wanna work with me but color works so i can change the color of the words-->
 
     </div>
@@ -131,8 +131,8 @@
         </table>
       </div> -->
   <div class="listings-container container d-flex flex-wrap">
-    <ListingComponent v-for="listing in listings" class="listing-component" :id="listing.id" :tutor="listing.user" :code="listing.module"
-      :prof="listing.prof" :price="listing.price" :userID="listing.userID" ></ListingComponent>
+    <ListingComponent v-for="listing in listings" class="listing-component" :id="listing.id" :tutor="listing.user"
+      :code="listing.module" :prof="listing.prof" :price="listing.price" :userID="listing.userID"></ListingComponent>
   </div>
 
 </template>
@@ -165,12 +165,12 @@ export default {
     };
   },
   created() {
-   
-  
+
+
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        this.getUser(user.uid)
-         this.getListings(user.uid);
+        this.getUser(user.uid);
+        this.getListings(user.uid);
         console.log(user)
       } else {
         console.log("Not signed in")
@@ -179,21 +179,21 @@ export default {
   },
   methods: {
     async getListings(uid) {
-      const querySnap = await getDocs(query(collection(db, "listings"),where("userID","==",uid)));
+      const querySnap = await getDocs(query(collection(db, "listings"), where("userID", "==", uid)));
       querySnap.forEach((doc) => {
         let listing = doc.data()
         listing["id"] = doc.id
         this.listings.push(listing);
       })
-      ;
+        ;
     },
     async getUser(uid) {
       const querySnap = await getDocs(query(collection(db, "users"),
         where("uid", "==", uid)
       ));
       querySnap.forEach((doc) => {
-        console.log(doc.data());
-        this.userid= doc.data().uid
+
+        this.userid = doc.data().uid
         this.name = doc.data().user
         this.rating = doc.data().rating
         this.ratingCount = doc.data().ratingCount
@@ -218,6 +218,31 @@ export default {
             })
           })
       });
+    },
+    async updateData(uid) {
+      const querySnap = await getDocs(query(collection(db, "users"),
+        where("uid", "==", uid)
+      ));
+      querySnap.forEach((doc) => {
+        console.log(doc.data())
+      });
+
+      // A post entry.
+      const userData = {
+      //   faculty: faculty,
+      //   major: major,
+      //   year: year,
+      //   payment: payment,
+        description: this.description
+      };
+      const updateKey = push(getDocs(query(collection(db, "users"),
+        where("uid", "==", uid)
+      ))).key;
+      const updates = {};
+      updates['/users/' + updateKey] = userData;
+
+      return update(db,updates)
+
     },
     toggleEdit() {
       if (this.editing) {
