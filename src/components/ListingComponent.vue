@@ -54,7 +54,7 @@ export default {
   created() {
     this.getModules();
     this.getRating();
-
+    console.log(this.uid)
     var listRef = ref(storage, "listings")
     listAll(listRef)
       .then((res) => {
