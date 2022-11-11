@@ -1,12 +1,14 @@
 <template>
-  <Navbar></Navbar>
+  <Navbar @search="search" @searchedMods="loadSearchedMods"></Navbar>
   <div class="search-results container">
-    <span class="results">search results for "IS111: Intro to Programming"</span>
+    <span class="results" v-if="searched">search results for "{{ searchStr }}"</span>
     <div class="filter-container d-flex align-items-center">
       <div class="sort-container d-flex justify-content-between">
-        <button type="button" class="btn btn-light" :class="{active: isAll}" @click="getListings(uid)">All listings</button>
+        <button type="button" class="btn btn-light" :class="{ active: isAll }" @click="getListings(uid)">All
+          listings</button>
         <div class="vertical-rule"></div>
-        <button type="button" class="btn btn-light" :class="{active: isBookmark}" @click="filterBookmark">Bookmarked</button>
+        <button type="button" class="btn btn-light" :class="{ active: isBookmark }"
+          @click="filterBookmark">Bookmarked</button>
         <!-- <button type="button" class="btn btn-light">Reviews</button>
         <button type="button" class="btn btn-light">
           <span>Price: High to Low</span>
@@ -24,9 +26,9 @@
     </div>
   </div>
   <div class="listings-container container d-flex flex-wrap">
-    <ListingComponent v-for="listing in listings" @listingId="openChat" @bookmarked="addBookmark" @unbookmarked="removeBookmark"
-      class="listing-component" :id="listing.id" :tutor="listing.user" :code="listing.module" :prof="listing.prof"
-      :price="listing.price" :uid="listing.userID">
+    <ListingComponent v-for="listing in listings" @listingId="openChat" @bookmarked="addBookmark"
+      @unbookmarked="removeBookmark" class="listing-component" :id="listing.id" :tutor="listing.user"
+      :code="listing.module" :prof="listing.prof" :price="listing.price" :uid="listing.userID">
     </ListingComponent>
   </div>
   <div class="wave">
@@ -50,7 +52,10 @@ export default {
       listings: [],
       uid: "",
       isAll: true,
-      isBookmark: false
+      isBookmark: false,
+      searchStr: "",
+      searched: false,
+      searchMods: []
     };
   },
   created() {
@@ -69,12 +74,34 @@ export default {
       this.isAll = true
       this.isBookmark = false
       this.listings = []
-      const querySnap = await getDocs(query(collection(db, "listings"), where("userID", "!=", uid)));
-      querySnap.forEach((doc) => {
-        let listing = doc.data()
-        listing["id"] = doc.id
-        this.listings.push(listing);
-      });
+      this.searched = false
+      if (this.$route.params.query == "" || Object.keys(this.$route.params).length == 0) {
+        const querySnap = await getDocs(query(collection(db, "listings"), where("userID", "!=", uid)));
+        querySnap.forEach((doc) => {
+          let listing = doc.data()
+          listing["id"] = doc.id
+          this.listings.push(listing);
+        });
+      } else {
+        this.searched = true
+        this.searchStr = this.$route.params.query
+        const q = query(collection(db, "module"))
+        const querySnapshot = await getDocs(q)
+        var modules = []
+        querySnapshot.forEach((doc) => {
+          var modName = doc.data().name
+          var modCode = doc.data().code
+          var modStr = modCode + ": " + modName
+          modules.push(modStr)
+        })
+        var searched = []
+        for (var mod of modules) {
+          if (mod.toLowerCase().includes(this.$route.params.query.toLowerCase())) {
+            searched.push(mod)
+          }
+        }
+        this.displaySearch(searched)
+      }
     },
     async addBookmark(e) {
       const querySnap = await getDocs(query(collection(db, "users"), where("uid", "==", this.uid)));
@@ -102,6 +129,7 @@ export default {
       });
     },
     async filterBookmark() {
+      this.searched = false
       this.isAll = false
       this.isBookmark = true
       this.listings = []
@@ -123,6 +151,31 @@ export default {
     },
     openChat(e) {
       this.$router.push({ name: 'Chat', params: { id: e } })
+    },
+    search(e) {
+      this.searchStr = e
+      this.searched = true
+    },
+    loadSearchedMods(e) {
+      this.displaySearch(e)
+    },
+    displaySearch(e) {
+      this.listings = []
+      for (var mod of e) {
+        getDocs(query(collection(db, "listings"), where("module", "==", mod.split(": ")[0])))
+          .then((querySnap) => {
+            querySnap.forEach((doc) => {
+              let listing = doc.data()
+              listing["id"] = doc.id
+              this.listings.push(listing);
+            })
+          })
+      }
+    }
+  },
+  watch: {
+    $route() {
+      this.getListings(this.uid)
     }
   },
   components: { ListingComponent, Navbar },

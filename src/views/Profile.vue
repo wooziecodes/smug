@@ -1,8 +1,5 @@
 <template>
-  <!-- <Navbar></Navbar> -->
-
-
-
+  <Navbar></Navbar>
   <div class="container" id="profile" style="display:flex">
 
     <div id="left-side">
@@ -144,7 +141,7 @@ import ListingComponent from "../components/ListingComponent.vue";
 import { onAuthStateChanged } from "firebase/auth"
 import { query, collection, doc, where, getDocs, updateDoc } from "firebase/firestore"
 import { db, auth, storage } from "../firebase/init"
-import Navbar from './TheNavbar.vue'
+import Navbar from '../components/Navbar.vue'
 import { ref, getDownloadURL, listAll, deleteObject, uploadBytes } from "firebase/storage"
 
 export default {
