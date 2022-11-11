@@ -15,9 +15,25 @@
         <div class="d-flex justify-content-between align-items-center message-parent">
             <input type="text" class="form-control message-box" placeholder="Enter your message"
                 @keypress.enter="sendMessage" v-model="text">
-            <button type="button" class="btn send-btn" @click="sendMessage">Send</button>
+            <button type="button" class="btn" @click="sendMessage" id="send-btn">Send</button>
         </div>
     </div>
+
+    <div class="container chat-container" v-if="selected == false">
+        <div class="d-flex align-items-center chat-header">
+            <img :src="imgUrl" />
+            <span class="display-name">{{ name }}</span>
+            Select a user first!
+        </div>
+        <div class="message-container">
+        </div>
+        <div class="d-flex justify-content-between align-items-center message-parent">
+            <input type="text" class="form-control message-box" placeholder="Enter your message"
+                @keypress.enter="sendMessage" v-model="text">
+            <button type="button" class="btn" id="disabled-btn" disabled>Send</button>
+        </div>
+    </div>
+
 </template>
 <script>
 import { query, collection, setDoc, doc, updateDoc, where, getDocs, onSnapshot, serverTimestamp, orderBy } from "firebase/firestore"
@@ -260,12 +276,26 @@ export default {
     margin-left: 2%;
 }
 
-.send-btn {
-    background: #1f5c64 !important;
+#send-btn {
+    background: #75ACB4 !important;
     color: white !important;
     width: 15%;
     font-size: 14px;
     height: 70%;
     margin-right: 2%;
 }
+
+#send-btn:hover{
+    background: #1f5c64 !important;
+}
+
+#disabled-btn {
+    background: #4c4c4c !important;
+    color: white !important;
+    width: 15%;
+    font-size: 14px;
+    height: 70%;
+    margin-right: 2%;
+}
+
 </style>
