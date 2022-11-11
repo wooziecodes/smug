@@ -1,10 +1,10 @@
 <template>
     <div class="d-flex parent">
-        <img v-if="isUser" :src="imgUrl" class="leftImg" />
+        <img v-if="!isUser" :src="imgUrl" class="leftImg" />
         <div :class="{ user: isUser, recipient: !isUser }">
             {{ text }}
         </div>
-        <img v-if="!isUser" :src="imgUrl" class="rightImg" />
+        <img v-if="isUser" :src="imgUrl" class="rightImg" />
     </div>
 
 </template>
@@ -57,7 +57,7 @@ export default {
     margin-top: 1%;
 }
 
-.user {
+.recipient {
     width: 30%;
     background: #75acb4;
     color: white;
@@ -66,7 +66,7 @@ export default {
     margin-left: 2%;
 }
 
-.recipient {
+.user {
     width: 30%;
     background: #1f5c64;
     color: white;

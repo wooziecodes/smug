@@ -4,8 +4,10 @@
     <span class="results">search results for "IS111: Intro to Programming"</span>
     <div class="filter-container d-flex align-items-center">
       <div class="sort-container d-flex justify-content-between">
-        <button type="button" class="btn btn-light">Recent</button>
-        <button type="button" class="btn btn-light">Reviews</button>
+        <button type="button" class="btn btn-light" :class="{active: isAll}" @click="getListings(uid)">All listings</button>
+        <div class="vertical-rule"></div>
+        <button type="button" class="btn btn-light" :class="{active: isBookmark}" @click="filterBookmark">Bookmarked</button>
+        <!-- <button type="button" class="btn btn-light">Reviews</button>
         <button type="button" class="btn btn-light">
           <span>Price: High to Low</span>
           <font-awesome-icon icon="fa-solid fa-chevron-down" />
@@ -13,18 +15,18 @@
         <button type="button" class="btn btn-light">
           <span> Price: Low to High</span>
           <font-awesome-icon icon="fa-solid fa-chevron-up" />
-        </button>
+        </button> -->
       </div>
-      <div class="vertical-rule"></div>
-      <button type="button" class="btn btn-light">
+      <!-- <button type="button" class="btn btn-light">
         <span>More Filters</span>
         <font-awesome-icon icon="fa-solid fa-filter" />
-      </button>
+      </button> -->
     </div>
   </div>
   <div class="listings-container container d-flex flex-wrap">
-    <ListingComponent v-for="listing in listings" @listingId="openChat" class="listing-component" :id="listing.id"
-      :tutor="listing.user" :code="listing.module" :prof="listing.prof" :price="listing.price" :uid="listing.userID">
+    <ListingComponent v-for="listing in listings" @listingId="openChat" @bookmarked="addBookmark"
+      class="listing-component" :id="listing.id" :tutor="listing.user" :code="listing.module" :prof="listing.prof"
+      :price="listing.price" :uid="listing.userID">
     </ListingComponent>
   </div>
   <div class="wave">
@@ -37,26 +39,72 @@
 </template>
 <script>
 import ListingComponent from "../components/ListingComponent.vue";
-import { getDocs, query, collection } from "firebase/firestore"
-import { db } from "../firebase/init"
+import { getDocs, query, collection, where, doc, updateDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "@firebase/auth";
+import { db, auth } from "../firebase/init";
 import Navbar from "../components/Navbar.vue";
 
 export default {
   data() {
     return {
-      listings: []
+      listings: [],
+      uid: "",
+      isAll: true,
+      isBookmark: false
     };
   },
   created() {
-    this.getListings();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.uid = user.uid
+        this.getListings(user.uid);
+      } else {
+        console.log("Not signed in")
+      }
+    })
+
   },
   methods: {
-    async getListings() {
-      const querySnap = await getDocs(query(collection(db, "listings")));
+    async getListings(uid) {
+      this.isAll = true
+      this.isBookmark = false
+      this.listings = []
+      const querySnap = await getDocs(query(collection(db, "listings"), where("userID", "!=", uid)));
       querySnap.forEach((doc) => {
         let listing = doc.data()
         listing["id"] = doc.id
         this.listings.push(listing);
+      });
+    },
+    async addBookmark(e) {
+      const querySnap = await getDocs(query(collection(db, "users"), where("uid", "==", this.uid)));
+      querySnap.forEach((d) => {
+        var bookmarks = d.data().bookmarked
+        bookmarks.push(e)
+        const userRef = doc(db, "users", d.id)
+        updateDoc(userRef, {
+          bookmarked: bookmarks
+        })
+      });
+    },
+    async filterBookmark() {
+      this.isAll = false
+      this.isBookmark = true
+      this.listings = []
+      const querySnap = await getDocs(query(collection(db, "users"), where("uid", "==", this.uid)));
+      querySnap.forEach((doc) => {
+        var bookmarked = doc.data().bookmarked
+        getDocs(query(collection(db, "listings")))
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              if (bookmarked.includes(doc.id)) {
+                let listing = doc.data()
+                listing["id"] = doc.id
+                this.listings.push(listing);
+              }
+            })
+          })
+
       });
     },
     openChat(e) {
@@ -87,7 +135,7 @@ export default {
 }
 
 .sort-container {
-  width: 50%;
+  width: 25%;
 }
 
 .btn {
@@ -98,10 +146,15 @@ export default {
   margin-right: 0.5vw;
 }
 
+.active {
+  background-color: #75acb4 !important;
+  color: white !important;
+}
+
 .vertical-rule {
   width: 1vw;
   margin-right: 1vw;
-  height: 3vh;
+  height: 6vh;
   border-right: 1px solid #c5c5c6;
 }
 

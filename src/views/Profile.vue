@@ -4,23 +4,22 @@
 
 
   <div class="container" id="profile" style="display:flex">
-    
+
     <div id="left-side">
       <!-- this is 30% -->
-  
+
       <div class="profilePic">
         <img :src="photo" id="photo">
 
-       <label v-if="editing" for="photo-upload" class="editPhoto" >
-        Edit Photo
-       </label>
-       <input type="file"
-       accept="image/png, image/jpeg" id="photo-upload" style="display:none" @change="changePhoto">
+        <label v-if="editing" for="photo-upload" class="editPhoto">
+          Edit Photo
+        </label>
+        <input type="file" accept="image/png, image/jpeg" id="photo-upload" style="display:none" @change="changePhoto">
       </div>
 
-      <div id="rating" class="container text-center">2.5
+      <div id="rating" class="container text-center">{{ rating }}
         <font-awesome-icon icon="fa-solid fa-star" class="fa-star" />
-        | 89 ratings
+        | {{ ratingCount }} ratings
       </div>
       <button type="button" class="btn" id="edit-button" style="background-color: fuchsia;" v-if="!editing"
         @click="toggleEdit()">Edit</button>
@@ -60,20 +59,22 @@
         </tr>
         <tr>
           <th>Payment method</th>
-          <td v-if="!editing && payment==''">Unspecified</td> 
-          <td v-if="!editing">{{payment}}</td> 
+          <td v-if="!editing && payment == ''">Unspecified</td>
+          <td v-if="!editing">{{ payment }}</td>
           <td v-if="editing">
             <select v-model="payment">
-            <option>PayLah</option>
-            <option>PayNow</option>
-            <option>Cash</option>
-          </select></td>
-          
+              <option>PayLah</option>
+              <option>PayNow</option>
+              <option>Cash</option>
+            </select>
+          </td>
+
         </tr>
         <tr>
           <th>Description</th>
           <td v-if="!editing">{{ description }}</td>
-          <td v-if="editing"><textarea v-model="description" id="w3review" name="w3review" rows="8" cols="83"></textarea></td>
+          <td v-if="editing"><textarea v-model="description" id="w3review" name="w3review" rows="8"
+              cols="83"></textarea></td>
         </tr>
       </table>
 
@@ -130,43 +131,92 @@
         </table>
       </div> -->
   <div class="listings-container container d-flex flex-wrap">
-    <ListingComponent v-for="listing in listings" class="listing-component" :tutor="listing.user" :code="listing.module"
-      :prof="listing.prof" :price="listing.price" :userID="listing.userID"></ListingComponent>
+    <ListingComponent v-for="listing in listings" class="listing-component" :id="listing.id" :tutor="listing.user" :code="listing.module"
+      :prof="listing.prof" :price="listing.price" :userID="listing.userID" ></ListingComponent>
   </div>
 
 </template>
 
 <script>
 import ListingComponent from "../components/ListingComponent.vue";
-import { getDocs, query, collection } from "firebase/firestore"
-import { db } from "../firebase/init"
+
+import { onAuthStateChanged } from "firebase/auth"
+import { query, collection, setDoc, doc, where, getDocs, onSnapshot, serverTimestamp, orderBy } from "firebase/firestore"
+import { db, auth, storage } from "../firebase/init"
 import Navbar from './TheNavbar.vue'
+import { ref, getDownloadURL, listAll } from "firebase/storage"
 
 export default {
   data() {
     return {
       listings: [],
-      name: "Chester Chia",
-      photo: "https://randomuser.me/api/portraits/women/81.jpg",
-      stars: "2.5",
-      rating: "89",
-      faculty: "SCIS",
-      major: "Business Analytics",
-      year: 2,
-      email: "chester@gods.com",
+      userid: "",
+      name: "",
+      photo: "",
+      rating: 0,
+      ratingCount: 0,
+      faculty: "",
+      major: "",
+      year: "",
+      email: "",
       payment: "",
-      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit enim fugit reprehenderit neque, tenetur totam libero maiores et atque placeat minus ex ducimus, sit nisi a sint mollitia laborum optio?",
+      description: "",
       editing: false
     };
   },
   created() {
-    this.getListings();
+   
+  
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.getUser(user.uid)
+         this.getListings(user.uid);
+        console.log(user)
+      } else {
+        console.log("Not signed in")
+      }
+    })
   },
   methods: {
-    async getListings() {
-      const querySnap = await getDocs(query(collection(db, "listings")));
+    async getListings(uid) {
+      const querySnap = await getDocs(query(collection(db, "listings"),where("userID","==",uid)));
       querySnap.forEach((doc) => {
-        this.listings.push(doc.data());
+        let listing = doc.data()
+        listing["id"] = doc.id
+        this.listings.push(listing);
+      })
+      ;
+    },
+    async getUser(uid) {
+      const querySnap = await getDocs(query(collection(db, "users"),
+        where("uid", "==", uid)
+      ));
+      querySnap.forEach((doc) => {
+        console.log(doc.data());
+        this.userid= doc.data().uid
+        this.name = doc.data().user
+        this.rating = doc.data().rating
+        this.ratingCount = doc.data().ratingCount
+        this.faculty = doc.data().faculty
+        this.major = doc.data().major
+        this.year = doc.data().year
+        this.email = doc.data().email
+        this.payment = doc.data().payment
+        this.description = doc.data().description
+
+        var userRef = ref(storage, "users")
+        listAll(userRef)
+          .then((res) => {
+            res.items.forEach((itemRef) => {
+              const prefix = itemRef.name.split(".")[0]
+              if (prefix == doc.id) {
+                getDownloadURL(ref(storage, "users/" + itemRef.name))
+                  .then((url) => {
+                    this.photo = url
+                  })
+              }
+            })
+          })
       });
     },
     toggleEdit() {
@@ -179,7 +229,7 @@ export default {
     },
     changePhoto(event) {
       console.log(event.target.files[0].name);
-   }
+    }
   },
   components: { ListingComponent, Navbar },
 };
@@ -250,9 +300,11 @@ td {
 #edit-button:hover {
   color: red;
 }
+
 .profilePic {
   position: relative;
 }
+
 .profilePic .editPhoto {
   position: absolute;
   top: 50%;

@@ -81,7 +81,9 @@ import {
   OAuthProvider,
 } from "firebase/auth";
 import router from "../router";
-import { auth } from "../firebase/init"
+import { getDocs, query, collection, setDoc, doc, where } from "firebase/firestore"
+import { ref as sRef, uploadBytes } from "firebase/storage"
+import { db, auth, storage } from "../firebase/init"
 
 export default {
   setup() {
@@ -97,10 +99,11 @@ export default {
     let LogInError = ref(false);
 
     const SignUp = () => {
-      createUserWithEmailAndPassword(auth ,email.value, password.value)
+      createUserWithEmailAndPassword(auth, email.value, password.value)
         .then((data) => {
           alert("You have successfully signed up!");
           const newUser = {
+            bookmarked: [],
             chats: [],
             email: data.user.email,
             rating: 0,
@@ -109,12 +112,10 @@ export default {
           }
           const usersRef = collection(db, "users")
           setDoc(doc(usersRef), newUser).then((res) => {
-            router.push("/login")
+            router.push({ name: "Listings" })
           });
           // console.log(password)
           // console.log(check_password)
-
-          console.log(auth.currentUser);
           // this.$router.push('/views/login');
           // router.push({ name: "Login" });
         })
@@ -159,28 +160,37 @@ export default {
       const provider = new GoogleAuthProvider();
       signInWithPopup(getAuth(), provider)
         .then((result) => {
-          console.log(result.user);
-          router.push({ name: "listings" });
-        })
-        .catch((error) => {
-          console.log(error.msg);
-        });
-    };
+          getDocs(query(collection(db, "users"), where("uid", "==", result.user.uid)))
+            .then((querySnapshot) => {
+              if (querySnapshot.docs == 0) {
+                const newUser = {
+                  bookmarked: [],
+                  chats: [],
+                  email: result.user.email,
+                  rating: 0,
+                  uid: result.user.uid,
+                  user: result.user.displayName
+                }
+                const usersRef = collection(db, "users")
+                setDoc(doc(usersRef), newUser).then((res) => {
+                  getDocs(query(collection(db, "users"), where("uid", "==", result.user.uid)))
+                    .then((querySnapshot) => {
+                      querySnapshot.forEach((doc) => {
+                        fetch(result.user.photoURL)
+                          .then(response => response.blob())
+                          .then(blob => {
+                            var file = new File([blob], doc.id)
+                            const storageRef = sRef(storage, "users/" + doc.id)
+                            uploadBytes(storageRef, file).then((snapshot) => {
+                              console.log("Uploaded!")
+                            })
+                          })
+                      })
+                    })
 
-    const signInWithMicrosoft = () => {
-      const provider = new OAuthProvider("microsoft.com");
-      signInWithPopup(getAuth(), provider);
-      provider
-        .setCustomParameters({
-          // Force re-consent.
-          prompt: "consent",
-          // Target specific email with login hint.
-          login_hint: "user@smu.edu.sg",
-        })
-        .then((result) => {
-          const credential = OAuthProvider.credentialFromResult(result);
-          const accessToken = credential.accessToken;
-          const idToken = credential.idToken;
+                });
+              }
+            })
         })
         .catch((error) => {
           console.log(error.msg);
@@ -217,15 +227,15 @@ export default {
               LogInErrMsg.value = "Too many requests";
               // console.log(errMsg.value);
 
-              break;  
+              break;
           }
         });
+
     };
 
 
     return {
       signInWithGoogle,
-      signInWithMicrosoft,
       Login,
       SignUp,
       email,
@@ -239,7 +249,6 @@ export default {
     };
   },
   mounted() {
-    console.log("hi");
     const signUpButton = document.getElementById("signUp");
     const signInButton = document.getElementById("signIn");
     const container = document.getElementById("container");

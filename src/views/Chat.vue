@@ -122,7 +122,7 @@ export default {
                 }
             })
         },
-        async getMessages() {
+        getMessages() {
             const q = query(collection(db, "messages"), orderBy("timestamp"))
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
                 this.messages = []
@@ -137,6 +137,7 @@ export default {
                         this.messages.push(docData)
                     }
                 })
+                this.selected = true
             })
         },
         async loadName() {
@@ -180,7 +181,7 @@ export default {
             })
         },
         toggleSelect(e) {
-            this.selected = true
+            this.selected = false
             this.recipient = e
             this.getMessages();
             this.loadName();

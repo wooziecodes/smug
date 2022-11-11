@@ -41,5 +41,5 @@ library.add(faStar, faHeart, faCommentDots, faBookmark, faFilter, faChevronUp, f
 
 
 
-createApp(App).component("font-awesome-icon", FontAwesomeIcon).use(store).use(router).use(VueKinesis).use(autoAnimatePlugin).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+createApp(App).component("font-awesome-icon", FontAwesomeIcon).use(store).use(router).use(VueKinesis).use(autoAnimatePlugin).mount('#app')
 
