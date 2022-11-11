@@ -2,10 +2,9 @@
   <nav class="navbar">
     <img class="logo" @click="goHome" />
     <div class="input-container">
-      <input class="form-control" placeholder="Search for modules here" id="searchBar" type="text" v-model="modules" @click="populateModules()"/>
-      <ul class="dropdown" id="dropdown">
+      <input class="form-control" @focusin="searching = true" @focusout="searching = false" placeholder="Search for modules here" id="searchBar" type="text" v-model="searchStr"/>
+      <ul class="dropdown" id="dropdown" v-if="searching">
         <li class="dropdown-item" v-for="mod of modulesDropdown">{{mod}}</li>
-
       </ul>
 
 
@@ -38,35 +37,14 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
 export default {
-  setup() {
-        const name = ref("");
-  
-        // onBeforeMount(() => {
-        //   const user = firebase.auth().currentUser;
-        //   if (user) {
-        //     name.value = user.email.split('@')[0];
-        //   }
-        // });
-  
-        const Logout = () =>{
-          firebase
-            .auth()
-            .signOut()
-            .then(() => console.log("Signed out"))
-            .catch(err => alert(err.message));
-        }
-        
-        return{
-          name,
-          Logout
-        }
-    },
   data() {
     return {
       username: "",
       imgUrl: "",
-      modules:[],
-      modulesDropdown: []
+      searchStr: "",
+      modules: [],
+      modulesDropdown: [],
+      searching: false
     }
   },
   created() {
@@ -77,6 +55,17 @@ export default {
         console.log("Not signed in")
       }
     })
+    this.populateModules()
+  },
+  watch: {
+    searchStr(value) {
+      this.modulesDropdown = []
+      for (var mod of this.modules) {
+        if (mod.toLowerCase().includes(value.toLowerCase())) {
+          this.modulesDropdown.push(mod)
+        }
+      }
+    }
   },
   methods: {
     async loadUser(uid) {
@@ -99,34 +88,14 @@ export default {
           })
       })
     },
-    // async searchModules(search) {
-    //   console.log(search)
-    //   const q = query(collection(db, "module"), where("code", "==", true))
-    //   console.log('yay')
-    //   const querySnapshot = await getDocs(q)
-    //   querySnapshot.forEach((doc) => {
-    //     // this.modules.push(doc.data())
-    //     var modName = doc.data().name
-    //     var modCode = doc.data().code
-    //     var modStr = modCode + ": " + modName
-    //     console.log(modStr)
-    //     this.modulesDropdown.push(modStr)
-
-    //   })
-    // },
     async populateModules(){
       const q = query(collection(db, "module"))
-      console.log('yay')
       const querySnapshot = await getDocs(q)
-      console.log(querySnapshot)
       querySnapshot.forEach((doc) => {
-        console.log(doc.data().code)
-        console.log(doc.data().name)
         var modName = doc.data().name
         var modCode = doc.data().code
         var modStr = modCode + ": " + modName
-        console.log(modStr)
-        this.modulesDropdown.push(modStr)
+        this.modules.push(modStr)
       })
     },
     openChat() {
