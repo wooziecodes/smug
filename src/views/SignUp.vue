@@ -183,6 +183,7 @@ export default {
                             const storageRef = sRef(storage, "users/" + doc.id)
                             uploadBytes(storageRef, file).then((snapshot) => {
                               console.log("Uploaded!")
+                              router.push({ name: "Listings" })
                             })
                           })
                       })
@@ -190,6 +191,7 @@ export default {
 
                 });
               }
+              router.push({ name: "Listings" })
             })
         })
         .catch((error) => {

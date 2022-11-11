@@ -132,7 +132,8 @@
       </div> -->
   <div class="listings-container container d-flex flex-wrap">
     <ListingComponent v-for="listing in listings" class="listing-component" :id="listing.id" :tutor="listing.user"
-      :code="listing.module" :prof="listing.prof" :price="listing.price" :userID="listing.userID"></ListingComponent>
+      :code="listing.module" :prof="listing.prof" :price="listing.price" :userID="listing.userID" :isOwn="true">
+    </ListingComponent>
   </div>
 
 </template>
@@ -141,10 +142,10 @@
 import ListingComponent from "../components/ListingComponent.vue";
 
 import { onAuthStateChanged } from "firebase/auth"
-import { query, collection, setDoc, doc, where, getDocs, onSnapshot, serverTimestamp, orderBy } from "firebase/firestore"
+import { query, collection, doc, where, getDocs, updateDoc } from "firebase/firestore"
 import { db, auth, storage } from "../firebase/init"
 import Navbar from './TheNavbar.vue'
-import { ref, getDownloadURL, listAll } from "firebase/storage"
+import { ref, getDownloadURL, listAll, deleteObject, uploadBytes } from "firebase/storage"
 
 export default {
   data() {
@@ -161,7 +162,9 @@ export default {
       email: "",
       payment: "",
       description: "",
-      editing: false
+      editing: false,
+      id: "",
+      imgName: ""
     };
   },
   created() {
@@ -185,14 +188,13 @@ export default {
         listing["id"] = doc.id
         this.listings.push(listing);
       })
-        ;
     },
     async getUser(uid) {
       const querySnap = await getDocs(query(collection(db, "users"),
         where("uid", "==", uid)
-      ));
+      ))
       querySnap.forEach((doc) => {
-
+        this.id = doc.id
         this.userid = doc.data().uid
         this.name = doc.data().user
         this.rating = doc.data().rating
@@ -210,6 +212,7 @@ export default {
             res.items.forEach((itemRef) => {
               const prefix = itemRef.name.split(".")[0]
               if (prefix == doc.id) {
+                this.imgName = itemRef.name
                 getDownloadURL(ref(storage, "users/" + itemRef.name))
                   .then((url) => {
                     this.photo = url
@@ -217,32 +220,25 @@ export default {
               }
             })
           })
-      });
+      })
     },
     async updateData(uid) {
       const querySnap = await getDocs(query(collection(db, "users"),
         where("uid", "==", uid)
-      ));
-      querySnap.forEach((doc) => {
-        console.log(doc.data())
-      });
-
-      // A post entry.
+      ))
       const userData = {
-      //   faculty: faculty,
-      //   major: major,
-      //   year: year,
-      //   payment: payment,
+        faculty: this.faculty,
+        major: this.major,
+        year: this.year,
+        payment: this.payment,
         description: this.description
-      };
-      const updateKey = push(getDocs(query(collection(db, "users"),
-        where("uid", "==", uid)
-      ))).key;
-      const updates = {};
-      updates['/users/' + updateKey] = userData;
-
-      return update(db,updates)
-
+      }
+      querySnap.forEach((d) => {
+        const userRef = doc(db, "users", d.id)
+        updateDoc(userRef, userData).then((res) => {
+          console.log("updated")
+        })
+      })
     },
     toggleEdit() {
       if (this.editing) {
@@ -252,8 +248,16 @@ export default {
         this.editing = true;
       }
     },
-    changePhoto(event) {
-      console.log(event.target.files[0].name);
+    async changePhoto(event) {
+      console.log(event.target.files[0]);
+      const imageRef = ref(storage, "users/" + this.imgName)
+      deleteObject(imageRef).then(() => {
+        const storageRef = ref(storage, "users/" + this.id)
+        uploadBytes(storageRef, event.target.files[0]).then((snapshot) => {
+          console.log("Image uploaded!")
+          this.getUser(this.userid)
+        })
+      })
     }
   },
   components: { ListingComponent, Navbar },
