@@ -8,7 +8,8 @@
             <img v-bind:src="tutorImg" class="tutorImg" />
             <span class="tutorName">&nbsp;{{ tutor }}</span>
           </div>
-          <font-awesome-icon icon="fa-solid fa-heart" class="fa-heart" @click="bookmarked" />
+          <font-awesome-icon v-if="isBookmarked" icon="fa-solid fa-heart" class="fa-heart" @click="unbookmarked" />
+          <font-awesome-icon v-if="!isBookmarked" icon="fa-regular fa-heart" class="fa-heart" @click="bookmarked" />
         </div>
         <span class="listingMod" @click="sendId">{{ code }} - {{ mod }}</span>
         <span class="prof" @click="sendId">Taught by Prof {{ prof }}</span>
@@ -29,9 +30,10 @@
   </div>
 </template>
 <script>
-import { getDocs, query, collection, getDoc, doc } from "firebase/firestore"
-import { db, storage } from "../firebase/init"
+import { getDocs, query, collection, where } from "firebase/firestore"
+import { db, storage, auth } from "../firebase/init"
 import { ref, getDownloadURL, listAll } from "firebase/storage"
+import { onAuthStateChanged } from "@firebase/auth";
 
 export default {
   data() {
@@ -40,7 +42,8 @@ export default {
       rating: 0,
       listingImg: "",
       tutorImg: "",
-      userID: ""
+      userID: "",
+      isBookmarked: false
     };
   },
   props: {
@@ -54,7 +57,6 @@ export default {
   created() {
     this.getModules();
     this.getRating();
-    console.log(this.uid)
     var listRef = ref(storage, "listings")
     listAll(listRef)
       .then((res) => {
@@ -82,6 +84,14 @@ export default {
           }
         })
       })
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.getBookmarked(user.uid);
+      } else {
+        console.log("Not signed in")
+      }
+    })
   },
   mounted() {
     // Sticky headesr
@@ -102,7 +112,17 @@ export default {
         }
       });
     },
-
+    async getBookmarked(uid) {
+      const querySnap = await getDocs(query(collection(db, "users"), where("uid", "==", uid)));
+      querySnap.forEach((doc) => {
+        if (doc.data().uid == uid) {
+          if (doc.data().bookmarked.includes(this.id)) {
+            this.isBookmarked = true
+          }
+          }
+        }
+      );
+    },
     async getRating() {
       const querySnap = await getDocs(query(collection(db, "users")));
       querySnap.forEach((doc) => {
@@ -116,7 +136,12 @@ export default {
       this.$emit("listingId", this.id)
     },
     bookmarked() {
+      this.isBookmarked = true
       this.$emit("bookmarked", this.id)
+    },
+    unbookmarked() {
+      this.isBookmarked = false
+      this.$emit("unbookmarked", this.id)
     }
   }
 };
