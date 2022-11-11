@@ -8,8 +8,10 @@
             <img v-bind:src="tutorImg" class="tutorImg" />
             <span class="tutorName">&nbsp;{{ tutor }}</span>
           </div>
-          <font-awesome-icon v-if="isBookmarked" icon="fa-solid fa-heart" class="fa-heart" @click="unbookmarked" />
-          <font-awesome-icon v-if="!isBookmarked" icon="fa-regular fa-heart" class="fa-heart" @click="bookmarked" />
+          <div v-if="!isOwn">
+            <font-awesome-icon v-if="isBookmarked" icon="fa-solid fa-heart" class="fa-heart" @click="unbookmarked" />
+            <font-awesome-icon v-if="!isBookmarked" icon="fa-regular fa-heart" class="fa-heart" @click="bookmarked" />
+          </div>
         </div>
         <span class="listingMod" @click="sendId">{{ code }} - {{ mod }}</span>
         <span class="prof" @click="sendId">Taught by Prof {{ prof }}</span>
@@ -53,6 +55,7 @@ export default {
     prof: String,
     price: Number,
     uid: String,
+    isOwn: false
   },
   created() {
     this.getModules();
@@ -119,8 +122,8 @@ export default {
           if (doc.data().bookmarked.includes(this.id)) {
             this.isBookmarked = true
           }
-          }
         }
+      }
       );
     },
     async getRating() {
