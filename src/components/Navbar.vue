@@ -1,8 +1,25 @@
 <template>
   <nav class="navbar">
-    <img class="logo" @click="goHome"/>
+    <img class="logo" @click="goHome" />
     <div class="input-container">
-      <input class="form-control" placeholder="Search for modules here" id="searchBar" type="text" />
+      <input class="form-control" placeholder="Search for modules here" id="searchBar" type="text" v-model="modules" @click="populateModules()"/>
+      <ul class="dropdown" id="dropdown">
+        <li class="dropdown-item" v-for="mod of modulesDropdown">{{mod}}</li>
+
+      </ul>
+
+
+      <!-- <div class="dropdown">
+        <ul class="dropdown-menu">
+          <li><a v-for="mod in modules" class="dropdown-item" href="#">{{mod}}</a></li>
+        </ul>
+      </div> -->
+
+<!-- 
+      <p v-text="modulesDropdown"></p> -->
+
+        <!-- <p v-for="mod in modules">{{mod}}</p> -->
+      
     </div>
     <span class="greeting">Hi, {{ username }}</span>
     <img :src="imgUrl" class="profile-pic" />
@@ -12,14 +29,16 @@
 <script>
 import { db, auth, storage } from "../firebase/init"
 import { onAuthStateChanged } from "firebase/auth"
-import { getDocs, query, collection, where } from "firebase/firestore"
+import { getDocs, query, collection, where, onSnapshot } from "firebase/firestore"
 import { ref, getDownloadURL, listAll } from "firebase/storage"
 
 export default {
   data() {
     return {
       username: "",
-      imgUrl: ""
+      imgUrl: "",
+      modules:[],
+      modulesDropdown: []
     }
   },
   created() {
@@ -52,12 +71,43 @@ export default {
           })
       })
     },
+    // async searchModules(search) {
+    //   console.log(search)
+    //   const q = query(collection(db, "module"), where("code", "==", true))
+    //   console.log('yay')
+    //   const querySnapshot = await getDocs(q)
+    //   querySnapshot.forEach((doc) => {
+    //     // this.modules.push(doc.data())
+    //     var modName = doc.data().name
+    //     var modCode = doc.data().code
+    //     var modStr = modCode + ": " + modName
+    //     console.log(modStr)
+    //     this.modulesDropdown.push(modStr)
+
+    //   })
+    // },
+    async populateModules(){
+      const q = query(collection(db, "module"))
+      console.log('yay')
+      const querySnapshot = await getDocs(q)
+      console.log(querySnapshot)
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data().code)
+        console.log(doc.data().name)
+        var modName = doc.data().name
+        var modCode = doc.data().code
+        var modStr = modCode + ": " + modName
+        console.log(modStr)
+        this.modulesDropdown.push(modStr)
+      })
+    },
     openChat() {
-      this.$router.push({name: 'Chat'})
+      this.$router.push({ name: 'Chat' })
     },
     goHome() {
-      this.$router.push({name: 'Listings'})
-    }
+      this.$router.push({ name: 'Listings' })
+    },
+
   }
 }
 </script>

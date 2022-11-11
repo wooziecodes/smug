@@ -15,27 +15,9 @@
         <div class="d-flex justify-content-between align-items-center message-parent">
             <input type="text" class="form-control message-box" placeholder="Enter your message"
                 @keypress.enter="sendMessage" v-model="text">
-            <button type="button" class="btn send-btn" @click="sendMessage" id="active-button">Send</button>
+            <button type="button" class="btn send-btn" @click="sendMessage">Send</button>
         </div>
     </div>
-    
-    <div class="container chat-container" v-if="selected == false">
-        <div class="d-flex align-items-center chat-header">
-            <img :src="imgUrl" />
-            <span class="display-name">{{ name }}</span>
-            Select a user first!
-        </div>
-        <div class="message-container">
-            
-        </div>
-        <div class="d-flex justify-content-between align-items-center message-parent">
-            <input type="text" class="form-control message-box" placeholder="Enter your message"
-                @keypress.enter="sendMessage" v-model="text">
-            <button type="button" class="btn send-btn" @click="sendMessage" disabled id="disabled-button">Send</button>
-        </div>
-        
-    </div>
-
 </template>
 <script>
 import { query, collection, setDoc, doc, updateDoc, where, getDocs, onSnapshot, serverTimestamp, orderBy } from "firebase/firestore"
@@ -217,7 +199,7 @@ export default {
     top: 15%;
     left: 5%;
     width: 20%;
-    height: 85%;
+    height: 75%;
     overflow: auto;
 }
 
@@ -227,7 +209,7 @@ export default {
     top: 15%;
     padding-top: 5vh;
     width: 40% !important;
-    height: 85%;
+    height: 75%;
     background-color: #f3f9fb;
 }
 
@@ -278,22 +260,11 @@ export default {
 }
 
 .send-btn {
+    background: #1f5c64 !important;
     color: white !important;
     width: 15%;
     font-size: 14px;
     height: 70%;
     margin-right: 2%;
-}
-
-#active-button{
-    background: #75ACB4 !important;
-}
-
-#active-button:hover{
-    background: #1f5c64 !important;
-}
-
-#disabled-button{
-    background: #737373 !important;
 }
 </style>
