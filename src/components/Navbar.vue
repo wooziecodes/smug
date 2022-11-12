@@ -10,7 +10,7 @@
         <div class="col">
           <div class="input-container">
           <input class="form-control" @focusin="searching = true" @focusout="searching = false" @keydown.enter="search" placeholder="Search for modules here" id="searchBar" type="text" v-model="searchStr"/>
-          <ul class="dropdown" id="dropdown" v-if="searching">
+          <ul class="dropdown" id="dropdown" v-if="searching" style="position:absolute">
             <li class="dropdown-item" v-for="mod of modulesDropdown">{{mod}}</li>
           </ul>
           </div>
@@ -132,11 +132,11 @@ export default {
 
 .navbar {
   font-family: "Open Sans";
-
-  position: fixed;
+  position: relative;
   display: flex;
   width: 100%;
   height: 10vh;
+  max-height: 40px;
   align-items: center;
 }
 
