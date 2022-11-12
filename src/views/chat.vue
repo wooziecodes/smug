@@ -1,6 +1,6 @@
 <template>
     <Navbar></Navbar>
-    <div class="chatList">
+    <div class="chatList" >
         <ChatComponent v-for="chat in chats" :id="chat" :user="uid" @toggleSelect="toggleSelect"></ChatComponent>
     </div>
     <div class="container chat-container" v-if="selected">
@@ -36,16 +36,38 @@
 
     <div class="profile" v-if="selected">
         <div class="d-flex">
-            <img :src="imgUrl" />
-            <div class="details">
-                <span class="card-name">{{ name }}&nbsp;</span>
-                <font-awesome-icon icon="fa-solid fa-star" class="fa-star" />
-                <span class="ratings">{{ rating }} ({{ ratingCount }})</span>
-                <p>{{ major }}</p>
-                <p>Year&nbsp;{{ year }}</p>
+
+            <div class="container details">
+                <div class="row">
+                    <div class="col col-xl-6" style="text-align:center">
+                        <img :src="imgUrl" class="img-fluid w-100 h-100" />
+                    </div>
+
+                    <div class="col col-xl-6">
+                        <div class="row">
+                            <div class="col">
+                                <span class="card-name">{{ name }}&nbsp;</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <font-awesome-icon icon="fa-solid fa-star" class="fa-star" />
+                                <span class="ratings">{{ rating }} ({{ ratingCount }})</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <span>Year {{ year }} {{ major }} Major</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
             </div>
         </div>
-        <div class="desc">{{ description }}</div>
+        <!-- <div class="desc">{{ description }}</div> -->
         <div v-if="!reviewing">
             <div v-if="!isAccepted">
                 <div v-if="!isWaiting">
@@ -53,26 +75,26 @@
                     </div>
                     <div class="btn btn-light booking-btn" v-if="hasSentBooking">Booking sent</div>
                 </div>
-                <div class="btn btn-light booking-btn" v-if="isWaiting" @click="acceptBooking($event)">Accept booking</div>
+                <div class="btn btn-light booking-btn" v-if="isWaiting" @click="acceptBooking($event)">Accept booking
+                </div>
             </div>
             <div class="btn btn-light booking-btn" v-if="isAccepted">Booking Accepted</div>
         </div>
         <div class="d-flex justify-content-center heartBox" v-if="reviewing">
             <font-awesome-icon :icon="icon1" @mouseover="icon1 = ['fa-solid', 'fa-heart']"
-                @mouseout="icon1 = ['fa-regular', 'fa-heart']" class="fa-heart"
-                @click="rate(1)" />
+                @mouseout="icon1 = ['fa-regular', 'fa-heart']" class="fa-heart" @click="rate(1)" />
             <font-awesome-icon :icon="icon2"
                 @mouseover="icon1 = ['fa-solid', 'fa-heart']; icon2 = ['fa-solid', 'fa-heart']"
                 @mouseout="icon1 = ['fa-regular', 'fa-heart']; icon2 = ['fa-regular', 'fa-heart']" class="fa-heart"
                 @click="rate(2)" />
             <font-awesome-icon :icon="icon3"
                 @mouseover="icon1 = ['fa-solid', 'fa-heart']; icon2 = ['fa-solid', 'fa-heart']; icon3 = ['fa-solid', 'fa-heart']"
-                @mouseout="icon1 = ['fa-regular', 'fa-heart']; icon2 = ['fa-regular', 'fa-heart']; icon3 = ['fa-regular', 'fa-heart']" class="fa-heart"
-                @click="rate(3)" />
+                @mouseout="icon1 = ['fa-regular', 'fa-heart']; icon2 = ['fa-regular', 'fa-heart']; icon3 = ['fa-regular', 'fa-heart']"
+                class="fa-heart" @click="rate(3)" />
             <font-awesome-icon :icon="icon4"
                 @mouseover="icon1 = ['fa-solid', 'fa-heart']; icon2 = ['fa-solid', 'fa-heart']; icon3 = ['fa-solid', 'fa-heart']; icon4 = ['fa-solid', 'fa-heart']"
-                @mouseout="icon1 = ['fa-regular', 'fa-heart']; icon2 = ['fa-regular', 'fa-heart']; icon3 = ['fa-regular', 'fa-heart']; icon4 = ['fa-regular', 'fa-heart']" class="fa-heart"
-                @click="rate(4)" />
+                @mouseout="icon1 = ['fa-regular', 'fa-heart']; icon2 = ['fa-regular', 'fa-heart']; icon3 = ['fa-regular', 'fa-heart']; icon4 = ['fa-regular', 'fa-heart']"
+                class="fa-heart" @click="rate(4)" />
             <font-awesome-icon :icon="icon5"
                 @mouseover="icon1 = ['fa-solid', 'fa-heart']; icon2 = ['fa-solid', 'fa-heart']; icon3 = ['fa-solid', 'fa-heart']; icon4 = ['fa-solid', 'fa-heart']; icon5 = ['fa-solid', 'fa-heart']"
                 @mouseout="icon1 = ['fa-regular', 'fa-heart']; icon2 = ['fa-regular', 'fa-heart']; icon3 = ['fa-regular', 'fa-heart']; icon4 = ['fa-regular', 'fa-heart']; icon5 = ['fa-regular', 'fa-heart']"
@@ -111,7 +133,7 @@ export default {
             isWaiting: false,
             isAccepted: false,
             reviewing: false,
-            reviewed: false ,
+            reviewed: false,
             icon1: ['fa-regular', 'fa-heart'],
             icon2: ['fa-regular', 'fa-heart'],
             icon3: ['fa-regular', 'fa-heart'],
@@ -142,7 +164,7 @@ export default {
 
                 var total = currentRating * ratingCount
                 ratingCount += 1
-                total = (total + rating) / ratingCount 
+                total = (total + rating) / ratingCount
                 const userRef = doc(db, "users", d.id)
                 updateDoc(userRef, {
                     confirmedBookings: confirmedBookings,
@@ -412,7 +434,9 @@ export default {
 }
 
 .details {
-    padding-left: 5%;
+    margin-top: 5px;
+    background: #F1EFEF !important;
+    width: 100%
 }
 
 .profile img {

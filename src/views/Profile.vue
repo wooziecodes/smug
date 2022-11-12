@@ -31,16 +31,16 @@
           <input type="file" accept="image/png, image/jpeg" id="photo-upload" style="display:none"
             @change="changePhoto"> -->
         <div class="profilepic">
-          <img class="profilepic__image"
-            :src="photo"
-            width="150" height="150" alt="Profibild" />
+          <img class="profilepic__image" :src="photo" width="150" height="150" alt="Profibild" />
           <div v-if="editing" class="profilepic__content">
             <label for="photo-upload">
-            <span class="profilepic__icon"><FontAwesomeIcon icon="fa-solid fa-camera"/></span>
-            <span class="profilepic__text">Edit Photo</span>
-          </label>
+              <span class="profilepic__icon">
+                <FontAwesomeIcon icon="fa-solid fa-camera" />
+              </span>
+              <span class="profilepic__text">Edit Photo</span>
+            </label>
             <input type="file" accept="image/png, image/jpeg" id="photo-upload" style="display:none"
-            @change="changePhoto">
+              @change="changePhoto">
           </div>
         </div>
 
@@ -406,6 +406,7 @@ input {
   display: block;
   background-color: #1F5C64 !important;
 }
+
 /* photo test*/
 .profilepic {
   position: relative;
@@ -424,7 +425,12 @@ input {
 
 .profilepic:hover .profilepic__image {
   opacity: .5;
-  cursor:pointer;
+  cursor: pointer;
+}
+
+.profilepic:hover .profilepic__text {
+  opacity: .5;
+  cursor: pointer;
 }
 
 .profilepic__image {
@@ -463,6 +469,7 @@ input {
   width: 50%;
   text-align: center;
 }
+
 /* photo test */
 #my-profile-wording {
   margin-top: 3%;
