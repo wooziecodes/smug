@@ -34,6 +34,52 @@
         </div>
     </div>
 
+    <div class="profile" v-if="selected">
+        <div class="d-flex">
+            <img :src="imgUrl" />
+            <div class="details">
+                <span class="card-name">{{ name }}&nbsp;</span>
+                <font-awesome-icon icon="fa-solid fa-star" class="fa-star" />
+                <span class="ratings">{{ rating }} ({{ ratingCount }})</span>
+                <p>{{ major }}</p>
+                <p>Year&nbsp;{{ year }}</p>
+            </div>
+        </div>
+        <div class="desc">{{ description }}</div>
+        <div v-if="!reviewing">
+            <div v-if="!isAccepted">
+                <div v-if="!isWaiting">
+                    <div class="btn btn-light booking-btn" v-if="!hasSentBooking" @click="sendBooking">Send booking
+                    </div>
+                    <div class="btn btn-light booking-btn" v-if="hasSentBooking">Booking sent</div>
+                </div>
+                <div class="btn btn-light booking-btn" v-if="isWaiting" @click="acceptBooking($event)">Accept booking</div>
+            </div>
+            <div class="btn btn-light booking-btn" v-if="isAccepted">Booking Accepted</div>
+        </div>
+        <div class="d-flex justify-content-center heartBox" v-if="reviewing">
+            <font-awesome-icon :icon="icon1" @mouseover="icon1 = ['fa-solid', 'fa-heart']"
+                @mouseout="icon1 = ['fa-regular', 'fa-heart']" class="fa-heart"
+                @click="rate(1)" />
+            <font-awesome-icon :icon="icon2"
+                @mouseover="icon1 = ['fa-solid', 'fa-heart']; icon2 = ['fa-solid', 'fa-heart']"
+                @mouseout="icon1 = ['fa-regular', 'fa-heart']; icon2 = ['fa-regular', 'fa-heart']" class="fa-heart"
+                @click="rate(2)" />
+            <font-awesome-icon :icon="icon3"
+                @mouseover="icon1 = ['fa-solid', 'fa-heart']; icon2 = ['fa-solid', 'fa-heart']; icon3 = ['fa-solid', 'fa-heart']"
+                @mouseout="icon1 = ['fa-regular', 'fa-heart']; icon2 = ['fa-regular', 'fa-heart']; icon3 = ['fa-regular', 'fa-heart']" class="fa-heart"
+                @click="rate(3)" />
+            <font-awesome-icon :icon="icon4"
+                @mouseover="icon1 = ['fa-solid', 'fa-heart']; icon2 = ['fa-solid', 'fa-heart']; icon3 = ['fa-solid', 'fa-heart']; icon4 = ['fa-solid', 'fa-heart']"
+                @mouseout="icon1 = ['fa-regular', 'fa-heart']; icon2 = ['fa-regular', 'fa-heart']; icon3 = ['fa-regular', 'fa-heart']; icon4 = ['fa-regular', 'fa-heart']" class="fa-heart"
+                @click="rate(4)" />
+            <font-awesome-icon :icon="icon5"
+                @mouseover="icon1 = ['fa-solid', 'fa-heart']; icon2 = ['fa-solid', 'fa-heart']; icon3 = ['fa-solid', 'fa-heart']; icon4 = ['fa-solid', 'fa-heart']; icon5 = ['fa-solid', 'fa-heart']"
+                @mouseout="icon1 = ['fa-regular', 'fa-heart']; icon2 = ['fa-regular', 'fa-heart']; icon3 = ['fa-regular', 'fa-heart']; icon4 = ['fa-regular', 'fa-heart']; icon5 = ['fa-regular', 'fa-heart']"
+                @click="rate(5)" />
+        </div>
+        <div v-if="reviewed">Thanks for leaving a review!</div>
+    </div>
 </template>
 <script>
 import { query, collection, setDoc, doc, updateDoc, where, getDocs, onSnapshot, serverTimestamp, orderBy } from "firebase/firestore"
@@ -53,9 +99,24 @@ export default {
             messages: [],
             chats: [],
             name: "",
+            major: "",
+            year: "",
+            description: "",
+            rating: "",
+            ratingCount: "",
             text: "",
             imgUrl: "",
-            selected: false
+            selected: false,
+            hasSentBooking: false,
+            isWaiting: false,
+            isAccepted: false,
+            reviewing: false,
+            reviewed: false ,
+            icon1: ['fa-regular', 'fa-heart'],
+            icon2: ['fa-regular', 'fa-heart'],
+            icon3: ['fa-regular', 'fa-heart'],
+            icon4: ['fa-regular', 'fa-heart'],
+            icon5: ['fa-regular', 'fa-heart']
         }
     },
     created() {
@@ -63,13 +124,36 @@ export default {
             if (user) {
                 this.loadChat(user.uid)
                 this.uid = user.uid
-            } else {
-                console.log("Not signed in")
             }
         })
 
     },
     methods: {
+        async rate(rating) {
+            const q = query(collection(db, "users"), where("uid", "==", this.uid))
+            const querySnapshot = await getDocs(q)
+            querySnapshot.forEach((d) => {
+                var currentRating = d.data().rating
+                var ratingCount = d.data().ratingCount
+                var confirmedBookings = d.data().confirmedBookings
+                console.log(d.data())
+                var idx = confirmedBookings.indexOf(this.recipient)
+                confirmedBookings.splice(idx, 1)
+
+                var total = currentRating * ratingCount
+                ratingCount += 1
+                total = (total + rating) / ratingCount 
+                const userRef = doc(db, "users", d.id)
+                updateDoc(userRef, {
+                    confirmedBookings: confirmedBookings,
+                    rating: total,
+                    ratingCount: ratingCount
+                }).then(() => {
+                    this.reviewing = false
+                    this.reviewed = true
+                })
+            })
+        },
         async loadChat(uid) {
             const q = query(collection(db, "users"), where("uid", "==", uid))
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -98,7 +182,6 @@ export default {
                                                             const q2 = query(collection(db, "users"), where("uid", "==", recipient.data().uid))
                                                             getDocs(q2).then((querySnapshot) => {
                                                                 querySnapshot.forEach((d) => {
-                                                                    console.log('2')
                                                                     var rChats = d.data().chats
                                                                     rChats.push(docu.id)
                                                                     const newRef = doc(db, "users", recipient.id)
@@ -112,6 +195,12 @@ export default {
                                                 })
 
 
+                                            } else {
+                                                this.recipient = recipient.data().uid
+                                                this.getMessages();
+                                                this.loadName();
+                                                this.loadImage();
+                                                this.loadCard(this.recipient)
                                             }
                                         })
                                     })
@@ -119,6 +208,7 @@ export default {
                             })
                         })
                     }
+                    this.chats = []
                     c.forEach((chat) => {
                         this.chats.push(chat)
                     })
@@ -136,6 +226,81 @@ export default {
                     this.loadName();
                     this.loadImage();
                 }
+            })
+        },
+        async loadCard() {
+            const q = query(collection(db, "users"), where("uid", "==", this.recipient))
+            const querySnapshot = await getDocs(q)
+            querySnapshot.forEach((doc) => {
+                this.major = doc.data().major
+                this.year = doc.data().year
+                this.rating = doc.data().rating.toFixed(2)
+                this.ratingCount = doc.data().ratingCount
+                this.description = doc.data().description
+                var q = query(collection(db, "users"), where("uid", "==", this.uid))
+                getDocs(q).then((qs) => {
+                    qs.forEach((d) => {
+                        const pending = d.data().pendingBookings
+                        if (pending.includes(this.recipient)) {
+                            this.hasSentBooking = true
+                        } else {
+                            this.hasSentBooking = false
+                        }
+                        const sent = doc.data().pendingBookings
+                        if (sent.includes(this.uid)) {
+                            this.hasSentBooking = false
+                            this.isWaiting = true
+                        } else {
+                            this.isWaiting = false
+                        }
+                        const confirmed = d.data().confirmedBookings
+                        if (confirmed.includes(this.recipient)) {
+                            this.isAccepted = true
+                            this.reviewing = true
+                        }
+                        const otherConfirmed = doc.data().confirmedBookings
+
+                        if (otherConfirmed.includes(this.uid)) {
+                            this.isAccepted = true
+                            this.reviewing = false
+                        }
+                    })
+                })
+
+            })
+        },
+        async sendBooking() {
+            const q = query(collection(db, "users"), where("uid", "==", this.uid))
+            getDocs(q).then((qs) => {
+                qs.forEach((d) => {
+                    const pending = d.data().pendingBookings
+                    const userRef = doc(db, "users", d.id)
+                    pending.push(this.recipient)
+                    updateDoc(userRef, {
+                        pendingBookings: pending
+                    }).then(() => {
+                        this.hasSentBooking = true
+                    })
+                })
+            })
+        },
+        async acceptBooking() {
+            const q = query(collection(db, "users"), where("uid", "==", this.recipient))
+            getDocs(q).then((qs) => {
+                qs.forEach((d) => {
+                    const confirmed = d.data().confirmedBookings
+                    const pending = d.data().pendingBookings
+                    const idx = pending.indexOf(this.recipient)
+                    pending.splice(idx, 1)
+                    const userRef = doc(db, "users", d.id)
+                    confirmed.push(this.uid)
+                    updateDoc(userRef, {
+                        confirmedBookings: confirmed,
+                        pendingBookings: pending
+                    }).then(() => {
+                        this.isAccepted = true
+                    })
+                })
             })
         },
         getMessages() {
@@ -202,6 +367,7 @@ export default {
             this.getMessages();
             this.loadName();
             this.loadImage();
+            this.loadCard(this.uid)
         }
     },
     components: {
@@ -220,6 +386,43 @@ export default {
     overflow: auto;
 }
 
+.ratings {
+    font-size: 12px;
+    color: #75ACB4;
+}
+
+.booking-btn {
+    margin-top: 5%;
+    width: 40%;
+    margin-left: 30%;
+}
+
+.profile {
+    position: absolute;
+    top: 15%;
+    right: 5%;
+    height: 75%;
+    width: 25%;
+    background-color: #F1EFEF;
+}
+
+.heartBox {
+    margin-top: 20%;
+    width: 100%;
+}
+
+.details {
+    padding-left: 5%;
+}
+
+.profile img {
+    width: 40%;
+}
+
+.fa-heart {
+    width: 20px;
+}
+
 .chat-container {
     position: absolute;
     left: 27.5%;
@@ -228,6 +431,10 @@ export default {
     width: 40% !important;
     height: 75%;
     background-color: #f3f9fb;
+}
+
+.card-name {
+    font-size: 18px;
 }
 
 .chat-header {
@@ -285,7 +492,7 @@ export default {
     margin-right: 2%;
 }
 
-#send-btn:hover{
+#send-btn:hover {
     background: #1f5c64 !important;
 }
 
@@ -297,5 +504,4 @@ export default {
     height: 70%;
     margin-right: 2%;
 }
-
 </style>
