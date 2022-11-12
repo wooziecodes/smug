@@ -107,6 +107,13 @@ export default {
     goHome() {
       this.$router.push({ name: 'Listings' })
     },
+    Logout() {
+          firebase
+            .auth()
+            .signOut()
+            .then(() => console.log("Signed out"))
+            .catch(err => alert(err.message));
+        }
 
   }
 }
