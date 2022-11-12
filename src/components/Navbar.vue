@@ -1,5 +1,47 @@
 <template>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img class="logo" @click="goHome" />
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <!-- <a class="nav-link active" aria-current="page" href="#">Home</a> -->
+          <!-- <div class="nav-link input-container" aria-current="page"> -->
+          <input class="form-control" @focusin="searching = true" @focusout="searching = false" @keydown.enter="search" placeholder="Search for modules here" id="searchBar" type="text" v-model="searchStr"/>
+          <ul class="dropdown" id="dropdown" v-if="searching" style="position:absolute">
+            <li class="dropdown-item" v-for="mod of modulesDropdown">{{mod}}</li>
+          </ul>
+          <!-- </div> -->
+        </li>
+        <li class="nav-item">
+          <!-- <a class="nav-link" href="#">Features</a> -->
+          <span class="nav-link greeting">Hi, {{ username }}</span>
+        </li>
+        <li class="nav-item">
+          <img :src="imgUrl" class="profile-pic" @click="this.$router.push('/profile')"/>
+        </li>
+
+        <li class="nav-item">
+          <!-- <a class="nav-link" href="#">Pricing</a> -->
+          <button class="nav-link logout" @click="Logout">Logout</button>
+
+        </li>
+        <li class="nav-item">
+          <!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> -->
+          <font-awesome-icon icon="fas fa-comment-dots" class="nav-link fa-chat" @click="openChat()" />
+
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  <!-- <div class="container-fluid">
     <div class="row">
       <nav class="navbar">
         
@@ -30,7 +72,7 @@
           
       </nav>
     </div>
-  </div>
+  </div> -->
 
 </template>
 <script>
@@ -130,7 +172,7 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
 
-.navbar {
+/* .navbar {
   font-family: "Open Sans";
   position: relative;
   display: flex;
@@ -138,13 +180,17 @@ export default {
   height: 10vh;
   max-height: 40px;
   align-items: center;
-}
+} */
 
 .logo {
   margin-left: 2%;
   height: 40px;
   content: url("../assets/images/smug-logo.png");
   cursor: pointer;
+}
+
+.form-control{
+  margin-top: 27px;
 }
 
 .profile-pic {
@@ -174,6 +220,7 @@ export default {
 
 .greeting {
   margin-left: 4%;
+  /* width: auto; */
   font-family: "Open Sans", sans-serif;
   font-size: 1rem;
   margin-right: 4%;
@@ -211,5 +258,8 @@ export default {
   text-transform: uppercase;
   transition: transform 80ms ease-in;
   margin-right: 10%;
+}
+.greeting{
+  /* width: 100px; */
 }
 </style>
