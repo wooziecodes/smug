@@ -11,56 +11,29 @@
     <span class="navbar-toggler-icon d-none"></span>
   </button>
   <div class="collapse navbar-collapse justify-content-between" id="navbar-list-8">
-    <!-- <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">About Us</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Blog</a>
-      </li>
-    </ul> -->
-    
+ 
     <div class="right-side d-flex">
       <form class="form-inline">
-        <!-- <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search"> -->
         <input class="form-control mr-2" @focusin="searching = true" @focusout="searching = false" @keydown.enter="search" placeholder="Search for modules here" id="searchBar" type="text" v-model="searchStr"/>
 
         <ul class="dropdown" id="dropdown" v-if="searching" style="position:absolute">
             <li class="dropdown-item" v-for="mod of modulesDropdown">{{mod}}</li>
         </ul>
-        <!-- <font-awesome-icon  size="1x" icon="fas fa-comment-dots" class="fa-chat" @click="openChat()" /> -->
 
-        <!-- <button class="btn btn-info" type="submit"><i class="fas fa-search"></i></button> -->
       </form>
       <ul class="navbar-nav">
           <li class="nav-item">
-          <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
-            <!-- <font-awesome-icon  size="5x" icon="fas fa-comment-dots" class="fa-chat" @click="openChat()" /> -->
-
-
-          <!-- </a> -->
-          <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#">Dashboard</a>
-            <a class="dropdown-item" href="#">Edit Profile</a>
-            <a class="dropdown-item" href="#">Log Out</a>
-          </div> -->
         </li>   
       </ul>
     </div>
     
   </div>
-  <!-- <span class="greeting">Hi, {{ username }}</span> -->
   <font-awesome-icon icon="fas fa-comment-dots" class="fa-chat mr-2 fa-lg" style="width: min-content;" @click="openChat()" />
 
   <div class="right-side d-flex flex-row-reverse">
     <button class="btn logout" @click="Logout" type="button" id="start-btn">Logout</button>
 
-    <!-- <button class="logout" @click="Logout">Logout</button> -->
     <img :src="imgUrl" width="40" @click="goProfile()" height="40" class="profile-pic rounded-circle mr-2">
-    <!-- <font-awesome-icon icon="fas fa-comment-dots" size="lg" class="fa-chat" @click="openChat()" /> -->
   </div>
 </nav>
 

@@ -161,11 +161,12 @@ export default {
 .listing-container {
   border-radius: 5px;
   width: 25%;
-  height: 45vh;
+  height: 55vh;
   background-color: #f3f9fb;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   transition: box-shadow 0.3s;
   cursor: pointer;
+  margin: 20px;
 }
 
 .listing-container:hover {
