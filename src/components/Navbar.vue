@@ -78,7 +78,7 @@
 <script>
 import { db, auth, storage } from "../firebase/init"
 import { onAuthStateChanged } from "firebase/auth"
-import { getDocs, query, collection, where, onSnapshot } from "firebase/firestore"
+import { getDocs, query, collection, where, orderBy } from "firebase/firestore"
 import { ref, getDownloadURL, listAll } from "firebase/storage"
 import { onBeforeMount } from 'vue';
 import firebase from 'firebase/compat/app';
@@ -100,9 +100,7 @@ export default {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         this.loadUser(user.uid)
-      } else {
-        console.log("Not signed in")
-      }
+      } 
     })
     this.populateModules()
   },
@@ -138,7 +136,7 @@ export default {
       })
     },
     async populateModules() {
-      const q = query(collection(db, "module"))
+      const q = query(collection(db, "module"), orderBy("code"))
       const querySnapshot = await getDocs(q)
       querySnapshot.forEach((doc) => {
         var modName = doc.data().name
@@ -162,7 +160,10 @@ export default {
           firebase
             .auth()
             .signOut()
-            .then(() => console.log("Signed out"))
+            .then(() => {
+              console.log("Signed out");
+              this.$router.push({ name: 'Landing' })
+            })
             .catch(err => alert(err.message));
         }
 

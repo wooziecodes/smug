@@ -1,5 +1,6 @@
 <template>
   <Navbar @search="search" @searchedMods="loadSearchedMods"></Navbar>
+  <!-- <Navbar></Navbar> -->
   <div class="search-results container">
     <span class="results" v-if="searched">search results for "{{ searchStr }}"</span>
     <div class="filter-container d-flex align-items-center">
