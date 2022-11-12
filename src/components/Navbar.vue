@@ -1,45 +1,92 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">
+
+
+
+<nav class="navbar navbar-dark bg-white navbar-expand-md mt-3">
+  <a class="navbar-brand" href="#">
+    <img class="logo" @click="goHome" />
+
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-8" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon d-none"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-between" id="navbar-list-8">
+    <!-- <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">About Us</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Blog</a>
+      </li>
+    </ul> -->
+    
+    <div class="right-side d-flex">
+      <form class="form-inline">
+        <!-- <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search"> -->
+        <input class="form-control mr-2" @focusin="searching = true" @focusout="searching = false" @keydown.enter="search" placeholder="Search for modules here" id="searchBar" type="text" v-model="searchStr"/>
+
+        <ul class="dropdown" id="dropdown" v-if="searching" style="position:absolute">
+            <li class="dropdown-item" v-for="mod of modulesDropdown">{{mod}}</li>
+        </ul>
+        <!-- <font-awesome-icon  size="1x" icon="fas fa-comment-dots" class="fa-chat" @click="openChat()" /> -->
+
+        <!-- <button class="btn btn-info" type="submit"><i class="fas fa-search"></i></button> -->
+      </form>
+      <ul class="navbar-nav">
+          <li class="nav-item">
+          <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
+            <!-- <font-awesome-icon  size="5x" icon="fas fa-comment-dots" class="fa-chat" @click="openChat()" /> -->
+
+
+          <!-- </a> -->
+          <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="#">Dashboard</a>
+            <a class="dropdown-item" href="#">Edit Profile</a>
+            <a class="dropdown-item" href="#">Log Out</a>
+          </div> -->
+        </li>   
+      </ul>
+    </div>
+    
+  </div>
+  <!-- <span class="greeting">Hi, {{ username }}</span> -->
+  <font-awesome-icon icon="fas fa-comment-dots" class="fa-chat" @click="openChat()" />
+
+  <div class="right-side d-flex flex-row-reverse">
+    <button class="btn logout" @click="Logout" type="button" id="start-btn">Logout</button>
+
+    <!-- <button class="logout" @click="Logout">Logout</button> -->
+    <img :src="imgUrl" width="40" height="40" class="rounded-circle mr-2">
+    <!-- <font-awesome-icon icon="fas fa-comment-dots" size="lg" class="fa-chat" @click="openChat()" /> -->
+  </div>
+</nav>
+
+  <!-- <nav class="navbar .ml-auto navbar-dark bg-light navbar-expand-sm mt-3">
+    <a href="#" class="navbar-brand">
       <img class="logo" @click="goHome" />
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <div class="nav-item">
-          <!-- <a class="nav-link active" aria-current="page" href="#">Home</a> -->
-          <!-- <div class="nav-link input-container" aria-current="page"> -->
+
+
+    <div class="input-container ml-auto">
           <input class="form-control" @focusin="searching = true" @focusout="searching = false" @keydown.enter="search" placeholder="Search for modules here" id="searchBar" type="text" v-model="searchStr"/>
           <ul class="dropdown" id="dropdown" v-if="searching" style="position:absolute">
             <li class="dropdown-item" v-for="mod of modulesDropdown">{{mod}}</li>
           </ul>
-          <!-- </div> -->
-        </div>
-        <div class="nav-item">
-          <!-- <a class="nav-link" href="#">Features</a> -->
-          <span class="nav-link greeting">Hi, {{ username }}</span>
-        </div>
-        <div class="nav-item">
-          <img :src="imgUrl" class="profile-pic" @click="this.$router.push('/profile')"/>
-        </div>
+          </div>
+    <span>
+      Hi, {{username}}
+    </span>
+    <span class="custom-navbar-image ml-auto">
+      <img :src="imgUrl" width="40" height="40" class="rounded-circle">
+    </span>
+    <button class="logout" @click="Logout">Logout</button>
+    <font-awesome-icon icon="fas fa-comment-dots" class="fa-chat" @click="openChat()" />
 
-        <div class="nav-item">
-          <!-- <a class="nav-link" href="#">Pricing</a> -->
-          <button class="nav-link logout" @click="Logout">Logout</button>
 
-        </div>
-        <div class="nav-item">
-          <!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> -->
-          <font-awesome-icon icon="fas fa-comment-dots" class="nav-link fa-chat" @click="openChat()" />
-
-        </div>
-      </ul>
-    </div>
-  </div>
-</nav>
+  </nav> -->
 
   <!-- <div class="container-fluid">
     <div class="row">
@@ -191,11 +238,11 @@ export default {
 }
 
 .form-control{
-  margin-top: 27px;
+  /* margin-top: 27px; */
 }
 
 .profile-pic {
-  width: 23%;
+  width: 45px;
   height: 85%;
   border-radius: 50%;
 }
@@ -232,7 +279,7 @@ export default {
   height: 60%;
   color: #75acb4;
   cursor: pointer;
-  width: 15%;
+  width: 20%;
 }
 
 .fa-bookmark {
@@ -240,7 +287,7 @@ export default {
 }
 
 .fa-chat {
-  margin-left: 2%;
+  /* margin-left: 2%; */
   /* margin-top: 5%; */
   /* width: 40px; */
   /* size: 2vh; */
@@ -249,16 +296,16 @@ export default {
   font-family: "Open Sans";
 
   border-radius: 10px;
-  border: 1px solid #1F5C64;
+  /* border: 1px solid #1F5C64; */
   background-color: #1F5C64;
   color: #ffffff;
   font-size: 1rem;
   /* font-weight: bold; */
-  padding: 5px 10px;
+  padding: 0px 5px;
   letter-spacing: 1px;
   text-transform: uppercase;
   transition: transform 80ms ease-in;
-  margin-right: 10%;
+  /* margin-right: 10%; */
 }
 .greeting{
   /* width: 100px; */
