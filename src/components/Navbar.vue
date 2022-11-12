@@ -39,7 +39,7 @@
       <img :src="imgUrl" class="profile-pic" @click="this.$router.push('/profile')"/>
       <p class="greeting" style="margin-bottom: 0px" @click="this.$router.push('/profile')">Hi, {{ username }}</p>
   
-    <img :src="require('../assets/images/message-btn.png')" style="max-width: 100%; max-height: 100%;" @click="openChat()" id="message-btn" />
+    <img :src="require('../assets/images/message-btn.svg')" style="max-width: 100%; max-height: 100%;" @click="openChat()" id="message-btn" />
     
     
   
@@ -285,5 +285,9 @@
   
   .dropdown-item:hover{
     background-color: #CEE1E6 !important;
+  }
+
+  #message-btn:hover{
+    fill: #1F5C64;
   }
   </style>
