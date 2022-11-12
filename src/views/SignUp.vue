@@ -105,7 +105,8 @@ export default {
     let LogInError = ref(false);
 
     const SignUp = () => {
-      createUserWithEmailAndPassword(auth, email.value, password.value)
+      if(password.value == check_password.value){
+        createUserWithEmailAndPassword(auth, email.value, password.value)
         .then((data) => {
           alert("You have successfully signed up!");
           const newUser = {
@@ -118,7 +119,7 @@ export default {
           }
           const usersRef = collection(db, "users")
           setDoc(doc(usersRef), newUser).then((res) => {
-            router.push({ name: "Listings" })
+            // router.push({ name: "Listings" })
           });
           // console.log(password)
           // console.log(check_password)
@@ -159,6 +160,11 @@ export default {
               break;
           }
         });
+      } else {
+        SignUpError.value = true
+        SignUpErrMsg.value = "Two passwords do not match!";
+      }
+      
     };
 
 
