@@ -13,23 +13,131 @@
   </ul>
 </div> -->
 
+
+
+
+<div class="container" id="my-profile-wording">
+    <h1 id="profile-text" class="text-center mt-4">My Profile</h1>
+  </div>
+<div class="container-fluid mt-7">
+  <div class="card card-profile shadow mt-4">
+    <div class="row justify-content-center">
+      <div class="card-profile-image mt-3">
+        <div class="profilePic">
+
+
+            <!-- <img :src="photo" id="photo">
+              <label v-if="editing" for="photo-upload" class="editPhoto">
+                Edit Photo
+              </label>
+              <input type="file" accept="image/png, image/jpeg" id="photo-upload" style="display:none"
+                @change="changePhoto"> -->
+            <div class="profilepic mt-3 mb-3">
+              <img class="profilepic__image"
+                :src="photo"
+                width="300" height="300" alt="Profibild" />
+              <div v-if="editing" class="profilepic__content">
+                <label for="photo-upload">
+                <span class="profilepic__icon"><FontAwesomeIcon icon="fa-solid fa-camera"/></span>
+                <span class="profilepic__text">Edit Photo</span>
+              </label>
+                <input type="file" accept="image/png, image/jpeg" id="photo-upload" style="display:none"
+                @change="changePhoto">
+              </div>
+            </div>
+
+            <button type="button" class="btn" id="edit-button" v-if="!editing" @click="toggleEdit()">Edit Profile</button>
+            <button type="button" class="btn" id="save-button" v-if="editing" @click="updateData(userid)">Save
+              Profile</button>
+
+
+        </div>      
+      </div>
+    </div>
+    <div class="card-body pt-0 pt-md-4">
+      
+      <div class="row justify-content-center">
+            <div id="right-side">
+            <h1 v-text="name" id="name" class="text-center"></h1>
+            <div id="rating" class="text-center mb-2">{{ rating }}
+              <font-awesome-icon icon="fa-solid fa-star" class="fa-star" />
+              | {{ ratingCount }} ratings
+            </div>
+            <br>
+            <table class="mb-3 ml-5 mr-5">
+              <!-- <tr>
+                  <th>Name</th>
+                  <td>{{name}}</td>
+                </tr> -->
+
+              <tr>
+                <th>Faculty</th>
+                <td v-if="!editing">{{ faculty }}</td>
+                <td v-if="editing"><input type="text" v-model="faculty"></td>
+              </tr>
+              <tr>
+                <th>Major</th>
+                <td v-if="!editing">{{ major }}</td>
+                <td v-if="editing"><input type="text" v-model="major"></td>
+              </tr>
+              <tr>
+                <th>Year</th>
+                <td v-if="!editing">{{ year }}</td>
+                <td v-if="editing"><input type="text" v-model="year"></td>
+              </tr>
+              <tr>
+                <th>Email</th>
+                <td v-if="!editing">{{ email }}</td>
+                <td v-if="editing"><input type="text" v-model="email"></td>
+              </tr>
+              <tr>
+                <th>Payment method</th>
+                <td v-if="!editing && payment == ''">Unspecified</td>
+                <td v-if="!editing">{{ payment }}</td>
+                <td v-if="editing">
+                  <select v-model="payment">
+                    <option>PayLah</option>
+                    <option>PayNow</option>
+                    <option>Cash</option>
+                  </select>
+                </td>
+
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td v-if="!editing">{{ description }}</td>
+                <td v-if="editing"><textarea v-model="description" id="desc" name="desc"></textarea></td>
+              </tr>
+            </table>
+
+
+
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- 
+
+
+
+
+
   <div class="container" id="my-profile-wording">
     <h1 id="profile-text">My Profile</h1>
   </div>
   <div class="listings-container container d-flex" id="profile" style="display:flex">
 
     <div id="left-side">
-      <!-- this is 30% -->
 
       <div class="profilePic">
 
-
-        <!-- <img :src="photo" id="photo">
-          <label v-if="editing" for="photo-upload" class="editPhoto">
-            Edit Photo
-          </label>
-          <input type="file" accept="image/png, image/jpeg" id="photo-upload" style="display:none"
-            @change="changePhoto"> -->
         <div class="profilepic">
           <img class="profilepic__image" :src="photo" width="150" height="150" alt="Profibild" />
           <div v-if="editing" class="profilepic__content">
@@ -51,9 +159,6 @@
 
       </div>
 
-
-
-
     </div>
 
     <div id="right-side">
@@ -64,11 +169,6 @@
       </div>
       <br>
       <table>
-        <!-- <tr>
-            <th>Name</th>
-            <td>{{name}}</td>
-          </tr> -->
-
         <tr>
           <th>Faculty</th>
           <td v-if="!editing">{{ faculty }}</td>
@@ -100,7 +200,6 @@
               <option>Cash</option>
             </select>
           </td>
-
         </tr>
         <tr>
           <th>Description</th>
@@ -108,17 +207,54 @@
           <td v-if="editing"><textarea v-model="description" id="desc" name="desc"></textarea></td>
         </tr>
       </table>
-
-
-
     </div>
+  </div> -->
 
+
+
+  <!-- <div class="container" id="my-profile-wording">
+    <h1 id="profile-text" class="text-center mt-4">My Profile</h1>
   </div>
+<div class="container-fluid mt-7">
+  <div class="card card-profile shadow mt-4">
+    <div class="row">
+      <div class="col-6">
+          <ListingComponent v-for="listing in listings" class="listing-component" :id="listing.id" :tutor="listing.user"
+            :code="listing.module" :prof="listing.prof" :price="listing.price" :userID="listing.userID" :isOwn="true">
+      </ListingComponent>
+
+      </div>
+      <div class="col-6 justify-content-left">
+          <div v-if="!adding" class="add-module-container" id="add-new" @click="toggleAdd()">
+            <div class="plus-sign">
+              <font-awesome-icon icon="fa-solid fa-plus" size="6x" />
+              <div style="text-align:center; color:white; margin-top:10px;">Add listing</div>
+            </div>
+          </div>
+
+          <div v-if="adding" class="add-module-container">
+            <div class="container" id="add-module-input">
+              <img :src="require('../assets/images/add-listing.png')"
+                style="width:100%; max-height: 119px; max-width: 104.2px; margin-bottom: 8px;">
+              <input class="add-fields" type="text" placeholder="Mod">
+
+              <input class="add-fields" type="text" placeholder="Prof">
+
+              <input class="add-fields" type="text" placeholder="Price">
+
+              <button class="btn" id="add-listing-btn" @click="toggleAdd()">Add listing</button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
   <div class="container" id="my-profile-wording">
-    <h1 id="profile-text">My Listings</h1>
+    <h1 id="profile-text" class="text-center mt-4">My Listings</h1>
   </div>
 
-  <div class="listings-container container d-flex flex-wrap">
+  <div class="listings-container container d-flex mt-4">
 
     <ListingComponent v-for="listing in listings" class="listing-component" :id="listing.id" :tutor="listing.user"
       :code="listing.module" :prof="listing.prof" :price="listing.price" :userID="listing.userID" :isOwn="true">
@@ -134,7 +270,6 @@
     </div>
 
     <div v-if="adding" class="add-module-container">
-
       <div class="container" id="add-module-input">
         <img :src="require('../assets/images/add-listing.png')"
           style="width:100%; max-height: 119px; max-width: 104.2px; margin-bottom: 8px;">
@@ -146,8 +281,6 @@
 
         <button class="btn" id="add-listing-btn" @click="toggleAdd()">Add listing</button>
       </div>
-
-
     </div>
   </div>
 
@@ -336,8 +469,10 @@ th {
   white-space: nowrap;
   vertical-align: top;
   text-align: left;
-  font-weight: bold;
+  font-weight: bolder;
+  font-style: italic;
   width: fixed;
+  padding-right: 40px;
 }
 
 td {
@@ -351,6 +486,7 @@ input {
 }
 
 #name {
+  margin-top: 30px;
   font-weight: bolder;
   color: #75ACB4
 }
@@ -361,7 +497,10 @@ input {
   background-color: #75ACB4 !important;
   color: white;
 }
-
+.card {
+  margin-left: 40px;
+  margin-right: 40px;
+}
 #save-button {
   width: 100%;
   margin-top: 10px;
@@ -411,8 +550,8 @@ input {
 .profilepic {
   position: relative;
   margin: auto;
-  width: 125px;
-  height: 125px;
+  width: 300px;
+  height: 300px;
   border-radius: 50%;
   overflow: hidden;
   background-color: #111;
@@ -477,6 +616,8 @@ input {
 }
 
 #profile-text {
+  position: sticky;
+  margin-left: 40px;
   color: #1F5C64;
   font-weight: bold;
 }
@@ -491,8 +632,8 @@ input {
   cursor: pointer;
   margin-left: 2%;
   text-align: center;
-  padding: 10px;
-
+  padding-top: 50px;
+  /* margin: 10px; */
 }
 
 .add-module-container:hover {
@@ -544,6 +685,7 @@ input {
 
 .listings-container {
   margin-top: 0%;
+  /* margin-left: 55px; */
 }
 
 #add-module-input {
