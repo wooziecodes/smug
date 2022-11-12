@@ -95,10 +95,6 @@ export default {
     return {
       username: "",
       imgUrl: "",
-      searchStr: "",
-      modules: [],
-      modulesDropdown: [],
-      searching: false,
       chatBtnSrc: require('../assets/images/message-btn.svg')
     }
   },
@@ -108,17 +104,6 @@ export default {
         this.loadUser(user.uid)
       }
     })
-    this.populateModules()
-  },
-  watch: {
-    searchStr(value) {
-      this.modulesDropdown = []
-      for (var mod of this.modules) {
-        if (mod.toLowerCase().includes(value.toLowerCase())) {
-          this.modulesDropdown.push(mod)
-        }
-      }
-    }
   },
   methods: {
     async loadUser(uid) {
@@ -140,21 +125,6 @@ export default {
             })
           })
       })
-    },
-    async populateModules() {
-      const q = query(collection(db, "module"), orderBy("code"))
-      const querySnapshot = await getDocs(q)
-      querySnapshot.forEach((doc) => {
-        var modName = doc.data().name
-        var modCode = doc.data().code
-        var modStr = modCode + ": " + modName
-        this.modules.push(modStr)
-      })
-    },
-    search() {
-      this.$router.push({ name: "Listings", params: { query: this.searchStr } })
-      this.$emit("search", this.searchStr)
-      this.$emit("searchedMods", this.modulesDropdown)
     },
     openChat() {
       this.$router.push({ name: 'Chat' })
