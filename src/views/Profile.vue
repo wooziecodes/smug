@@ -17,7 +17,7 @@
     <h1 id="profile-text">My Profile</h1>
   </div>
   <div class="listings-container container d-flex" id="profile" style="display:flex">
-    
+
     <div id="left-side">
       <!-- this is 30% -->
 
@@ -28,12 +28,13 @@
           Edit Photo
         </label>
         <input type="file" accept="image/png, image/jpeg" id="photo-upload" style="display:none" @change="changePhoto">
+
+        <button type="button" class="btn" id="edit-button" v-if="!editing" @click="toggleEdit()">Edit Profile</button>
+        <button type="button" class="btn" id="save-button" v-if="editing" @click="updateData(userid)">Save
+          Profile</button>
       </div>
 
-      <button type="button" class="btn" id="edit-button" v-if="!editing"
-        @click="toggleEdit()">Edit Profile</button>
-      <button type="button" class="btn" id="save-button" v-if="editing"
-        @click="updateData(userid)">Save Profile</button>
+
 
 
     </div>
@@ -87,8 +88,7 @@
         <tr>
           <th>Description</th>
           <td v-if="!editing">{{ description }}</td>
-          <td v-if="editing"><textarea v-model="description" id="w3review" name="w3review" rows="4"
-              cols="66"></textarea></td>
+          <td v-if="editing"><textarea v-model="description" id="desc" name="desc"></textarea></td>
         </tr>
       </table>
 
@@ -107,26 +107,38 @@
       :code="listing.module" :prof="listing.prof" :price="listing.price" :userID="listing.userID" :isOwn="true">
     </ListingComponent>
 
-    <div class="add-module-container">
 
-      <img :src="require('../assets/images/add-listing.png')"/>
+    <div v-if="!adding" class="add-module-container" id="add-new" @click="toggleAdd()">
+      <div class="plus-sign">
+        <font-awesome-icon icon="fa-solid fa-plus" size="6x"/>
+        <div style="text-align:center; color:white; margin-top:10px;">Add listing</div>
+      </div>
+      
+    </div>
 
-      <input type="text" placeholder="Mod">
+    <div v-if="adding" class="add-module-container">
+      <img :src="require('../assets/images/add-listing.png')" style="width:100%; margin-bottom: 8px;">
+      <div class="container" id="add-module-input">
+        
+        <input class="add-fields" type="text" placeholder="Mod">
 
-      <input type="text" placeholder="Prof">
-    
-      <input type="text" placeholder="Price">
+        <input class="add-fields" type="text" placeholder="Prof">
 
-      <button class="btn" id="add-listing-btn">Add listing!</button>
+        <input class="add-fields" type="text" placeholder="Price">
+
+        <button class="btn" id="add-listing-btn" @click="toggleAdd()">Add listing</button>
+      </div>
+
+
     </div>
   </div>
 
   <div class="about-shape-2">
-      <img :src="require('../assets/images/about-shape-2.svg')"/>
+    <img :src="require('../assets/images/about-shape-2.svg')" />
   </div>
 
   <div class="about-shape-1">
-      <img :src="require('../assets/images/about-shape-1.svg')"/>
+    <img :src="require('../assets/images/about-shape-1.svg')" />
   </div>
 
 
@@ -158,7 +170,8 @@ export default {
       description: "",
       editing: false,
       id: "",
-      imgName: ""
+      imgName: "",
+      adding: false
     };
   },
   created() {
@@ -243,6 +256,14 @@ export default {
         this.editing = true;
       }
     },
+    toggleAdd() {
+      if (this.adding) {
+        this.adding = false;
+      }
+      else {
+        this.adding = true;
+      }
+    },
     async changePhoto(event) {
       console.log(event.target.files[0]);
       const imageRef = ref(storage, "users/" + this.imgName)
@@ -273,12 +294,14 @@ export default {
 
 #left-side {
   width: 40%;
-  margin-right: 2%
+  margin-right: 2%;
+  position: relative;
 }
 
 #photo {
-  width: 100%;
+  width: 100px;
   border-radius: 10%;
+
   margin-bottom: 10px;
 
 }
@@ -304,12 +327,17 @@ th {
   vertical-align: top;
   text-align: left;
   font-weight: bold;
+  width: fixed;
 }
 
 td {
   text-align: left;
   padding-left: 10px;
   width: fixed;
+}
+
+input {
+  width: 100%;
 }
 
 #name {
@@ -324,12 +352,11 @@ td {
   color: white;
 }
 
-#save-button{
+#save-button {
   width: 100%;
   margin-top: 10px;
   background-color: #75ACB4 !important;
   color: white
-
 }
 
 #edit-button:hover {
@@ -344,6 +371,10 @@ td {
 
 .profilePic {
   position: relative;
+  text-align: center;
+  margin: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .profilePic .editPhoto {
@@ -361,17 +392,17 @@ td {
   display: none;
 }
 
-.profilePic:hover .editPhoto {
+#photo:hover .editPhoto {
   display: block;
   background-color: #1F5C64 !important;
 }
 
-#my-profile-wording{
+#my-profile-wording {
   margin-top: 3%;
   margin-bottom: 1%
 }
 
-#profile-text{
+#profile-text {
   color: #1F5C64;
   font-weight: bold;
 }
@@ -380,25 +411,34 @@ td {
   border-radius: 5px;
   width: 18%;
   height: 45vh;
-  background-color: #ececec;
+  background-color: #f3f9fb;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   transition: box-shadow 0.3s;
   cursor: pointer;
   margin-left: 2%;
   text-align: center;
   padding: 10px;
+
 }
 
 .add-module-container:hover {
   box-shadow: #5b6060 0px 2px 6px;
+  
 }
 
-#add-listing-btn{
-  width: 100%
+#add-listing-btn {
+  width: 100%;
+  background-color: #75ACB4 !important;
+  color: white;
 }
 
-#add-listing-btn:hover{
+#add-listing-btn:hover {
   box-shadow: #5b6060 0px 2px 6px;
+}
+
+.fa-plus {
+  color:white;
+  width: 100%
 }
 
 .about-shape-2 {
@@ -428,13 +468,34 @@ td {
   color: #1F5C64
 }
 
-.listings-container{
+.listings-container {
   margin-top: 0%;
 }
 
-#my-profile-wording{
+#add-module-input {
+  padding: 0;
+
+  
+}
+.add-fields {
+  margin-bottom: 8px;
+}
+
+#my-profile-wording {
   margin-top: 2%
 }
 
+#add-new {
+  background-color: #75ACB4 !important;
+  position: relative;
+}
+
+.plus-sign {
+  position: relative;
+  text-align: center;
+  margin: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
 </style>
 
