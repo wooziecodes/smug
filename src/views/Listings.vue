@@ -68,7 +68,6 @@ export default {
         console.log("Not signed in")
       }
     })
-
   },
   methods: {
     async getListings(uid) {
@@ -172,11 +171,6 @@ export default {
             })
           })
       }
-    }
-  },
-  watch: {
-    $route() {
-      this.getListings(this.uid)
     }
   },
   components: { ListingComponent, Navbar },
