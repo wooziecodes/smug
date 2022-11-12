@@ -13,7 +13,7 @@
   <div class="search-results container">
     <span class="results" v-if="searched">search results for "{{ searchStr }}"</span>
     <div class="filter-container d-flex align-items-center">
-      <div class="sort-container d-flex justify-content-between">
+      <div class="sort-container d-flex justify-content-between mb-5">
         <button type="button" class="btn btn-light" :class="{ active: isAll }" @click="getListings(uid)">All
           listings</button>
         <div class="vertical-rule"></div>
@@ -67,7 +67,6 @@ export default {
       searched: false,
       searchMods: [],
       searching: true,
-      modulesDropdown: [1,2,3,4],
     };
   },
   created() {
