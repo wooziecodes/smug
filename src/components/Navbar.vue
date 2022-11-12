@@ -2,9 +2,9 @@
 
 
   <!-- Choi's work -->
-  <nav class="navbar navbar-dark bg-white navbar-expand-md mt-3">
+  <nav class="navbar navbar-dark bg-white navbar-expand-md mt-3 mb-3">
     <a class="navbar-brand" href="#">
-      <img class="logo" @click="goHome" />
+      <img class="logo ml-3" @click="goHome" />
 
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-8"
@@ -33,7 +33,7 @@
     <img :src="imgUrl" class="profile-pic" @click="this.$router.push('/profile')" />
     <p class="greeting" style="margin-bottom: 0px">Hi, {{ username }}</p>
 
-    <img class="icon-msg" :src="chatBtnSrc" @mouseenter="onHover" @mouseleave="onHover" style="max-width: 100%; max-height: 100%; width: 30px;"
+    <img class="icon-msg" :src="chatBtnSrc" @mouseenter="onHover" @mouseleave="onHover" style="max-width: 100%; max-height: 100%; width: 30px; height: 31px;"
       @click="openChat()" id="message-btn" />
 
 
