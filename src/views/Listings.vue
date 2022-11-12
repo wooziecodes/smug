@@ -1,6 +1,15 @@
 <template>
   <Navbar @search="search" @searchedMods="loadSearchedMods"></Navbar>
   <!-- <Navbar></Navbar> -->
+  <div class="input-container mt-5">
+          <input class="searchBar form-control" style="width: 393px;" @focusin="searching = true" @focusout="searching = false" @keydown.enter="search"
+            placeholder="Search for modules here" id="searchBar" type="text" v-model="searchStr" />
+
+          <ul class="dropdown" id="dropdown" v-if="searching" style="position:absolute">
+            <li class="dropdown-item shadow" v-for="mod of modulesDropdown">{{ mod }}</li>
+          </ul>
+  </div>
+
   <div class="search-results container">
     <span class="results" v-if="searched">search results for "{{ searchStr }}"</span>
     <div class="filter-container d-flex align-items-center">
@@ -56,7 +65,9 @@ export default {
       isBookmark: false,
       searchStr: "",
       searched: false,
-      searchMods: []
+      searchMods: [],
+      searching: true,
+      modulesDropdown: [1,2,3,4],
     };
   },
   created() {
