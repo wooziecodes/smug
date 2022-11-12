@@ -261,4 +261,8 @@ export default {
 .wave .shape-fill {
   fill: #F3F9FB;
 }
+.lmao {
+  color: white;
+}
 </style>
+<!-- fdsafdsa -->
