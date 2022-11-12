@@ -32,7 +32,7 @@ const routes = [
     },
   },
   {
-    path: '/listings',
+    path: '/listings/:query?',
     name: 'Listings',
     component: Listings
   },

@@ -2,12 +2,10 @@
   <nav class="navbar">
     <img class="logo" @click="goHome" />
     <div class="input-container">
-      <input class="form-control" @focusin="searching = true" @focusout="searching = false" placeholder="Search for modules here" id="searchBar" type="text" v-model="searchStr"/>
+      <input class="form-control" @focusin="searching = true" @focusout="searching = false" @keydown.enter="search" placeholder="Search for modules here" id="searchBar" type="text" v-model="searchStr"/>
       <ul class="dropdown" id="dropdown" v-if="searching">
         <li class="dropdown-item" v-for="mod of modulesDropdown">{{mod}}</li>
       </ul>
-
-
       <!-- <div class="dropdown">
         <ul class="dropdown-menu">
           <li><a v-for="mod in modules" class="dropdown-item" href="#">{{mod}}</a></li>
@@ -21,7 +19,7 @@
       
     </div>
     <span class="greeting">Hi, {{ username }}</span>
-    <img :src="imgUrl" class="profile-pic" />
+    <img :src="imgUrl" class="profile-pic" @click="this.$router.push('/profile')"/>
     <button class="logout" @click="Logout">Logout</button>
     <font-awesome-icon icon="fas fa-comment-dots" class="fa-chat" @click="openChat()" />
   </nav>
@@ -88,7 +86,7 @@ export default {
           })
       })
     },
-    async populateModules(){
+    async populateModules() {
       const q = query(collection(db, "module"))
       const querySnapshot = await getDocs(q)
       querySnapshot.forEach((doc) => {
@@ -97,6 +95,11 @@ export default {
         var modStr = modCode + ": " + modName
         this.modules.push(modStr)
       })
+    },
+    search() {
+      this.$router.push({ name: "Listings", params: { query: this.searchStr }})
+      this.$emit("search", this.searchStr)
+      this.$emit("searchedMods", this.modulesDropdown)
     },
     openChat() {
       this.$router.push({ name: 'Chat' })
@@ -128,6 +131,10 @@ export default {
 .profile-pic {
   height: 85%;
   border-radius: 50%;
+}
+
+.profile-pic:hover {
+  cursor: pointer;
 }
 
 .input-container {
