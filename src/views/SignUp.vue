@@ -1,10 +1,12 @@
 <template>
 
   <div id="body">
+    <!-- <img class="logo_img" alt="" style="width:30%"> -->
+
     <div class="container" id="container">
       <div class="form-container sign-up-container">
         <form @submit.prevent="SignUp" action="#">
-          <h1>Create Account</h1>
+          <h2>Create Account</h2>
           <div class="social-container">
             <div class="errorMsg" v-if="SignUpError">
               {{ SignUpErrMsg }}
@@ -25,7 +27,8 @@
       </div>
       <div class="form-container sign-in-container">
         <form @submit.prevent="Login" action="#">
-          <h1>Sign in</h1>
+          
+          <h2>Sign in</h2>
           <div class="social-container">
             <div class="errorMsg" v-if="LogInError" style="margin-bottom:5px">
               {{ LogInErrMsg }}
@@ -49,17 +52,20 @@
       <div class="overlay-container">
         <div class="overlay">
           <div class="overlay-panel overlay-left">
-            <h1>Welcome Back to Smugger!</h1>
+            <img class="logo_img" alt="">
+            <h2>Welcome Back!</h2>
             <p>
               To keep connected with us please login with your personal info
             </p>
-            <button class="ghost btn" style="color:white" id="signIn">Sign In</button>
+            <button class="submit_button_ghost ghost" style="font-family: 'Open Sans'; border-radius: 8px;" id="signIn">Sign In</button>
           </div>
           <div class="overlay-panel overlay-right">
             <!-- <img src="../../images/logo.png" style="margin-left:50px" alt=""> -->
-            <h1>Hello, Friend!</h1>
+            <img class="logo_img" alt="">
+
+            <h2>Hello, Smuggers!</h2>
             <p>Enter your personal details and start journey with us</p>
-            <button class="ghost btn" style="color:white" id="signUp">Sign Up</button>
+            <button class="submit_button_ghost ghost" style="border-radius: 8px;" id="signUp">Sign Up</button>
           </div>
         </div>
       </div>
@@ -271,7 +277,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
 * {
   box-sizing: border-box;
 }
@@ -282,7 +289,7 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Open Sans";
   height: 100vh;
   /* margin: -20px 0 50px; */
 }
@@ -296,9 +303,9 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  font-family: "Montserrat", sans-serif;
+  /* font-family: "Montserrat", sans-serif; */
   height: 100vh;
-  margin: -20px 0 50px;
+  /* margin: -20px 0 50px; */
 }
 
 h1 {
@@ -350,10 +357,21 @@ button:focus {
   outline: none;
 }
 
-button.ghost {
-  background-color: transparent;
-  border-color: #ffffff;
+.submit_button_ghost {
+  background-color: white;
+  color: #1F5C64;
+  /* border-color: black; */
 }
+.submit_button_ghost:hover {
+  background-color: #1F5C64;
+  color: white;
+  border: 1px solid white;
+  /* border-color: black; */
+}
+/* .ghost:hover {
+  background-color: red;
+  color: yellow;
+} */
 
 form {
   background-color: #ffffff;
@@ -491,6 +509,23 @@ input:focus {
 .submit_button:hover {
   color: #1F5C64;
   background-color: white;
+  border: 1px solid #1F5C64;
+  /* width: 200px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    margin: 20px;
+    height: 55px;
+    text-align:center;
+    border: none;
+    background-size: 300% 100%;
+
+    border-radius: 50px;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out; */
 }
 
 .overlay-left {
@@ -569,8 +604,20 @@ footer a {
   background-position: 12px 11px;
 
 }
+.login-with-google-btn:hover {
+  background-color: #1F5C64;
+  color: white;
+}
 
 .errorMsg {
   color: red;
+}
+.logo_img {
+  content: url("../assets/images/smug-white.png");
+  /* width: 10000px; */
+  /* z-index: 1000; */
+  /* background-color: white; */
+  width: 70%;
+  margin-bottom: 23px;
 }
 </style>
