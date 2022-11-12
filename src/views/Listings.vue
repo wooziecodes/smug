@@ -266,10 +266,19 @@ export default {
 .wave .shape-fill {
   fill: #F3F9FB;
 }
-.lmao {
-  color: white;
-}
 
+
+
+@media only screen and (min-width: 1550px) {
+  .listing-component {
+    flex-basis: 20%;
+    margin-left: 3%;
+  }
+  .container {
+    /* max-width: 1700px !important; */
+    max-width: 1400px !important;
+  }
+}
 @media only screen and (max-width: 1200px) {
   .listing-component {
     flex-basis: 18%;
