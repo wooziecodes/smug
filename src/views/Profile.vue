@@ -271,13 +271,14 @@
 
     <div v-if="adding" class="add-module-container">
       <div class="container" id="add-module-input">
-        <img :src="require('../assets/images/add-listing.png')"
-          style="width:100%; max-height: 119px; max-width: 104.2px; margin-bottom: 8px;">
-        <input class="add-fields" type="text" placeholder="Mod">
+        <input type="file" ref="file" style="display: none" @change="loadPhoto" />
+        <img :src="listingImg" style="width:100%; max-height: 119px; max-width: 104.2px; margin-bottom: 8px;"
+          @click="$refs.file.click()">
+        <input class="add-fields" type="text" placeholder="Mod" v-model="newMod">
 
-        <input class="add-fields" type="text" placeholder="Prof">
+        <input class="add-fields" type="text" placeholder="Prof" v-model="newProf">
 
-        <input class="add-fields" type="text" placeholder="Price">
+        <input class="add-fields" type="text" placeholder="Price" v-model="newPrice">
 
         <button class="btn" id="add-listing-btn" @click="toggleAdd()">Add listing</button>
       </div>
@@ -299,10 +300,10 @@
 import ListingComponent from "../components/ListingComponent.vue";
 
 import { onAuthStateChanged } from "firebase/auth"
-import { query, collection, doc, where, getDocs, updateDoc } from "firebase/firestore"
+import { query, collection, doc, where, getDocs, updateDoc, addDoc } from "firebase/firestore"
 import { db, auth, storage } from "../firebase/init"
 import Navbar from '../components/Navbar.vue'
-import { ref, getDownloadURL, listAll, deleteObject, uploadBytes } from "firebase/storage"
+import { ref, getDownloadURL, listAll, deleteObject, uploadBytes, uploadString } from "firebase/storage"
 
 export default {
   data() {
@@ -322,7 +323,12 @@ export default {
       editing: false,
       id: "",
       imgName: "",
-      adding: false
+      adding: false,
+      listingImg: require("../assets/images/add-listing.png"),
+      pic: null,
+      newMod: "",
+      newProf: "",
+      newPrice: ""
     };
   },
   created() {
@@ -384,6 +390,7 @@ export default {
       const querySnap = await getDocs(query(collection(db, "users"),
         where("uid", "==", uid)
       ))
+
       const userData = {
         faculty: this.faculty,
         major: this.major,
@@ -399,7 +406,7 @@ export default {
         })
       })
     },
-    toggleEdit() {
+    async toggleEdit() {
       if (this.editing) {
         this.editing = false;
       }
@@ -407,16 +414,51 @@ export default {
         this.editing = true;
       }
     },
-    toggleAdd() {
+    async toggleAdd() {
       if (this.adding) {
-        this.adding = false;
+        if (this.newPrice.includes(".")) {
+          this.newPrice = parseFloat(this.newPrice)
+        } else {
+          this.newPrice = parseInt(this.newPrice)
+        }
+
+        console.log(this.newPrice)
+
+        const q = query(collection(db, "users"), where("uid", "==", this.userid))
+        const qs = await getDocs(q)
+        qs.forEach((d) => {
+          const newListing = {
+            module: this.newMod,
+            price: this.newPrice,
+            prof: this.newProf,
+            user: d.data().user,
+            userID: this.userid
+          }
+
+          addDoc(collection(db, "listings"), newListing).then((res) => {
+            if (this.pic == null) {
+              this.pic = require("../assets/images/add-listing.png")
+              const listingsRef = ref(storage, "listings/" + res.id)
+              uploadString(listingsRef, this.pic, 'data_url').then(() => {
+                alert("Listing created!")
+                this.adding = false;
+              })
+            } else {
+              const listingsRef = ref(storage, "listings/" + res.id)
+              uploadBytes(listingsRef, this.pic).then(() => {
+                alert("Listing created!")
+                this.adding = false;
+              })
+            }
+
+          })
+        })
       }
       else {
         this.adding = true;
       }
     },
     async changePhoto(event) {
-      console.log(event.target.files[0]);
       const imageRef = ref(storage, "users/" + this.imgName)
       deleteObject(imageRef).then(() => {
         const storageRef = ref(storage, "users/" + this.id)
@@ -425,6 +467,12 @@ export default {
           this.getUser(this.userid)
         })
       })
+    },
+    loadPhoto(e) {
+      this.pic = e.target.files[0]
+      var reader = new FileReader()
+      reader.readAsDataURL(this.pic)
+      reader.onload = () => (this.listingImg = reader.result)
     }
   },
   components: { ListingComponent, Navbar },
@@ -457,6 +505,10 @@ export default {
   width: 166px;
   height: 38px;
   margin-left: 20px
+}
+
+#add-module-input img {
+  /* content: url("../assets/images/add-listing.png") */
 }
 
 .desc {

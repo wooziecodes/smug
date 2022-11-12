@@ -130,7 +130,7 @@ export default {
       const querySnap = await getDocs(query(collection(db, "users")));
       querySnap.forEach((doc) => {
         if (doc.data().uid == this.uid) {
-          this.rating = doc.data().rating
+          this.rating = doc.data().rating.toFixed(2)
           this.userID = doc.id
         }
       });
