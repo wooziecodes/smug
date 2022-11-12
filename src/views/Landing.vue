@@ -19,8 +19,6 @@
 
 
               <font-awesome-icon icon="fa-thin fa-user" />
-
-
               <!-- <transition name="fade"> 
     <h2  v-if="scrolled" class="header-title animate__fadeIn" data-wow-duration="1.3s" data-wow-delay="0.5s" style="color:black">
                Find your next
@@ -28,8 +26,6 @@
               </h2>
    
   </transition> -->
-
-
               <h2 v-auto-animate class="header-title animate__fadeIn" data-wow-duration="1.3s" data-wow-delay="0.5s"
                 style="color:black; text-align: center;">
                 Find your next
@@ -41,12 +37,10 @@
 </Transition>
 
    -->
-
               <p class="animate__fadeInUp" data-wow-duration="4.3s" data-wow-delay="0.8s" style="color:black; text-align: center;">
                 Lorem ipsum dolor sit amet,
                 consetetur sadipscing elitr, sed diam nonumy eirmod tempor
               </p>
-
               <!-- <button class="main-btn animate__fadeIn" data-wow-duration="1.3s" data-wow-delay="1.1s"
                 v-on:click="this.$router.push('/login')">Get Started</button> -->
               <!-- <v-btn to="/newpage">Next Page</v-btn> -->

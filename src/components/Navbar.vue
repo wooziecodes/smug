@@ -9,7 +9,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item">
+        <div class="nav-item">
           <!-- <a class="nav-link active" aria-current="page" href="#">Home</a> -->
           <!-- <div class="nav-link input-container" aria-current="page"> -->
           <input class="form-control" @focusin="searching = true" @focusout="searching = false" @keydown.enter="search" placeholder="Search for modules here" id="searchBar" type="text" v-model="searchStr"/>
@@ -17,25 +17,25 @@
             <li class="dropdown-item" v-for="mod of modulesDropdown">{{mod}}</li>
           </ul>
           <!-- </div> -->
-        </li>
-        <li class="nav-item">
+        </div>
+        <div class="nav-item">
           <!-- <a class="nav-link" href="#">Features</a> -->
           <span class="nav-link greeting">Hi, {{ username }}</span>
-        </li>
-        <li class="nav-item">
+        </div>
+        <div class="nav-item">
           <img :src="imgUrl" class="profile-pic" @click="this.$router.push('/profile')"/>
-        </li>
+        </div>
 
-        <li class="nav-item">
+        <div class="nav-item">
           <!-- <a class="nav-link" href="#">Pricing</a> -->
           <button class="nav-link logout" @click="Logout">Logout</button>
 
-        </li>
-        <li class="nav-item">
+        </div>
+        <div class="nav-item">
           <!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> -->
           <font-awesome-icon icon="fas fa-comment-dots" class="nav-link fa-chat" @click="openChat()" />
 
-        </li>
+        </div>
       </ul>
     </div>
   </div>
@@ -219,11 +219,11 @@ export default {
 }
 
 .greeting {
-  margin-left: 4%;
+  /* margin-left: 4%; */
   /* width: auto; */
   font-family: "Open Sans", sans-serif;
-  font-size: 1rem;
-  margin-right: 4%;
+  /* font-size: 10px; */
+  /* margin-right: 4%; */
 }
 
 .fa-bookmark,

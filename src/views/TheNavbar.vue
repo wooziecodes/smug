@@ -43,13 +43,14 @@
                   <li class="nav-item">
                     <a class="page-scroll" href="#facts">Why</a>
                   </li>
+                  <li class="nav-item">
+                    <!-- <a class="main-btn" data-scroll-nav="0" href="#pricing">Login</a> -->
+                    <button class="btn" type="button" id="start-btn">Login</button>
+                  </li>
                 </ul>
               </div> <!-- navbar collapse -->
 
-              <div class="navbar-btn d-none d-sm-inline-block">
-                <!-- <a class="main-btn" data-scroll-nav="0" href="#pricing">Get Started</a> -->
-                <button type="button" class="btn" id="start-btn">Login</button>
-              </div>
+         
             </nav> <!-- navbar -->
           </div>
         </div> <!-- row -->
@@ -231,7 +232,9 @@ export default {
   -ms-transition: all 0.3s ease-out 0s;
   -o-transition: all 0.3s ease-out 0s;
   transition: all 0.3s ease-out 0s;
-  padding: 10px 0;
+  padding-top: 20px;
+  margin-top: 20px;
+  /* padding: 10px 0; */
   position: relative;
   font-family: "Poppins", sans-serif;
 }
@@ -309,7 +312,9 @@ export default {
     visibility: visible;
   }
 }
-
+.button {
+  /* padding: 10px 0px; */
+}
 .navbar-nav .nav-item .sub-menu li {
   display: block;
 }
@@ -325,6 +330,10 @@ export default {
   padding-left: 25px;
   color: #1F5C64;
 }
+
+/* .main-button {
+  background-color: #1F5C64;
+} */
 
 .navbar-nav .sub-nav-toggler {
   display: none;
@@ -440,6 +449,8 @@ export default {
 
 .page-scroll{
   color: black !important;
+  /* margin-top: 10px !important; */
+
 }
 
 </style>
