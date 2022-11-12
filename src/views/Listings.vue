@@ -1,15 +1,5 @@
 <template>
   <Navbar @search="search" @searchedMods="loadSearchedMods"></Navbar>
-  <!-- <Navbar></Navbar> -->
-  <div class="input-container mt-5">
-          <input class="searchBar form-control" style="width: 393px;" @focusin="searching = true" @focusout="searching = false" @keydown.enter="search"
-            placeholder="Search for modules here" id="searchBar" type="text" v-model="searchStr" />
-
-          <ul class="dropdown" id="dropdown" v-if="searching" style="position:absolute">
-            <li class="dropdown-item shadow" v-for="mod of modulesDropdown">{{ mod }}</li>
-          </ul>
-  </div>
-
   <div class="search-results container">
     <span class="results" v-if="searched">search results for "{{ searchStr }}"</span>
     <div class="filter-container d-flex align-items-center">
@@ -19,20 +9,7 @@
         <div class="vertical-rule"></div>
         <button type="button" class="btn btn-light" :class="{ active: isBookmark }"
           @click="filterBookmark">Bookmarked</button>
-        <!-- <button type="button" class="btn btn-light">Reviews</button>
-        <button type="button" class="btn btn-light">
-          <span>Price: High to Low</span>
-          <font-awesome-icon icon="fa-solid fa-chevron-down" />
-        </button>
-        <button type="button" class="btn btn-light">
-          <span> Price: Low to High</span>
-          <font-awesome-icon icon="fa-solid fa-chevron-up" />
-        </button> -->
       </div>
-      <!-- <button type="button" class="btn btn-light">
-        <span>More Filters</span>
-        <font-awesome-icon icon="fa-solid fa-filter" />
-      </button> -->
     </div>
   </div>
   <div class="listings-container container d-flex flex-wrap">
@@ -66,7 +43,8 @@ export default {
       searchStr: "",
       searched: false,
       searchMods: [],
-      searching: true,
+      searching: false,
+      modulesDropdown: [],
     };
   },
   created() {
@@ -74,8 +52,7 @@ export default {
       if (user) {
         this.uid = user.uid
         this.getListings(user.uid);
-      } else {
-        console.log("Not signed in")
+        this.populateModules()
       }
     })
   },
@@ -138,6 +115,16 @@ export default {
         })
       });
     },
+    async populateModules() {
+      const q = query(collection(db, "module"), orderBy("code"))
+      const querySnapshot = await getDocs(q)
+      querySnapshot.forEach((doc) => {
+        var modName = doc.data().name
+        var modCode = doc.data().code
+        var modStr = modCode + ": " + modName
+        this.modules.push(modStr)
+      })
+    },
     async filterBookmark() {
       this.searched = false
       this.isAll = false
@@ -180,6 +167,16 @@ export default {
               this.listings.push(listing);
             })
           })
+      }
+    }
+  },
+  watch: {
+    searchStr(value) {
+      this.modulesDropdown = []
+      for (var mod of this.modules) {
+        if (mod.toLowerCase().includes(value.toLowerCase())) {
+          this.modulesDropdown.push(mod)
+        }
       }
     }
   },

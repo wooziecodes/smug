@@ -1,6 +1,6 @@
 <template>
     <Navbar></Navbar>
-    <div class="chatList" >
+    <div class="chatList">
         <ChatComponent v-for="chat in chats" :id="chat" :user="uid" @toggleSelect="toggleSelect"></ChatComponent>
     </div>
     <div class="container chat-container" v-if="selected">
@@ -155,25 +155,34 @@ export default {
             const q = query(collection(db, "users"), where("uid", "==", this.uid))
             const querySnapshot = await getDocs(q)
             querySnapshot.forEach((d) => {
-                var currentRating = d.data().rating
-                var ratingCount = d.data().ratingCount
                 var confirmedBookings = d.data().confirmedBookings
-                console.log(d.data())
                 var idx = confirmedBookings.indexOf(this.recipient)
                 confirmedBookings.splice(idx, 1)
-
-                var total = currentRating * ratingCount
-                ratingCount += 1
-                total = (total + rating) / ratingCount
                 const userRef = doc(db, "users", d.id)
                 updateDoc(userRef, {
-                    confirmedBookings: confirmedBookings,
-                    rating: total,
-                    ratingCount: ratingCount
+                    confirmedBookings: confirmedBookings
                 }).then(() => {
-                    this.reviewing = false
-                    this.reviewed = true
+                    const q = query(collection(db, "users"), where("uid", "==", this.recipient))
+                    getDocs(q).then((querySnapshot) => {
+                        querySnapshot.forEach((docu) => {
+                            var currentRating = docu.data().rating
+                            var ratingCount = docu.data().ratingCount
+                            var total = currentRating * ratingCount
+                            ratingCount += 1
+                            total = (total + rating) / ratingCount
+                            const userRef = doc(db, "users", docu.id)
+                            updateDoc(userRef, {
+                                rating: total,
+                                ratingCount: ratingCount
+                            }).then(() => {
+                                this.reviewing = false
+                                this.reviewed = true
+                            })
+                        })
+
+                    })
                 })
+
             })
         },
         async loadChat(uid) {
@@ -252,44 +261,46 @@ export default {
         },
         async loadCard() {
             const q = query(collection(db, "users"), where("uid", "==", this.recipient))
-            const querySnapshot = await getDocs(q)
-            querySnapshot.forEach((doc) => {
-                this.major = doc.data().major
-                this.year = doc.data().year
-                this.rating = doc.data().rating.toFixed(2)
-                this.ratingCount = doc.data().ratingCount
-                this.description = doc.data().description
-                var q = query(collection(db, "users"), where("uid", "==", this.uid))
-                getDocs(q).then((qs) => {
-                    qs.forEach((d) => {
-                        const pending = d.data().pendingBookings
-                        if (pending.includes(this.recipient)) {
-                            this.hasSentBooking = true
-                        } else {
-                            this.hasSentBooking = false
-                        }
-                        const sent = doc.data().pendingBookings
-                        if (sent.includes(this.uid)) {
-                            this.hasSentBooking = false
-                            this.isWaiting = true
-                        } else {
-                            this.isWaiting = false
-                        }
-                        const confirmed = d.data().confirmedBookings
-                        if (confirmed.includes(this.recipient)) {
-                            this.isAccepted = true
-                            this.reviewing = true
-                        }
-                        const otherConfirmed = doc.data().confirmedBookings
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    this.major = doc.data().major
+                    this.year = doc.data().year
+                    this.rating = doc.data().rating.toFixed(2)
+                    this.ratingCount = doc.data().ratingCount
+                    this.description = doc.data().description
+                    var q = query(collection(db, "users"), where("uid", "==", this.uid))
+                    getDocs(q).then((qs) => {
+                        qs.forEach((d) => {
+                            const pending = d.data().pendingBookings
+                            if (pending.includes(this.recipient)) {
+                                this.hasSentBooking = true
+                            } else {
+                                this.hasSentBooking = false
+                            }
+                            const sent = doc.data().pendingBookings
+                            if (sent.includes(this.uid)) {
+                                this.hasSentBooking = false
+                                this.isWaiting = true
+                            } else {
+                                this.isWaiting = false
+                            }
+                            const confirmed = d.data().confirmedBookings
+                            if (confirmed.includes(this.recipient)) {
+                                this.isAccepted = true
+                                this.reviewing = true
+                            }
+                            const otherConfirmed = doc.data().confirmedBookings
 
-                        if (otherConfirmed.includes(this.uid)) {
-                            this.isAccepted = true
-                            this.reviewing = false
-                        }
+                            if (otherConfirmed.includes(this.uid)) {
+                                this.isAccepted = true
+                                this.reviewing = false
+                            }
+                        })
                     })
-                })
 
+                })
             })
+
         },
         async sendBooking() {
             const q = query(collection(db, "users"), where("uid", "==", this.uid))

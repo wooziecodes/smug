@@ -208,11 +208,6 @@ export default {
   cursor: pointer;
 }
 
-.form-control {
-  /* margin-top: 27px; */
-  /* width: 500px; */
-}
-
 .profile-pic {
   width: 40px;
   max-width: 100%;
@@ -241,11 +236,7 @@ export default {
 }
 
 .greeting {
-  /* margin-left: 4%; */
-  /* width: auto; */
   font-family: "Open Sans", sans-serif;
-  /* font-size: 10px; */
-  /* margin-right: 4%; */
   padding-left: 1%;
   padding-right: 1%
 }
@@ -262,31 +253,16 @@ export default {
   margin-left: 5%;
 }
 
-.fa-chat {
-  /* margin-left: 2%; */
-  /* margin-top: 5%; */
-  /* width: 40px; */
-  /* size: 2vh; */
-}
-
 .logout {
   font-family: "Open Sans";
-
   border-radius: 10px;
-  /* border: 1px solid #1F5C64; */
   background-color: #1F5C64;
   color: #ffffff;
   font-size: 1rem;
-  /* font-weight: bold; */
   padding: 0px 5px;
   letter-spacing: 1px;
   transition: transform 80ms ease-in;
-  /* margin-right: 10%; */
   margin-left: 1%;
-}
-
-.greeting {
-  /* width: 100px; */
 }
 
 .dropdown-item {
@@ -302,12 +278,6 @@ export default {
 }
 
 @media only screen and (max-width: 991px) {
-  body {
-    /* background-color: lightblue; */
-  }
-  /* .searchBar{
-    margin-top: 2vw;
-  } */
   .greeting {
     display: none;
   }
@@ -318,55 +288,34 @@ export default {
     margin-left: 2vw;
     margin-right: 1vw;
   }
-  /* .searchBar{
-    width: 10vw !important;
-  } */
 }
 @media only screen and (max-width: 958px) {
-  body {
-    /* background-color: lightblue; */
-  }
   .profile-pic{
     margin-left: 56vw;
   }
 }
 @media only screen and (max-width: 922px) {
-  body {
-    /* background-color: lightblue; */
-  }
   .profile-pic{
     margin-left: 54vw;
   }
 }
 @media only screen and (max-width: 908px) {
-  body {
-    /* background-color: lightblue; */
-  }
   .profile-pic{
     margin-left: 53vw;
   }
 
 }
 @media only screen and (max-width: 876px) {
-  body {
-    /* background-color: lightblue; */
-  }
   .profile-pic{
     margin-left: 50vw;
   }
 }
 @media only screen and (max-width: 823px) {
-  body {
-    /* background-color: lightblue; */
-  }
   .profile-pic{
     margin-left: 48vw;
   }
 }
 @media only screen and (max-width: 790px) {
-  body {
-    /* background-color: lightblue; */
-  }
   .searchBar{
     width: 30px;
   }
@@ -375,9 +324,6 @@ export default {
   }
 }
 @media only screen and (max-width: 768px) {
-  body {
-    /* background-color: lightblue; */
-  }
   .searchBar{
     width: 30px;
   }
@@ -386,9 +332,6 @@ export default {
   }
 }
 @media only screen and (max-width: 767px) {
-  body {
-    /* background-color: lightblue; */
-  }
   .searchBar{
     width: 30px;
   }
@@ -397,10 +340,6 @@ export default {
   }
 }
 @media only screen and (max-width: 740px) {
-  body {
-    /* background-color: lightblue; */
-  }
-
   .profile-pic{
     margin-left: 29vw;
   }
@@ -410,9 +349,6 @@ export default {
   }
 }
 @media only screen and (max-width: 722px) {
-  body {
-    /* background-color: lightblue; */
-  }
   .profile-pic{
     margin-left: 18vw;
   }
@@ -422,24 +358,15 @@ export default {
   }
 }
 @media only screen and (max-width: 677px) {
-  body {
-    /* background-color: lightblue; */
-  }
   .profile-pic{
     margin-left: 13vw;
   }
 }@media only screen and (max-width: 637px) {
-  body {
-    /* background-color: lightblue; */
-  }
   .profile-pic{
     margin-left: 9vw;
   }
 }
 @media only screen and (max-width: 608px) {
-  body {
-    /* background-color: lightblue; */
-  }
   .greeting {
     display: none;
   }
@@ -452,24 +379,11 @@ export default {
   }
 }
 @media only screen and (max-width: 580px) {
-  body {
-    /* background-color: lightblue; */
-  }
   .profile-pic{
     margin-left: 0vw;
   }
 }
 @media only screen and (max-width: 550px) {
-  body {
-    /* background-color: lightblue; */
-  }
-  .logo{
-    /* size: 60%; */
-    /* width: 60%;
-    height: 60%; */
-    /* width: 20vw; */
-  }
-
   .icon-msg{
     margin-right: -7vw;
   }
@@ -479,16 +393,6 @@ export default {
   }
 }
 @media only screen and (max-width: 493px) {
-  body {
-    /* background-color: lightblue; */
-  }
-  .logo{
-    /* size: 60%; */
-    /* width: 60%;
-    height: 60%; */
-    /* width: 20vw; */
-  }
-
   .icon-msg{
     margin-right: -5vw;
   }
@@ -498,16 +402,6 @@ export default {
   }
 }
 @media only screen and (max-width: 464px) {
-  body {
-    /* background-color: lightblue; */
-  }
-  .logo{
-    /* size: 60%; */
-    /* width: 60%;
-    height: 60%; */
-    /* width: 20vw; */
-  }
-
   .icon-msg{
     margin-right: -3vw;
   }
@@ -517,16 +411,6 @@ export default {
   }
 }
 @media only screen and (max-width: 437px) {
-  body {
-    /* background-color: lightblue; */
-  }
-  .logo{
-    /* size: 60%; */
-    /* width: 60%;
-    height: 60%; */
-    /* width: 20vw; */
-  }
-
   .icon-msg{
     margin-right: -1vw;
   }
@@ -536,16 +420,6 @@ export default {
   }
 }
 @media only screen and (max-width: 408px) {
-  body {
-    /* background-color: lightblue; */
-  }
-  .logo{
-    /* size: 60%; */
-    /* width: 60%;
-    height: 60%; */
-    /* width: 20vw; */
-  }
-
   .icon-msg{
     margin-right: 2vw;
   }
@@ -555,16 +429,6 @@ export default {
   }
 }
 @media only screen and (max-width: 439px) {
-  body {
-    /* background-color: lightblue; */
-  }
-  .logo{
-    /* size: 60%; */
-    /* width: 60%;
-    height: 60%; */
-    /* width: 20vw; */
-  }
-
   .icon-msg{
     margin-right: -3vw;
   }
