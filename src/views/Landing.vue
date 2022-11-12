@@ -9,7 +9,7 @@
               <kinesis-container>
                 <kinesis-element :strength="50">
 
-                  <h3 class="header-sub-title" style="color:black; text-align: center; margin-top: 70px;">
+                  <h3 class="header-sub-title mt-6" style="color:black; text-align: center">
                     Supercharge your learning
                   </h3>
                 </kinesis-element>
@@ -37,10 +37,7 @@
 </Transition>
 
    -->
-              <p class="animate__fadeInUp" data-wow-duration="4.3s" data-wow-delay="0.8s" style="color:black; text-align: center;">
-                Lorem ipsum dolor sit amet,
-                consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-              </p>
+           
               <!-- <button class="main-btn animate__fadeIn" data-wow-duration="1.3s" data-wow-delay="1.1s"
                 v-on:click="this.$router.push('/login')">Get Started</button> -->
               <!-- <v-btn to="/newpage">Next Page</v-btn> -->
@@ -63,8 +60,8 @@
 
   <TheAbout></TheAbout>
   <Features></Features>
-  <!-- <Testimonials></Testimonials>
-  <Footer></Footer> -->
+  <Testimonials></Testimonials>
+  <Footer></Footer>
 
 
 
@@ -87,7 +84,7 @@ export default {
 
 
   components: {
-    Navbar, TheAbout, Features, Footer, Testimonials, Icon, BackToTopButton
+    Navbar, TheAbout, Features, Footer, Icon, BackToTopButton, Testimonials
   },
 
   data() {

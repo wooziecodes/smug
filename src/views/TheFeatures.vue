@@ -6,7 +6,7 @@
         <div class="col-lg-10">
           <div class="section-title text-center pb-40">
             <div class="line m-auto" />
-            <h3 class="title">
+            <h3 class="title" style="text-align: center">
              Your learning journey, <span> has never been easier</span>
             </h3>
           </div> <!-- section title -->
@@ -33,7 +33,7 @@
               <p class="text">
                 {{ feature.content }}
               </p>
-              <a class="more" href="#">Learn More<Icon icon="ci:chevron-right" /></a>
+              <a class="more" href="#">Sign up now<Icon icon="ci:chevron-right" /></a>
             </div>
           </div> <!-- single services -->
         </div>
@@ -60,20 +60,20 @@ export default {
     return {
       features: [{
         icon: 'mdi-briefcase',
-        name: 'Clean',
-        content: 'Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu eirmod tempor invidunt labore.'
+        name: 'Affordable Rates',
+        content: 'No longer will you have to struggle to pay for personalized help!'
       }, {
         icon: 'mdi-cog-outline',
-        name: 'Robust',
-        content: 'Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu eirmod tempor invidunt labore.'
+        name: 'At your own time and pace',
+        content: 'Find mentors that will guide you from start to finish.'
       }, {
         icon: 'mdi-flash-outline',
-        name: 'Powerful',
-        content: 'Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu eirmod tempor invidunt labore.'
+        name: 'Quality',
+        content: 'Mentors vetted and ready to help.'
       }]
     }
   }
-}
+} 
 </script>
 
 <style>

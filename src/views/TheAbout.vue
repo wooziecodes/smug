@@ -21,7 +21,8 @@
             <p class="text" id="content-text">
               {{ content }}
             </p>
-            <a href="#" class="main-btn">Try it Free</a>
+            <!-- <a href="#" class="main-btn">Sign Up Today</a> -->
+            <button class="btn" type="button" id="start-btn" v-on:click="this.$router.push({ path: '/signup' })">Get Started</button>
           </div> <!-- about content -->
         </div>
         <div class="col-lg-6" :class="{ 'order-lg-first': right }">
@@ -71,7 +72,7 @@ export default {
     },
     content: {
       type: String,
-      default: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, seiam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing.'
+      default: 'SMUG is a platform for you to find experienced mentors so you that you never have to worry about finding 1-1 academic help again'
     }
   },
   data () {

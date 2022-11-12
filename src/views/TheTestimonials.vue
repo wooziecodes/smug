@@ -5,19 +5,19 @@
         <div class="col-lg-5">
           <div class="section-title text-center pb-40">
             <div class="line m-auto" />
-            <h3 class="title">
-              Users sharing<span> their experience on SMUG</span>
+            <h3 class="title" style="text-align: center">
+              What users are saying
             </h3>
+            
           </div> <!-- section title -->
         </div>
       </div> <!-- row -->
-      <div class="row testimonial-active wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.5s">
+      <div class="testimonial-active">
         <div v-for="testimonial in testimonials" :key="testimonial.author" style="padding: 0 20px 0 0;">
        
           <div class="single-testimonial">
             
             <div class="testimonial-review d-flex align-items-center justify-content-between">
-              <Icon icon="mdi-light:format-quote-close" height="50" />
             
             </div>
             <div class="testimonial-text">
@@ -29,22 +29,28 @@
               <div class="author-image">
                 <img class="shape" :src="require('../assets/images/textimonial-shape.svg')"/>
                 <img class="author rounded-circle" :src="testimonial.img">
-                <!-- <img class="author" :src="require('../assets/images/choi.jpg')"> -->
+            
               </div>
               <div class="author-content media-body">
                 <h6 class="holder-name">
                   {{ testimonial.author }}
-                </h6>
-                <p class="text">
-                  {{ testimonial.position }}, {{ testimonial.company }}
-                </p>
+                </h6>  
+             
               </div>
             </div>
-          </div> <!-- single testimonial -->
+          </div> 
         </div>
-      </div> <!-- row -->
+      </div>
     </div> <!-- container -->
+
+
+
   </section>
+
+
+
+
+
 </template>
 
 <script>
@@ -62,41 +68,36 @@ export default {
   data () {
     return { 
       testimonials: [{
-        quote: 'Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu eirmod tempor invidunt labore.Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu.',
+        quote: 'I was looking for 1-1 help but was afraid to reach out to my TAs, SMUG helps me with this problem.',
         author: 'Choi Juhwan',
-        position: 'CEO',
-        company: 'SpaceX',
         img: require('../assets/images/choi.jpg')
       }, {
-        quote: 'Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu eirmod tempor invidunt labore.Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu.',
+        quote: 'SMUG has been a huge help in my academic journey, I can now find mentors to help me through difficult mods',
         author: 'Zachary Lim',
-        position: 'UX Specialist',
-        company: 'Yoast',
+    
         img: require('../assets/images/zach.jpg')
       }, {
-        quote: 'Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu eirmod tempor invidunt labore.Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu.',
+        quote: 'The personalized help I found through SMUG allows me to find help at my own pace and excel at classes.',
         author: 'Chester Chia',
-        position: 'CEO',
-        company: 'Yoast',
+
         img: require('../assets/images/chester.jpg')
       }, {
-        quote: 'Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu eirmod tempor invidunt labore.Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu.',
+        quote: 'Not have I gained a tutor, i have also gained a mentor in my academic life. More tect mores',
         author: 'Elijah Khor',
-        position: 'CEO',
-        company: 'Yoast',
+   
         img: require('../assets/images/elijah.jpg')
       }]
     }
   },
 
   components: {
-		Icon,
+	
 	},
 
   mounted () {
     $('.testimonial-active').slick({
       dots: true,
-      speed: 800,
+      speed: 80,
       arrows: false,
       centerMode: true,
       centerPadding: '0',
@@ -293,7 +294,7 @@ export default {
 }
 
 .testimonial-active .slick-dots {
-  margin: 0 auto;
+  margin-left: 45%;
 }
 
 .testimonial-active .slick-dots li {
@@ -321,4 +322,7 @@ export default {
   width: 15px;
   height: 15px;
 }
+
+
+
 </style>
