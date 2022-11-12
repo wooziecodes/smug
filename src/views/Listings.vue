@@ -241,11 +241,10 @@ export default {
 }
 
 .listing-component {
-  flex-basis: 18%;
+  flex-basis: 20%;
   margin-bottom: 2%;
-  margin-left: 2%;
+  margin-left: 3%;
 }
-
 
 .wave {
   position: fixed;
@@ -269,6 +268,69 @@ export default {
 }
 .lmao {
   color: white;
+}
+
+@media only screen and (max-width: 1200px) {
+  .listing-component {
+    flex-basis: 18%;
+    margin-left: 4.5%;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .listing-component {
+    flex-basis: 27%;
+    margin-left: 3.2%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .listing-component {
+    flex-basis: 27%;
+    margin-left: 2.2%;
+  }
+}
+
+@media only screen and (max-width: 538px) {
+  .listing-component {
+    flex-basis: 26%;
+    margin-left: 3%;
+  }
+}
+
+@media only screen and (max-width: 513px) {
+  .listing-component {
+    flex-basis: 40%;
+    margin-left: 5%;
+  }
+}
+
+@media only screen and (max-width: 429px) {
+  .listing-component {
+    flex-basis: 40%;
+    margin-left: 4.5%;
+  }
+}
+
+@media only screen and (max-width: 393px) {
+  .listing-component {
+    flex-basis: 40%;
+    margin-left: 4%;
+  }
+}
+
+@media only screen and (max-width: 363px) {
+  .listing-component {
+    flex-basis: 40%;
+    margin-left: 3.5%;
+  }
+}
+
+@media only screen and (max-width: 337px) {
+  .listing-component {
+    flex-basis: 80%;
+    margin-left: 10%;
+  }
 }
 </style>
 <!-- fdsafdsa -->

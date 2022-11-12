@@ -3,18 +3,18 @@
     <img :src="listingImg" class="listingImg" @click="sendId" />
     <div class="bottom-section">
       <div class="tutorInfo">
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
           <div class="d-flex" @click="sendId">
             <img v-bind:src="tutorImg" class="tutorImg" />
             <span class="tutorName">&nbsp;{{ tutor }}</span>
           </div>
           <div v-if="!isOwn">
             <font-awesome-icon v-if="isBookmarked" icon="fa-solid fa-heart" class="fa-heart" @click="unbookmarked" />
-            <font-awesome-icon v-if="!isBookmarked" icon="fa-regular fa-heart" class="fa-heart" @click="bookmarked" />
+            <font-awesome-icon v-if="!isBookmarked" @mouseenter="onHover" @mouseleave="onHover" :icon="heartIcon" class="fa-heart" @click="bookmarked" />
           </div>
         </div>
         <span class="listingMod" @click="sendId">{{ code }} - {{ mod }}</span>
-        <span class="prof" @click="sendId">Taught by Prof {{ prof }}</span>
+        <span class="prof" @click="sendId">Prof {{ prof }}</span>
         <div class="
             d-flex
             rating-prices
@@ -45,7 +45,8 @@ export default {
       listingImg: "",
       tutorImg: "",
       userID: "",
-      isBookmarked: false
+      isBookmarked: false,
+      heartIcon: ["fa-regular", "fa-heart"]
     };
   },
   props: {
@@ -107,8 +108,8 @@ export default {
       const querySnap = await getDocs(query(collection(db, "module")));
       querySnap.forEach((doc) => {
         if (this.code == doc.data().code) {
-          if (doc.data().name.length > 15) {
-            this.mod = doc.data().name.slice(0, 15) + "..."
+          if (doc.data().name.length > 9) {
+            this.mod = doc.data().name.slice(0, 10) + "..."
           } else {
             this.mod = doc.data().name
           }
@@ -145,6 +146,13 @@ export default {
     unbookmarked() {
       this.isBookmarked = false
       this.$emit("unbookmarked", this.id)
+    },
+    onHover() {
+      if (this.heartIcon.includes("fa-regular")) {
+        this.heartIcon = ["fa-solid", "fa-heart"]
+      } else {
+        this.heartIcon = ["fa-regular", "fa-heart"]
+      }
     }
   }
 };
@@ -160,8 +168,7 @@ export default {
 
 .listing-container {
   border-radius: 5px;
-  width: 25%;
-  height: 55vh;
+  height: 25vw;
   background-color: #f3f9fb;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   transition: box-shadow 0.3s;
@@ -188,7 +195,7 @@ export default {
 }
 
 .listingMod {
-  margin-top: 2vh;
+  margin-top: 5%;
 }
 
 .bottom-section {
@@ -198,7 +205,7 @@ export default {
 
 .tutorName {
   color: #75acb4;
-  font-size: 1.4vw;
+  font-size: 1.2vw;
   display: block;
 }
 
@@ -233,14 +240,97 @@ export default {
 
 .fa-star {
   color: #75acb4;
+  font-size: 1.5vw
 }
 
 .fa-heart {
+  margin-top: 0.5vw;
   color: #75acb4;
+  font-size: 1.5vw;
 }
 
 .fa-star:hover,
 .fa-heart:hover {
   cursor: pointer;
+}
+
+@media only screen and (max-width: 991px) {
+  .listing-container {
+    height: 30vw;
+  }
+}
+
+@media only screen and (max-width: 646px) {
+  .tutorName {
+    font-size: 2vw
+  }
+
+  .listingMod, .prof, .price, .rating {
+    font-size: 1.4vw
+  }
+
+  .listing-container {
+    height: 38vw
+  }
+
+  .fa-star, .fa-heart {
+    font-size: 2vw
+  }
+}
+
+@media only screen and (max-width: 513px) {
+  .tutorName {
+    font-size: 3vw
+  }
+
+  .listingMod, .prof, .price, .rating {
+    font-size: 2vw
+  }
+
+  .listing-container {
+    height: 50vw
+  }
+
+  .fa-star, .fa-heart {
+    font-size: 3vw
+  }
+}
+
+@media only screen and (max-width: 393px) {
+  .listingMod, .prof, .price, .rating {
+    font-size: 2.3vw
+  }
+
+  .listing-container {
+    height: 55vw
+  }
+}
+
+@media only screen and (max-width: 363px) {
+  .listingMod, .prof, .price, .rating {
+    font-size: 2.5vw
+  }
+
+  .listing-container {
+    height: 60vw
+  }
+}
+
+@media only screen and (max-width: 337px) {
+  .tutorName {
+    font-size: 6vw
+  }
+
+  .listingMod, .prof, .price, .rating {
+    font-size: 4vw
+  }
+
+  .listing-container {
+    height: 100vw
+  }
+
+  .fa-star, .fa-heart {
+    font-size: 6vw
+  }
 }
 </style>

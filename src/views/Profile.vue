@@ -361,7 +361,7 @@ export default {
         this.id = doc.id
         this.userid = doc.data().uid
         this.name = doc.data().user
-        this.rating = doc.data().rating
+        this.rating = doc.data().rating.toFixed(2)
         this.ratingCount = doc.data().ratingCount
         this.faculty = doc.data().faculty
         this.major = doc.data().major
