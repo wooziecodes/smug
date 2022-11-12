@@ -53,13 +53,13 @@
     
   </div>
   <!-- <span class="greeting">Hi, {{ username }}</span> -->
-  <font-awesome-icon icon="fas fa-comment-dots" class="fa-chat" @click="openChat()" />
+  <font-awesome-icon icon="fas fa-comment-dots" class="fa-chat mr-2 fa-lg" style="width: min-content;" @click="openChat()" />
 
   <div class="right-side d-flex flex-row-reverse">
     <button class="btn logout" @click="Logout" type="button" id="start-btn">Logout</button>
 
     <!-- <button class="logout" @click="Logout">Logout</button> -->
-    <img :src="imgUrl" width="40" height="40" class="rounded-circle mr-2">
+    <img :src="imgUrl" width="40" @click="goProfile()" height="40" class="profile-pic rounded-circle mr-2">
     <!-- <font-awesome-icon icon="fas fa-comment-dots" size="lg" class="fa-chat" @click="openChat()" /> -->
   </div>
 </nav>
@@ -199,6 +199,9 @@ export default {
     },
     openChat() {
       this.$router.push({ name: 'Chat' })
+    },
+    goProfile() {
+      this.$router.push({ name: 'profile' })
     },
     goHome() {
       this.$router.push({ name: 'Listings' })
