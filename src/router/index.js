@@ -5,6 +5,7 @@ import Chat from '../views/Chat.vue'
 const routes = [
   {
     path: '/',
+    name: 'Landing',
     component: () => import("../views/Landing.vue"),
     meta: {
       requiresAuth: true,
@@ -17,13 +18,13 @@ const routes = [
       requiresAuth: true,
     },
   },
-  {
-    path: '/landing',
-    component: () => import("../views/Landing.vue"),
-    meta: {
-      requiresAuth: true,
-    },
-  },
+  // {
+  //   path: '/landing',
+  //   component: () => import("../views/Landing.vue"),
+  //   meta: {
+  //     requiresAuth: true,
+  //   },
+  // },
   {
     path: "/feed",
     component: () => import("../views/Feed.vue"),

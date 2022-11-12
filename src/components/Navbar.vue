@@ -162,7 +162,10 @@ export default {
           firebase
             .auth()
             .signOut()
-            .then(() => console.log("Signed out"))
+            .then(() => {
+              console.log("Signed out");
+              this.$router.push({ name: 'Landing' })
+            })
             .catch(err => alert(err.message));
         }
 
