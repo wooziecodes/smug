@@ -2,7 +2,7 @@
 
 
   <!-- Choi's work -->
-  <nav class="navbar navbar-dark bg-white navbar-expand-md mt-3 mb-3">
+  <nav class="navbar navbar-dark bg-white navbar-expand-md mb-3">
     <a class="navbar-brand" href="#">
       <img class="logo ml-3" @click="goHome" />
 
