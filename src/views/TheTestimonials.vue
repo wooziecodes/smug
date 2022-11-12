@@ -133,3 +133,192 @@ export default {
   }
 }
 </script>
+
+<style>
+.section-title .line {
+  background: -webkit-linear-gradient(#1F5C64 0%, #1F5C64 100%);
+  background: -o-linear-gradient(#1F5C64 0%, #1F5C64 100%);
+  background: linear-gradient(#1F5C64 0%, #1F5C64 100%);
+  width: 150px;
+  height: 5px;
+  margin-bottom: 10px !important;
+}
+
+.section-title .title {
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 42px;
+}
+
+@media (max-width: 767px) {
+  .section-title .title {
+    font-size: 20px;
+  }
+}
+
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .section-title .title {
+    font-size: 30px;
+  }
+}
+
+.section-title .title span {
+  font-weight: 400;
+  display: contents;
+}
+
+/*===== All Section Title Style =====*/
+.section-title .sub-title {
+  font-size: 18px;
+  font-weight: 400;
+  color: #1F5C64;
+  text-transform: uppercase;
+}
+
+@media (max-width: 767px) {
+  .section-title .sub-title {
+    font-size: 16px;
+  }
+}
+
+.section-title .title {
+  font-size: 32px;
+  padding-top: 10px;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .section-title .title {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .section-title .title {
+    font-size: 24px;
+  }
+}
+
+.section-title .title span {
+  font-weight: 400;
+  display: contents;
+}
+
+/*===========================
+     08.TESTIMONIAL css
+===========================*/
+.single-testimonial {
+  background-color: #fff;
+  -webkit-box-shadow: 0px 0px 30px 0px rgba(167, 167, 167, 0.16);
+  -moz-box-shadow: 0px 0px 30px 0px rgba(167, 167, 167, 0.16);
+  box-shadow: 0px 0px 30px 0px rgba(167, 167, 167, 0.16);
+  overflow: hidden;
+  border-radius: 10px;
+  padding: 25px 30px 5px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  margin: 30px 0;
+  -webkit-transition: all 0.3s ease-out 0s;
+  -moz-transition: all 0.3s ease-out 0s;
+  -ms-transition: all 0.3s ease-out 0s;
+  -o-transition: all 0.3s ease-out 0s;
+  transition: all 0.3s ease-out 0s;
+}
+
+@media (max-width: 767px) {
+  .single-testimonial {
+    padding: 20px 20px 5px;
+  }
+}
+
+.single-testimonial .testimonial-review .quota i {
+  font-size: 36px;
+  color: #119BD2;
+  -webkit-transition: all 0.3s ease-out 0s;
+  -moz-transition: all 0.3s ease-out 0s;
+  -ms-transition: all 0.3s ease-out 0s;
+  -o-transition: all 0.3s ease-out 0s;
+  transition: all 0.3s ease-out 0s;
+}
+
+.single-testimonial .testimonial-review .star ul li {
+  display: inline-block;
+  font-size: 16px;
+  color: #1F5C64;
+}
+
+.single-testimonial .testimonial-text {
+  margin-top: 25px;
+}
+
+.single-testimonial .testimonial-author {
+  margin-top: 30px;
+}
+
+.single-testimonial .testimonial-author .author-image {
+  position: relative;
+}
+
+.single-testimonial .testimonial-author .author-image .author {
+  position: absolute;
+  top: 17px;
+  left: 17px;
+  width: 80px;
+  height: 80px;
+}
+
+.single-testimonial .testimonial-author .author-content .holder-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2E2E2E;
+}
+
+.single-testimonial .testimonial-author .author-content .text {
+  font-size: 15px;
+}
+
+.single-testimonial:hover {
+  border-color: #1F5C64;
+}
+
+.single-testimonial:hover .testimonial-review .quota i {
+  color: #1F5C64;
+}
+
+.slick-center .single-testimonial {
+  border-color: #1F5C64;
+}
+
+.slick-center .single-testimonial .testimonial-review .quota i {
+  color: #1F5C64;
+}
+
+.testimonial-active .slick-dots {
+  margin: 0 auto;
+}
+
+.testimonial-active .slick-dots li {
+  display: inline-block;
+  margin: 0 4px;
+}
+
+.testimonial-active .slick-dots li button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #1F5C64 0%, #1F5C64 100%);
+  border: 0;
+  font-size: 0;
+  opacity: 0.5;
+  -webkit-transition: all 0.3s ease-out 0s;
+  -moz-transition: all 0.3s ease-out 0s;
+  -ms-transition: all 0.3s ease-out 0s;
+  -o-transition: all 0.3s ease-out 0s;
+  transition: all 0.3s ease-out 0s;
+}
+
+.testimonial-active .slick-dots li.slick-active button {
+  opacity: 1;
+  width: 15px;
+  height: 15px;
+}
+</style>

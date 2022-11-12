@@ -2,7 +2,6 @@
   <section class="about-area pt-70">
     <div class="about-shape-2">
       <img :src="require('../assets/images/about-shape-2.svg')"/>
-
     </div>
     <div class="container mb-50">
       <div class="row">
@@ -14,12 +13,12 @@
             data-wow-delay="0.3s"
           >
             <div class="section-title">
-              <div class="line" />
+
               <h3 class="title">
                 {{ title }}
               </h3>
             </div> <!-- section title -->
-            <p class="text">
+            <p class="text" id="content-text">
               {{ content }}
             </p>
             <a href="#" class="main-btn">Try it Free</a>
@@ -27,6 +26,7 @@
         </div>
         <div class="col-lg-6" :class="{ 'order-lg-first': right }">
           <div
+            id="about-image"
             class="about-image text-center mt-50 wow"
             :class="[right ? 'fadeInLeft' : 'fadeInRight']"
             data-wow-duration="1s"
@@ -38,12 +38,12 @@
       </div> <!-- row -->
     </div> <!-- container -->
     <kinesis-container>
-              Here, you can put
+              <!-- Here, you can put -->
               <kinesis-element :strength="10">
-                whatever
+                <!-- whatever -->
               </kinesis-element>
               <kinesis-element :strength="20">
-                content!
+                <!-- content! -->
               </kinesis-element>
           </kinesis-container>
   </section>
@@ -79,3 +79,32 @@ export default {
   }
 }
 </script>
+
+<style>
+.about-shape-2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 35%;
+  height: 100%;
+  z-index: -1;
+}
+
+.about-shape-2 img {
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .about-shape-2 {
+    display: none;
+  }
+}
+
+#content-text{
+  margin-top: 0px;
+}
+
+#about-image{
+  margin-top: -30px;
+}
+</style>

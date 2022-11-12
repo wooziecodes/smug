@@ -9,7 +9,7 @@
               <kinesis-container>
                 <kinesis-element :strength="50">
 
-                  <h3 class="header-sub-title" style="color:black">
+                  <h3 class="header-sub-title" style="color:black; text-align: center">
                     Supercharge your
                     Learning
                   </h3>
@@ -32,7 +32,7 @@
 
 
               <h2 v-auto-animate class="header-title animate__fadeIn" data-wow-duration="1.3s" data-wow-delay="0.5s"
-                style="color:black">
+                style="color:black; text-align: center;">
                 Find your next
                 mentor today
               </h2>
@@ -43,13 +43,13 @@
 
    -->
 
-              <p class="animate__fadeInUp" data-wow-duration="4.3s" data-wow-delay="0.8s" style="color:black">
+              <p class="animate__fadeInUp" data-wow-duration="4.3s" data-wow-delay="0.8s" style="color:black; text-align: center;">
                 Lorem ipsum dolor sit amet,
                 consetetur sadipscing elitr, sed diam nonumy eirmod tempor
               </p>
 
-              <button class="main-btn animate__fadeIn" data-wow-duration="1.3s" data-wow-delay="1.1s"
-                v-on:click="this.$router.push('/login')">Get Started</button>
+              <!-- <button class="main-btn animate__fadeIn" data-wow-duration="1.3s" data-wow-delay="1.1s"
+                v-on:click="this.$router.push('/login')">Get Started</button> -->
               <!-- <v-btn to="/newpage">Next Page</v-btn> -->
 
             </div> <!-- header hero content -->
@@ -70,8 +70,8 @@
 
   <TheAbout></TheAbout>
   <Features></Features>
-  <Testimonials></Testimonials>
-  <Footer></Footer>
+  <!-- <Testimonials></Testimonials>
+  <Footer></Footer> -->
 
 
 
@@ -1102,8 +1102,9 @@ p {
 }
 
 .header-hero-content {
-  padding-top: 180px;
+  padding-top: 80px;
 }
+
 
 @media (max-width: 767px) {
   .header-hero-content {
@@ -2169,5 +2170,9 @@ p {
 
 .back-to-top:hover {
   text-decoration: none;
+}
+
+#features{
+  margin-bottom: 5%;
 }
 </style>
