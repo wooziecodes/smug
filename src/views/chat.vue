@@ -130,13 +130,14 @@ export default {
     },
     methods: {
         async rate(rating) {
-            const q = query(collection(db, "users"), where("uid", "==", this.recipient))
+            const q = query(collection(db, "users"), where("uid", "==", this.uid))
             const querySnapshot = await getDocs(q)
             querySnapshot.forEach((d) => {
                 var currentRating = d.data().rating
                 var ratingCount = d.data().ratingCount
                 var confirmedBookings = d.data().confirmedBookings
-                var idx = confirmedBookings.indexOf(this.uid)
+                console.log(d.data())
+                var idx = confirmedBookings.indexOf(this.recipient)
                 confirmedBookings.splice(idx, 1)
 
                 var total = currentRating * ratingCount
@@ -255,13 +256,13 @@ export default {
                         const confirmed = d.data().confirmedBookings
                         if (confirmed.includes(this.recipient)) {
                             this.isAccepted = true
-                            this.reviewing = false
+                            this.reviewing = true
                         }
                         const otherConfirmed = doc.data().confirmedBookings
 
                         if (otherConfirmed.includes(this.uid)) {
                             this.isAccepted = true
-                            this.reviewing = true
+                            this.reviewing = false
                         }
                     })
                 })
