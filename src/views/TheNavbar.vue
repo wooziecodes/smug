@@ -45,7 +45,7 @@
                   </li>
                   <li class="nav-item">
                     <!-- <a class="main-btn" data-scroll-nav="0" href="#pricing">Login</a> -->
-                    <button class="btn" type="button" id="start-btn">Login</button>
+                    <button class="btn" type="button" id="start-btn" v-on:click="this.$router.push({ path: '/signup' })">Login</button>
                   </li>
                 </ul>
               </div> <!-- navbar collapse -->
