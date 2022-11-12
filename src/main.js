@@ -17,7 +17,7 @@ import Vue3Transitions from 'vue3-transitions'
 import VueKinesis from "vue-kinesis";
 import { Icon } from '@iconify/vue';
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
-import { faStar, faHeart, faCommentDots, faBookmark, faFilter, faChevronUp, faChevronDown, faPlus} from '@fortawesome/free-solid-svg-icons'
+import { faCamera, faStar, faHeart, faCommentDots, faBookmark, faFilter, faChevronUp, faChevronDown, faPlus} from '@fortawesome/free-solid-svg-icons'
 import { faHeart as solidHeart } from '@fortawesome/free-regular-svg-icons';
 
 // import { getAnalytics } from "firebase/analytics";
@@ -36,7 +36,7 @@ const firebaseConfig = {
 
   
 firebase.initializeApp(firebaseConfig);
-library.add(faPlus, faStar, faHeart, faCommentDots, faBookmark, faFilter, faChevronUp, faChevronDown, solidHeart)
+library.add(faCamera, faPlus, faStar, faHeart, faCommentDots, faBookmark, faFilter, faChevronUp, faChevronDown, solidHeart)
 // const analytics = getAnalytics(app);
 
 

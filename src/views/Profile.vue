@@ -22,16 +22,33 @@
       <!-- this is 30% -->
 
       <div class="profilePic">
-        <img :src="photo" id="photo">
 
-        <label v-if="editing" for="photo-upload" class="editPhoto">
-          Edit Photo
-        </label>
-        <input type="file" accept="image/png, image/jpeg" id="photo-upload" style="display:none" @change="changePhoto">
+
+        <!-- <img :src="photo" id="photo">
+          <label v-if="editing" for="photo-upload" class="editPhoto">
+            Edit Photo
+          </label>
+          <input type="file" accept="image/png, image/jpeg" id="photo-upload" style="display:none"
+            @change="changePhoto"> -->
+        <div class="profilepic">
+          <img class="profilepic__image"
+            :src="photo"
+            width="150" height="150" alt="Profibild" />
+          <div v-if="editing" class="profilepic__content">
+            <label for="photo-upload">
+            <span class="profilepic__icon"><FontAwesomeIcon icon="fa-solid fa-camera"/></span>
+            <span class="profilepic__text">Edit Photo</span>
+          </label>
+            <input type="file" accept="image/png, image/jpeg" id="photo-upload" style="display:none"
+            @change="changePhoto">
+          </div>
+        </div>
 
         <button type="button" class="btn" id="edit-button" v-if="!editing" @click="toggleEdit()">Edit Profile</button>
         <button type="button" class="btn" id="save-button" v-if="editing" @click="updateData(userid)">Save
           Profile</button>
+
+
       </div>
 
 
@@ -110,16 +127,17 @@
 
     <div v-if="!adding" class="add-module-container" id="add-new" @click="toggleAdd()">
       <div class="plus-sign">
-        <font-awesome-icon icon="fa-solid fa-plus" size="6x"/>
+        <font-awesome-icon icon="fa-solid fa-plus" size="6x" />
         <div style="text-align:center; color:white; margin-top:10px;">Add listing</div>
       </div>
-      
+
     </div>
 
     <div v-if="adding" class="add-module-container">
-      <img :src="require('../assets/images/add-listing.png')" style="width:100%; margin-bottom: 8px;">
+
       <div class="container" id="add-module-input">
-        
+        <img :src="require('../assets/images/add-listing.png')"
+          style="width:100%; max-height: 119px; max-width: 104.2px; margin-bottom: 8px;">
         <input class="add-fields" type="text" placeholder="Mod">
 
         <input class="add-fields" type="text" placeholder="Prof">
@@ -298,14 +316,6 @@ export default {
   position: relative;
 }
 
-#photo {
-  width: 100px;
-  border-radius: 10%;
-
-  margin-bottom: 10px;
-
-}
-
 #userid {
   margin-top: 20px;
 }
@@ -377,11 +387,10 @@ input {
   transform: translateY(-50%);
 }
 
-.profilePic .editPhoto {
+.editPhoto {
   position: absolute;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
-
   color: white;
   font-size: 16px;
   padding: 12px 24px;
@@ -392,11 +401,69 @@ input {
   display: none;
 }
 
-#photo:hover .editPhoto {
+#photo:hover+.editPhoto,
+.editPhoto:hover {
   display: block;
   background-color: #1F5C64 !important;
 }
+/* photo test*/
+.profilepic {
+  position: relative;
+  margin: auto;
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #111;
+}
 
+.profilepic:hover .profilepic__content {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.profilepic:hover .profilepic__image {
+  opacity: .5;
+  cursor:pointer;
+}
+
+.profilepic__image {
+  object-fit: cover;
+  opacity: 1;
+  transition: opacity .2s ease-in-out;
+}
+
+.profilepic__content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  opacity: 0;
+  transition: opacity .2s ease-in-out;
+}
+
+.profilepic__icon {
+  color: white;
+  padding-bottom: 8px;
+}
+
+.fas {
+  font-size: 20px;
+}
+
+.profilepic__text {
+  text-transform: uppercase;
+  font-size: 12px;
+  width: 50%;
+  text-align: center;
+}
+/* photo test */
 #my-profile-wording {
   margin-top: 3%;
   margin-bottom: 1%
@@ -423,7 +490,7 @@ input {
 
 .add-module-container:hover {
   box-shadow: #5b6060 0px 2px 6px;
-  
+
 }
 
 #add-listing-btn {
@@ -437,7 +504,7 @@ input {
 }
 
 .fa-plus {
-  color:white;
+  color: white;
   width: 100%
 }
 
@@ -474,9 +541,10 @@ input {
 
 #add-module-input {
   padding: 0;
+  text-align: center;
 
-  
 }
+
 .add-fields {
   margin-bottom: 8px;
 }
