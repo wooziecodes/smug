@@ -1,10 +1,23 @@
 <template>
-  <!-- <Navbar></Navbar> -->
+  <Navbar></Navbar>
 
+  <!-- <div class="dropdown">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Dropdown link
+  </a>
 
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#">Action</a></li>
+    <li><a class="dropdown-item" href="#">Another action</a></li>
+    <li><a class="dropdown-item" href="#">Something else here</a></li>
+  </ul>
+</div> -->
 
-  <div class="container" id="profile" style="display:flex">
-
+  <div class="container" id="my-profile-wording">
+    <h1 id="profile-text">My Profile</h1>
+  </div>
+  <div class="listings-container container d-flex" id="profile" style="display:flex">
+    
     <div id="left-side">
       <!-- this is 30% -->
 
@@ -17,20 +30,21 @@
         <input type="file" accept="image/png, image/jpeg" id="photo-upload" style="display:none" @change="changePhoto">
       </div>
 
-      <div id="rating" class="container text-center">{{ rating }}
-        <font-awesome-icon icon="fa-solid fa-star" class="fa-star" />
-        | {{ ratingCount }} ratings
-      </div>
-      <button type="button" class="btn" id="edit-button" style="background-color: fuchsia;" v-if="!editing"
-        @click="toggleEdit()">Edit</button>
-      <button type="button" class="btn" id="edit-button" style="background-color: fuchsia;" v-if="editing"
-        @click="updateData(userid)">Save</button>
-      <!-- ideally the button should be like the signup page but im fucking losing my shit because background-color doesnt wanna work with me but color works so i can change the color of the words-->
+      <button type="button" class="btn" id="edit-button" v-if="!editing"
+        @click="toggleEdit()">Edit Profile</button>
+      <button type="button" class="btn" id="save-button" v-if="editing"
+        @click="updateData(userid)">Save Profile</button>
+
 
     </div>
 
     <div id="right-side">
       <h1 v-text="name" id="name"></h1>
+      <div id="rating">{{ rating }}
+        <font-awesome-icon icon="fa-solid fa-star" class="fa-star" />
+        | {{ ratingCount }} ratings
+      </div>
+      <br>
       <table>
         <!-- <tr>
             <th>Name</th>
@@ -73,8 +87,8 @@
         <tr>
           <th>Description</th>
           <td v-if="!editing">{{ description }}</td>
-          <td v-if="editing"><textarea v-model="description" id="w3review" name="w3review" rows="8"
-              cols="83"></textarea></td>
+          <td v-if="editing"><textarea v-model="description" id="w3review" name="w3review" rows="4"
+              cols="66"></textarea></td>
         </tr>
       </table>
 
@@ -83,58 +97,38 @@
     </div>
 
   </div>
+  <div class="container" id="my-profile-wording">
+    <h1 id="profile-text">My Listings</h1>
+  </div>
 
-  <hr>
-  <!-- <div id="photo" class="container">
-      <img
-        src="https://randomuser.me/api/portraits/women/81.jpg"
-        alt=""
-        class="rounded-circle mx-auto d-block"
-      />
-    </div> -->
-
-  <!-- <div id="userid" class="container text-center position-relative">
-      <h1>KrazyWoman1</h1>
-    </div> -->
-
-  <!-- <div id="rating" class="container text-center">2.5 
-          <font-awesome-icon icon="fa-solid fa-star" class="fa-star"/>
-          | 89 ratings
-      </div>
-
-
-      <div>
-        <table class="desc">
-          <tr>
-            <th colspan="2"><h1>{{name}}</h1></th>
-          </tr>
-          <tr>
-            <th>Degree</th>
-            <td>{{degree}}</td>
-          </tr>
-          <tr>
-            <th>Major</th>
-            <td>{{major}}</td>
-          </tr>
-          <tr>
-            <th>Year</th>
-            <td>{{year}}</td>
-          </tr>
-          <tr>
-            <th>Email</th>
-            <td>{{email}}</td>
-          </tr>
-          <tr>
-            <th>Description</th>
-            <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit enim fugit reprehenderit neque, tenetur totam libero maiores et atque placeat minus ex ducimus, sit nisi a sint mollitia laborum optio?</td>
-          </tr>
-        </table>
-      </div> -->
   <div class="listings-container container d-flex flex-wrap">
+
     <ListingComponent v-for="listing in listings" class="listing-component" :id="listing.id" :tutor="listing.user"
       :code="listing.module" :prof="listing.prof" :price="listing.price" :userID="listing.userID" :isOwn="true">
     </ListingComponent>
+
+    <div class="add-module-container">
+
+      <img :src="require('../assets/images/add-listing.png')"/>
+
+      <input type="text" placeholder="Mod">
+
+      <input type="text" placeholder="Prof">
+    
+      <input type="text" placeholder="Price">
+
+      <button class="btn" id="add-listing-btn">Add listing!</button>
+    </div>
   </div>
+
+  <div class="about-shape-2">
+      <img :src="require('../assets/images/about-shape-2.svg')"/>
+  </div>
+
+  <div class="about-shape-1">
+      <img :src="require('../assets/images/about-shape-1.svg')"/>
+  </div>
+
 
 </template>
 
@@ -144,7 +138,7 @@ import ListingComponent from "../components/ListingComponent.vue";
 import { onAuthStateChanged } from "firebase/auth"
 import { query, collection, doc, where, getDocs, updateDoc } from "firebase/firestore"
 import { db, auth, storage } from "../firebase/init"
-import Navbar from './TheNavbar.vue'
+import Navbar from '../components/Navbar.vue'
 import { ref, getDownloadURL, listAll, deleteObject, uploadBytes } from "firebase/storage"
 
 export default {
@@ -237,6 +231,7 @@ export default {
         const userRef = doc(db, "users", d.id)
         updateDoc(userRef, userData).then((res) => {
           console.log("updated")
+          this.toggleEdit()
         })
       })
     },
@@ -270,8 +265,10 @@ export default {
 }
 
 #profile {
-  margin-top: 5%;
   width: 80%;
+  padding-bottom: 10px;
+  margin-top: 0%;
+  margin-bottom: 0%;
 }
 
 #left-side {
@@ -305,7 +302,7 @@ export default {
 th {
   white-space: nowrap;
   vertical-align: top;
-  text-align: right;
+  text-align: left;
   font-weight: bold;
 }
 
@@ -323,11 +320,26 @@ td {
 #edit-button {
   width: 100%;
   margin-top: 10px;
-  background-color: #1F5C64 !important;
+  background-color: #75ACB4 !important;
+  color: white;
+}
+
+#save-button{
+  width: 100%;
+  margin-top: 10px;
+  background-color: #75ACB4 !important;
+  color: white
+
 }
 
 #edit-button:hover {
-  color: red;
+  background-color: #1F5C64 !important;
+  color: white !important;
+}
+
+#save-button:hover {
+  background-color: #1F5C64 !important;
+  color: white !important;
 }
 
 .profilePic {
@@ -336,8 +348,6 @@ td {
 
 .profilePic .editPhoto {
   position: absolute;
-  top: 50%;
-  left: 50%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
 
@@ -355,5 +365,76 @@ td {
   display: block;
   background-color: #1F5C64 !important;
 }
+
+#my-profile-wording{
+  margin-top: 3%;
+  margin-bottom: 1%
+}
+
+#profile-text{
+  color: #1F5C64;
+  font-weight: bold;
+}
+
+.add-module-container {
+  border-radius: 5px;
+  width: 18%;
+  height: 45vh;
+  background-color: #ececec;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  transition: box-shadow 0.3s;
+  cursor: pointer;
+  margin-left: 2%;
+  text-align: center;
+  padding: 10px;
+}
+
+.add-module-container:hover {
+  box-shadow: #5b6060 0px 2px 6px;
+}
+
+#add-listing-btn{
+  width: 100%
+}
+
+#add-listing-btn:hover{
+  box-shadow: #5b6060 0px 2px 6px;
+}
+
+.about-shape-2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 35%;
+  height: 100%;
+  z-index: -1;
+}
+
+.about-shape-2 img {
+  width: 100%;
+}
+
+.about-shape-1 {
+  position: absolute;
+  right: 0;
+  bottom: -40%;
+  width: 35%;
+  height: 100%;
+  z-index: -1;
+}
+
+.about-shape-1 img {
+  width: 100%;
+  color: #1F5C64
+}
+
+.listings-container{
+  margin-top: 0%;
+}
+
+#my-profile-wording{
+  margin-top: 2%
+}
+
 </style>
 
