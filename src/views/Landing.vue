@@ -10,8 +10,7 @@
                 <kinesis-element :strength="50">
 
                   <h3 class="header-sub-title" style="color:black; text-align: center">
-                    Supercharge your
-                    Learning
+                    Supercharge your learning
                   </h3>
                 </kinesis-element>
 

@@ -1,28 +1,37 @@
 <template>
-  <nav class="navbar">
-    <img class="logo" @click="goHome" />
-    <div class="input-container">
-      <input class="form-control" @focusin="searching = true" @focusout="searching = false" @keydown.enter="search" placeholder="Search for modules here" id="searchBar" type="text" v-model="searchStr"/>
-      <ul class="dropdown" id="dropdown" v-if="searching">
-        <li class="dropdown-item" v-for="mod of modulesDropdown">{{mod}}</li>
-      </ul>
-      <!-- <div class="dropdown">
-        <ul class="dropdown-menu">
-          <li><a v-for="mod in modules" class="dropdown-item" href="#">{{mod}}</a></li>
-        </ul>
-      </div> -->
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="navbar">
+        
+        <div class="col">
+          <img class="logo" @click="goHome" />
+        </div>
 
-<!-- 
-      <p v-text="modulesDropdown"></p> -->
+        <div class="col">
+          <div class="input-container">
+          <input class="form-control" @focusin="searching = true" @focusout="searching = false" @keydown.enter="search" placeholder="Search for modules here" id="searchBar" type="text" v-model="searchStr"/>
+          <ul class="dropdown" id="dropdown" v-if="searching">
+            <li class="dropdown-item" v-for="mod of modulesDropdown">{{mod}}</li>
+          </ul>
+          </div>
+        </div>
 
-        <!-- <p v-for="mod in modules">{{mod}}</p> -->
-      
+        <div class="col">
+          <span class="greeting">Hi, {{ username }}</span>
+          <img :src="imgUrl" class="profile-pic" @click="this.$router.push('/profile')"/>
+        </div>
+
+        <div class="col">
+          <button class="logout" @click="Logout">Logout</button>
+        </div>
+        <div class="col">
+          <font-awesome-icon icon="fas fa-comment-dots" class="fa-chat" @click="openChat()" />
+        </div>
+          
+      </nav>
     </div>
-    <span class="greeting">Hi, {{ username }}</span>
-    <img :src="imgUrl" class="profile-pic" @click="this.$router.push('/profile')"/>
-    <button class="logout" @click="Logout">Logout</button>
-    <font-awesome-icon icon="fas fa-comment-dots" class="fa-chat" @click="openChat()" />
-  </nav>
+  </div>
+
 </template>
 <script>
 import { db, auth, storage } from "../firebase/init"
@@ -122,6 +131,9 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
 
 .navbar {
+  font-family: "Open Sans";
+
+  position: fixed;
   display: flex;
   width: 100%;
   height: 10vh;
@@ -136,6 +148,7 @@ export default {
 }
 
 .profile-pic {
+  width: 23%;
   height: 85%;
   border-radius: 50%;
 }
@@ -150,18 +163,20 @@ export default {
 }
 
 #searchBar {
-  color: white;
-  background-color: #75acb4;
+  color: black;
+  background-color: white;
+  width: 370px;
 }
 
 #searchBar::placeholder {
-  color: white;
+  color: grey;
 }
 
 .greeting {
-  margin-left: 2%;
+  margin-left: 4%;
   font-family: "Open Sans", sans-serif;
-  font-size: 1.2vw;
+  font-size: 1rem;
+  margin-right: 4%;
 }
 
 .fa-bookmark,
@@ -169,6 +184,7 @@ export default {
   height: 60%;
   color: #75acb4;
   cursor: pointer;
+  width: 15%;
 }
 
 .fa-bookmark {
@@ -177,5 +193,23 @@ export default {
 
 .fa-chat {
   margin-left: 2%;
+  /* margin-top: 5%; */
+  /* width: 40px; */
+  /* size: 2vh; */
+}
+.logout{
+  font-family: "Open Sans";
+
+  border-radius: 10px;
+  border: 1px solid #1F5C64;
+  background-color: #1F5C64;
+  color: #ffffff;
+  font-size: 1rem;
+  /* font-weight: bold; */
+  padding: 5px 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+  margin-right: 10%;
 }
 </style>
