@@ -42,7 +42,7 @@
                     <div class="d-flex">
                         <div class="container details">
                             <div class="row" style="padding-top: 10px">
-                                <div class="col col-xl-6" style="text-align:center;">
+                                <div class="imagebox col col-xl-6" style="text-align:center;">
                                     <img :src="imgUrl" class="img-fluid w-100 h-100" id="profile"/>
                                 </div>
                                 <div class="col col-xl-6 details-info">
@@ -59,12 +59,12 @@
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <span>Year {{ year }} {{ major }} Major</span>
+                                            <span class="year_major">Year {{ year }} {{ major }} Major</span>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <span>{{ payment }}</span>
+                                            <span class="payment">{{ payment }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -116,7 +116,6 @@
     </div>
 
 
-   
 
 
 
@@ -503,7 +502,7 @@ export default {
 }
 
 .card-name {
-    font-size: 1.4vw;
+    font-size: 1.9vw;
 }
 
 .chat-header {
@@ -595,6 +594,10 @@ export default {
   fill: #75acb4;
 }
 
+.chatList{
+    padding-left: 5px !important;
+}
+
 #profile{
     border-radius: 5%;
 }
@@ -622,5 +625,67 @@ export default {
 #stars-text{
     margin-top: 20px;
 }
+@media only screen and (max-width: 1200px) {
+    .booking-btn{
+        margin-top: 10%;
+    }
+}
+@media only screen and (max-width: 750px) {
+    .chatList{
+        width: 30%;
+        height: 45%;
+    }
+    .chat-container{
+        height: 45%;
+        width: 60% !important;  
+        left: 35%;
+    }
+    .profile {
+        
+        padding-top: 25px;
+        top: 63%;
+        left: 5%;
+        width: 90%;
+        height: 35% !important;
+    }
+    .booking-btn{
+        margin-top: 5%;
+        height: 100%;
+        font-size: 20px !important;
+    }
+    #profile {
+        width: 200px !important;
+        height: 200px !important;
+        /* border-radius: 40%; */
+    }
+    .imagebox{
+        /* padding-left: 0px; */
+    }
+    .card-name {
+        font-size: xx-large !important;
+    }
+    .fa-star{
+        font-size: 20px;
+    }
+    .ratings{
+        font-size: 20px;
+    }
+    .year_major {
+        font-size: 15px;
+    }
+    .payment{
+        font-size: 15px;
+    }
+    
+}
 
 </style>
+
+<!-- .profile {
+    position: absolute;
+    top: 15%;
+    right: 5%;
+    height: 75%;
+    width: 25%;
+    background-color: #F1EFEF;
+} -->
