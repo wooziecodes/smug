@@ -18,12 +18,15 @@
                 {{ title }}
               </h3>
             </div> <!-- section title -->
-            <p class="text" id="content-text">
+            <h5 class="text" id="content-text" style="margin-top: 50%;">
               {{ content }}
-            </p>
+            </h5>
             <!-- <a href="#" class="main-btn">Sign Up Today</a> -->
-            <button class="btn" type="button" id="start-btn" v-on:click="this.$router.push({ path: '/signup' })">Get Started</button>
+           
           </div> <!-- about content -->
+          <div>
+            <button class="btn" type="button" id="start-btn" v-on:click="this.$router.push({ path: '/signup' })" style="display: inline; margin-top: 20%;">Get Started</button>
+          </div>
         </div>
         <div class="col-lg-6" :class="{ 'order-lg-first': right }">
           <div
@@ -72,7 +75,7 @@ export default {
     },
     content: {
       type: String,
-      default: 'SMUG is a platform for you to find experienced mentors so you that you never have to worry about finding 1-1 academic help again'
+      default: 'SMUG is a platform for you to find experienced mentors so you that you never have to worry about finding 1-1 academic help again. We have quality mentors ready to help you achieve your best.'
     }
   },
   data () {
