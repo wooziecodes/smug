@@ -51,7 +51,7 @@
           <div class="overlay-panel overlay-right">
             <img class="logo_img" alt="">
             <h2>Hello, Smuggers!</h2>
-            <p>Enter your personal details and start journey with us</p>
+            <p>Enter your personal details and start your journey with us</p>
             <button class="submit_button_ghost ghost" style="border-radius: 8px;" id="signUp">Sign Up</button>
           </div>
         </div>
