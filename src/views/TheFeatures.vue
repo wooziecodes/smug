@@ -32,7 +32,7 @@
               </h4>
               <p class="text">
                 {{ feature.content }}
-              </p>
+              </p><br>
               <a class="more" href="#">Sign up now<Icon icon="ci:chevron-right" /></a>
             </div>
           </div> <!-- single services -->

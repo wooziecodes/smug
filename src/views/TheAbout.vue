@@ -20,9 +20,10 @@
             </div> <!-- section title -->
             <p class="text" id="content-text">
               {{ content }}
-            </p>
+            </p><br>
+
             <!-- <a href="#" class="main-btn">Sign Up Today</a> -->
-            <button class="btn" type="button" id="start-btn" v-on:click="this.$router.push({ path: '/signup' })">Get Started</button>
+            <button class="btn" type="button" id="start-btn" style="margin-top: 8%;" v-on:click="this.$router.push({ path: '/signup' })">Get Started</button>
           </div> <!-- about content -->
         </div>
         <div class="col-lg-6" :class="{ 'order-lg-first': right }">
