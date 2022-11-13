@@ -37,12 +37,7 @@
                   <li class="nav-item">
                     <a class="page-scroll" href="#features" style="color:black">Features</a>
                   </li> -->
-                  <li class="nav-item">
-                    <a class="page-scroll" href="#about">About</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="page-scroll" href="#facts">Why</a>
-                  </li>
+              
                   <li class="nav-item">
                     <!-- <a class="main-btn" data-scroll-nav="0" href="#pricing">Login</a> -->
                     <!-- <button class="btn" type="button" id="start-btn" v-on:click="this.$router.push({ path: '/signup' })">Login</button> -->
@@ -50,7 +45,7 @@
                   </li>
                 </ul>
               </div> <!-- navbar collapse -->
-              <button class="btn" type="button" id="start-btn" v-on:click="this.$router.push({ path: '/signup' })">Login</button>
+              <button class="btn" type="button" id="start-btn" v-on:click="this.$router.push({ path: '/signup' })">Get Started</button>
 
          
             </nav> <!-- navbar -->

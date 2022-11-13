@@ -40,13 +40,7 @@
       
               <div class="link-wrapper wow fadeIn" data-wow-duration="1s" data-wow-delay="0.6s">
             
-                <ul class="link">
-                  <li><a href="#">Home</a></li>
-                  <li v-on:click="this.$router.push('/listings')"><a href="#"> View Listings</a></li>
-                  <li v-on:click="this.$router.push('/signup')"><a href="#"> Login</a></li>
-                  <li v-on:click="this.$router.push('/profile')"><a href="#"> Profile</a></li>
-
-                </ul>
+             
               </div> <!-- footer wrapper -->
             </div> <!-- footer link -->
           </div>
@@ -58,7 +52,7 @@
                 </h4>
               </div>
               <ul class="contact">
-                <li>+6583763872</li>
+              
                 <li>info@smug.com</li> 
                 <li>Singapore Management University, 40 Stamford Rd, Level 3 SMU Connexion</li>
               </ul>
