@@ -33,8 +33,7 @@
               <p class="text">
                 {{ feature.content }}
               </p>
-              <br>
-              <a class="more" href="#" style="color:#1f5c64;" >Sign up now<Icon icon="ci:chevron-right" /></a>
+              <a class="more" href="#">Sign up now<Icon icon="ci:chevron-right" /></a>
             </div>
           </div> <!-- single services -->
         </div>
