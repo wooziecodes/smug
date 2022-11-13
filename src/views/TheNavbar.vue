@@ -15,7 +15,7 @@
 </svg>
 
               </a>
-              <button
+              <!-- <button
                 class="navbar-toggler"
                 type="button"
                 data-toggle="collapse"
@@ -27,7 +27,7 @@
                 <span class="toggler-icon" />
                 <span class="toggler-icon" />
                 <span class="toggler-icon" />
-              </button>
+              </button> -->
 
               <div id="navbarSupportedContent" class="collapse navbar-collapse sub-menu-bar">
                 <ul id="nav" class="navbar-nav ml-auto">

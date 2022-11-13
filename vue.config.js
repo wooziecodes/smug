@@ -15,6 +15,6 @@ module.exports = {
       })
     ]
   },
-  publicPath: '/smug/'
+  // publicPath: '/smug/'
   
 }
