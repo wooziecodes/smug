@@ -14,7 +14,7 @@
           >
             <div class="section-title">
 
-              <h3 class="title" style="margin-bottom:5%">
+              <h3 class="title" style="margin-bottom:10%">
                 {{ title }}
               </h3>
             </div> <!-- section title -->
