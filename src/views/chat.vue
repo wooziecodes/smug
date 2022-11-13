@@ -12,7 +12,6 @@
                     </ChatComponent>
                 </div>
                 <!-- </div> -->
-
                 <!-- <div class="col-sm-4"> -->
                 <div class="container chat-container" v-if="selected">
                     <div class="d-flex align-items-center chat-header">
