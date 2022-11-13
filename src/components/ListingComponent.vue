@@ -117,8 +117,6 @@ export default {
       const querySnap = await getDocs(query(collection(db, "users"), where("uid", "==", uid)));
       querySnap.forEach((doc) => {
         if (doc.data().uid == uid) {
-          console.log(doc.data())
-          console.log(this.id)
           if (doc.data().bookmarked.includes(this.id)) {
             this.isBookmarked = true
           }
@@ -259,6 +257,12 @@ export default {
   }
 }
 
+@media only screen and (max-width: 750px) {
+  .fa-star, .fa-heart {
+    font-size: 2vw !important;
+  }
+}
+
 @media only screen and (max-width: 646px) {
   .tutorName {
     font-size: 2vw
@@ -273,11 +277,6 @@ export default {
 
   .listing-container {
     height: 38vw
-  }
-
-  .fa-star,
-  .fa-heart {
-    font-size: 2vw
   }
 }
 
@@ -299,7 +298,7 @@ export default {
 
   .fa-star,
   .fa-heart {
-    font-size: 3vw
+    font-size: 3vw !important
   }
 }
 
@@ -349,7 +348,7 @@ export default {
 
   .fa-star,
   .fa-heart {
-    font-size: 6vw
+    font-size: 6vw !important
   }
 }
 </style>

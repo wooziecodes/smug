@@ -92,7 +92,8 @@
 
   <div class="listings-container container d-flex flex-wrap mt-4">
     <ListingComponent v-for="listing in listings" class="listing-component query" :id="listing.id" :tutor="listing.user"
-      :code="listing.module" :prof="listing.prof" :price="listing.price" :userID="listing.userID" :isOwn="true">
+      :code="listing.module" :prof="listing.prof" :price="listing.price" :userID="listing.userID" :isOwn="true"
+      @listingId="editListing">
     </ListingComponent>
   </div>
 
@@ -113,6 +114,23 @@
       </div>
     </div>
   </div>
+  <div v-if="editingListing" class="big-cont">
+    <div class="listing-container add-module-container">
+      <div class="container" id="add-module-input">
+        <input type="file" ref="file" style="display: none" @change="loadPhoto" />
+        <img :src="listingImg" style="width:100%; max-height: 119px; max-width: 104.2px; margin-bottom: 8px;"
+          @click="$refs.file.click()">
+        <select class="select" v-model="editMod">
+          <option v-for="mod of modules" :value="mod.code">{{ mod.code }}: {{ mod.name }}</option>
+        </select>
+        <input class="add-fields form-control" type="text" placeholder="Prof" v-model="editProf">
+        <input class="add-fields form-control" type="text" placeholder="Price" v-model="editPrice">
+        <button class="btn" id="cancelListingBtn" @click="closeEdit()">Cancel</button>
+        <button class="btn btn-warning" id="deleteBtn" @click="deleteListing()">Delete</button>
+        <button class="btn" id="editListingBtn" @click="toggleEditListing()">Confirm</button>
+      </div>
+    </div>
+  </div>
   <div class="about-shape-2">
     <img :src="require('../assets/images/about-shape-2.svg')" />
   </div>
@@ -125,7 +143,7 @@
 import ListingComponent from "../components/ListingComponent.vue";
 
 import { onAuthStateChanged } from "firebase/auth"
-import { query, collection, doc, where, getDocs, updateDoc, addDoc } from "firebase/firestore"
+import { query, collection, doc, where, getDocs, updateDoc, addDoc, onSnapshot, deleteDoc } from "firebase/firestore"
 import { db, auth, storage } from "../firebase/init"
 import Navbar from '../components/Navbar.vue'
 import { ref, getDownloadURL, listAll, deleteObject, uploadBytes, uploadString } from "firebase/storage"
@@ -149,17 +167,19 @@ export default {
       id: "",
       imgName: "",
       adding: false,
+      editingListing: false,
       listingImg: require("../assets/images/module-placeholder.png"),
+      listingId: "",
       pic: null,
       newMod: "",
       newProf: "",
       newPrice: "",
-      modules: []
+      modules: [],
+      editProf: "",
+      editPrice: "",
     };
   },
   created() {
-
-
     onAuthStateChanged(auth, (user) => {
       if (user) {
         this.getUser(user.uid)
@@ -178,11 +198,14 @@ export default {
       })
     },
     async getListings(uid) {
-      const querySnap = await getDocs(query(collection(db, "listings"), where("userID", "==", uid)));
-      querySnap.forEach((doc) => {
-        let listing = doc.data()
-        listing["id"] = doc.id
-        this.listings.push(listing);
+      const q = query(collection(db, "listings"), where("userID", "==", uid))
+      onSnapshot(q, (querySnapshot) => {
+        this.listings = []
+        querySnapshot.forEach((doc) => {
+          let listing = doc.data()
+          listing["id"] = doc.id
+          this.listings.push(listing);
+        })
       })
     },
     async getUser(uid) {
@@ -232,7 +255,7 @@ export default {
       }
       querySnap.forEach((d) => {
         const userRef = doc(db, "users", d.id)
-        updateDoc(userRef, userData).then((res) => {
+        updateDoc(userRef, userData).then(() => {
           console.log("updated")
           this.toggleEdit()
         })
@@ -249,6 +272,9 @@ export default {
     close() {
       this.adding = false;
     },
+    closeEdit() {
+      this.editingListing = false;
+    },
     async toggleAdd() {
       if (this.adding) {
         if (this.newPrice.includes(".")) {
@@ -256,9 +282,6 @@ export default {
         } else {
           this.newPrice = parseInt(this.newPrice)
         }
-
-        console.log(this.newPrice)
-
         const q = query(collection(db, "users"), where("uid", "==", this.userid))
         const qs = await getDocs(q)
         qs.forEach((d) => {
@@ -297,10 +320,43 @@ export default {
       const imageRef = ref(storage, "users/" + this.imgName)
       deleteObject(imageRef).then(() => {
         const storageRef = ref(storage, "users/" + this.id)
-        uploadBytes(storageRef, event.target.files[0]).then((snapshot) => {
-          console.log("Image uploaded!")
+        uploadBytes(storageRef, event.target.files[0]).then(() => {
           this.getUser(this.userid)
         })
+      })
+    },
+    async deleteListing() {
+      await deleteDoc(doc(db, "listings", this.listingId))
+      this.editingListing = false
+    },
+    toggleEditListing() {
+      getDownloadURL(ref(storage, "listings/" + this.listingId)).then((url) => {
+        if (url != this.listingImg) {
+          const storageRef = ref(storage, "listings/" + this.listingId)
+          deleteObject(storageRef).then(() => {
+            uploadBytes(storageref, this.pic).then(() => {
+              const listingRef = doc(db, "listings", this.listingId)
+              updateDoc(listingRef, {
+                module: this.editMod,
+                price: this.editPrice,
+                prof: this.editProf
+              }).then(() => {
+                alert("Updated!")
+                this.editingListing = false
+              })
+            })
+          })
+        } else {
+          const listingRef = doc(db, "listings", this.listingId)
+          updateDoc(listingRef, {
+            module: this.editMod,
+            price: this.editPrice,
+            prof: this.editProf
+          }).then(() => {
+            alert("Updated!")
+            this.editingListing = false
+          })
+        }
       })
     },
     loadPhoto(e) {
@@ -308,6 +364,21 @@ export default {
       var reader = new FileReader()
       reader.readAsDataURL(this.pic)
       reader.onload = () => (this.listingImg = reader.result)
+    },
+    async editListing(e) {
+      this.listingId = e
+      const querySnapshot = await (getDocs(query(collection(db, "listings"))))
+      querySnapshot.forEach((doc) => {
+        if (doc.id == e) {
+          this.editMod = doc.data().module
+          this.editProf = doc.data().prof
+          this.editPrice = doc.data().price
+          getDownloadURL(ref(storage, "listings/" + e)).then((url) => {
+            this.listingImg = url
+          })
+          this.editingListing = true
+        }
+      })
     }
   },
   components: { ListingComponent, Navbar, FontAwesomeIcon },
@@ -416,7 +487,7 @@ input {
   position: fixed;
   top: 20%;
   width: 40vw;
-  height: 50vh;
+  height: 350px;
   left: 30vw;
 }
 
@@ -564,6 +635,33 @@ input {
   width: 100%
 }
 
+#cancelListingBtn {
+  color: #1F5C64;
+  width: 20%;
+  border: 1px solid gray;
+}
+
+#cancelListingBtn:hover {
+  box-shadow: #5b6060 0px 2px 6px;
+}
+
+#editListingBtn {
+  margin-left: 2%;
+  width: 20%;
+  background-color: #75ACB4 !important;
+  color: white;
+}
+
+#editListingBtn:hover {
+  box-shadow: #5b6060 0px 2px 6px;
+}
+
+#deleteBtn {
+  margin-left: 2%;
+  width: 20%;
+  color: black;
+}
+
 .about-shape-2 {
   position: absolute;
   top: 0;
@@ -621,38 +719,89 @@ input {
   transform: translateY(-50%);
 }
 
+@media only screen and (max-width: 1120px) {
+  #deleteBtn {
+    width: 30%
+  }
+  #editListingBtn {
+    width: 30%
+  }
+  #cancelListingBtn {
+    width: 30%
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #deleteBtn {
+    font-size: 2vw;
+  }
+  #editListingBtn {
+    font-size: 2vw;
+
+  }
+  #cancelListingBtn {
+    font-size: 2vw;
+  }
+}
+
+@media only screen and (max-width: 615px) {
+  #deleteBtn {
+    width: 100%;
+    margin-left: 0;
+    font-size: 14px;
+  }
+  #editListingBtn {
+    width: 100%;
+    margin-left: 0;
+    font-size: 14px;
+  }
+  #cancelListingBtn {
+    width: 100%;
+    font-size: 14px;
+  }
+  .add-module-container {
+    height: 400px;
+  }
+}
+
 @media only screen and (max-width: 464px) {
   .profilePic {
     height: 200px;
     width: 200px;
   }
+
   .profilepic {
     width: 200px;
     height: 200px;
   }
+
   .profilepic__image {
     height: 200px;
     width: 200px;
   }
+
   #name {
     margin-top: 100px;
     font-size: 30px;
   }
+
   th {
     font-size: 10px;
   }
+
   td {
     font-size: 10px;
   }
+
   #cancelBtn {
     width: 45%;
     font-size: 13px;
   }
+
   #add-listing-btn {
     width: 45%;
     font-size: 13px;
   }
 }
-
 </style>
 
