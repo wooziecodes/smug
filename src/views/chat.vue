@@ -136,13 +136,14 @@
 
 </template>
 <script>
-import { query, collection, setDoc, doc, updateDoc, where, getDocs, onSnapshot, serverTimestamp, orderBy } from "firebase/firestore"
+import { query, collection, setDoc, doc, updateDoc, where, getDocs, onSnapshot, serverTimestamp, orderBy, getDoc } from "firebase/firestore"
 import { db, auth, storage } from "../firebase/init"
 import { ref, getDownloadURL, listAll } from "firebase/storage"
 import { onAuthStateChanged } from "firebase/auth"
 import Message from "../components/Message.vue"
 import ChatComponent from "../components/ChatComponent.vue"
 import Navbar from "../components/Navbar.vue"
+import { FieldPath } from "@firebase/app"
 
 export default {
     data() {
@@ -271,37 +272,8 @@ export default {
                         })
                     }
                     this.chats = []
-                    const cUid = []
-                    const orderedcUid = []
-                    var checked = false
                     c.forEach((chat) => {
-                        getDocs(query(collection(db, "users")))
-                            .then(qs => {
-                                qs.forEach((doc) => {
-                                    if (doc.id == chat) {
-                                        cUid.push(doc.data().uid)
-                                    }
-                                })
-                                getDocs(query(collection(db, "messages"), orderBy("timestamp", "desc")))
-                                    .then(qs => {
-                                        qs.forEach((doc) => {
-                                            if (doc.data().uid == this.uid && cUid.includes(doc.data().recipient)) {
-                                                if (!orderedcUid.includes(doc.data().recipient)) {
-                                                    orderedcUid.push(doc.data().recipient)
-                                                }
-                                            } else if (cUid.includes(doc.data().uid) && doc.data().recipient == this.uid) {
-                                                if (!orderedcUid.includes(doc.data().recipient)) {
-                                                    orderedcUid.push(doc.data().recipient)
-                                                }
-                                            }
-                                        })
-
-                                        if (!checked) {
-                                            this.loadChatOrder(orderedcUid)
-                                            checked = true
-                                        }
-                                    })
-                            })
+                        this.chats.push(chat)
                     })
                 })
             })
