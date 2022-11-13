@@ -309,9 +309,6 @@ export default {
     visibility: visible;
   }
 }
-.button {
-  /* padding: 10px 0px; */
-}
 .navbar-nav .nav-item .sub-menu li {
   display: block;
 }

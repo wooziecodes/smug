@@ -8,7 +8,7 @@ const routes = [
     name: 'Landing',
     component: () => import("../views/Landing.vue"),
     meta: {
-      // requiresAuth: true,
+      requiresAuth: false,
     },
   },
   {
