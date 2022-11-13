@@ -5,45 +5,46 @@
     <div class="container">
         <div>
             <div class="row">
-                
-            <!-- <div class="col-sm-4 "> -->
-                <div class="chatList">
-                    <ChatComponent v-for="chat in chats" :id="chat" :user="uid" @toggleSelect="toggleSelect"></ChatComponent>
-                </div>
-            <!-- </div> -->
 
-            <!-- <div class="col-sm-4"> -->
-                    <div class="container chat-container" v-if="selected">
-                        <div class="d-flex align-items-center chat-header">
-                            <img :src="imgUrl" />
-                            <span class="display-name">{{ name }}</span>
-                        </div>
-                        <div class="message-container">
-                            <Message v-for="message in messages" :user="message.uid" :recipient="message.recipient" :text="message.text"
-                            :isUser="message.isUser"></Message>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center message-parent">
-                            <input type="text" class="form-control message-box" placeholder="Enter your message"
+                <!-- <div class="col-sm-4 "> -->
+                <div class="chatList">
+                    <ChatComponent v-for="chat in chats" :id="chat" :user="uid" @toggleSelect="toggleSelect">
+                    </ChatComponent>
+                </div>
+                <!-- </div> -->
+
+                <!-- <div class="col-sm-4"> -->
+                <div class="container chat-container" v-if="selected">
+                    <div class="d-flex align-items-center chat-header">
+                        <img :src="imgUrl" />
+                        <span class="display-name">{{ name }}</span>
+                    </div>
+                    <div class="message-container">
+                        <Message v-for="message in messages" :user="message.uid" :recipient="message.recipient"
+                            :text="message.text" :isUser="message.isUser"></Message>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center message-parent">
+                        <input type="text" class="form-control message-box" placeholder="Enter your message"
                             @keypress.enter="sendMessage" v-model="text">
                         <button type="button" class="btn" @click="sendMessage" id="send-btn">Send</button>
-                        </div>
                     </div>
+                </div>
 
-                    <div class="container chat-container" v-if="selected == false">
-                        <div class="d-flex align-items-center chat-header">
+                <div class="container chat-container" v-if="selected == false">
+                    <div class="d-flex align-items-center chat-header">
                         <span class="display-name">{{ name }}</span>
                         Select a user first!
-                        </div>
                     </div>
-            <!-- </div> -->
+                </div>
+                <!-- </div> -->
 
-            <!-- <div class="col-sm-4"> -->
+                <!-- <div class="col-sm-4"> -->
                 <div class="profile" v-if="selected">
                     <div class="d-flex">
                         <div class="container details">
                             <div class="row" style="padding-top: 10px">
                                 <div class="imagebox col col-xl-6" style="text-align:center;">
-                                    <img :src="imgUrl" class="img-fluid w-100 h-100" id="profile"/>
+                                    <img :src="imgUrl" class="img-fluid w-100 h-100" id="profile" />
                                 </div>
                                 <div class="col col-xl-6 details-info">
                                     <div class="row">
@@ -74,42 +75,46 @@
                     <div v-if="!reviewing">
                         <div v-if="!isAccepted">
                             <div v-if="!isWaiting">
-                                <div class="btn btn-light booking-btn" v-if="!hasSentBooking" @click="sendBooking" id="send-booking">Send booking
+                                <div class="btn btn-light booking-btn" v-if="!hasSentBooking" @click="sendBooking"
+                                    id="send-booking">Send booking
                                 </div>
-                                <div class="btn btn-success booking-btn" v-if="hasSentBooking" id="booking-sent">Booking sent</div>
+                                <div class="btn btn-success booking-btn" v-if="hasSentBooking" id="booking-sent">Booking
+                                    sent</div>
                             </div>
-                            <div class="btn btn-light booking-btn" v-if="isWaiting" @click="acceptBooking($event)" id="accept-booking">Accept booking
+                            <div class="btn btn-light booking-btn" v-if="isWaiting" @click="acceptBooking($event)"
+                                id="accept-booking">Accept booking
                             </div>
                         </div>
-                    <div class="btn btn-light booking-btn" v-if="isAccepted" id="booking-accepted">Booking Accepted</div>
+                        <div class="btn btn-light booking-btn" v-if="isAccepted" id="booking-accepted">Booking Accepted
+                        </div>
                     </div>
                     <div class="d-flex justify-content-center heartBox" v-if="reviewing" id="stars-text">
                         <p style="font-weight: bold">Please rate your tuition experience!</p>
                     </div>
                     <div class="stars" style="text-align: center" v-if="reviewing">
-                    <font-awesome-icon :icon="icon1" @mouseover="icon1 = ['fa-solid', 'fa-star']"
-                        @mouseout="icon1 = ['fa-regular', 'fa-star']" class="fa-heart" @click="rate(1)" />
-                    <font-awesome-icon :icon="icon2"
-                        @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']"
-                        @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']" class="fa-heart"
-                        @click="rate(2)" />
-                    <font-awesome-icon :icon="icon3"
-                        @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']; icon3 = ['fa-solid', 'fa-star']"
-                        @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']; icon3 = ['fa-regular', 'fa-star']"
-                        class="fa-heart" @click="rate(3)" />
-                    <font-awesome-icon :icon="icon4"
-                        @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']; icon3 = ['fa-solid', 'fa-star']; icon4 = ['fa-solid', 'fa-star']"
-                        @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']; icon3 = ['fa-regular', 'fa-star']; icon4 = ['fa-regular', 'fa-star']"
-                        class="fa-heart" @click="rate(4)" />
-                    <font-awesome-icon :icon="icon5"
-                        @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']; icon3 = ['fa-solid', 'fa-star']; icon4 = ['fa-solid', 'fa-star']; icon5 = ['fa-solid', 'fa-star']"
-                        @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']; icon3 = ['fa-regular', 'fa-star']; icon4 = ['fa-regular', 'fa-star']; icon5 = ['fa-regular', 'fa-star']"
-                        class="fa-heart" @click="rate(5)" />
+                        <font-awesome-icon :icon="icon1" @mouseover="icon1 = ['fa-solid', 'fa-star']"
+                            @mouseout="icon1 = ['fa-regular', 'fa-star']" class="fa-heart" @click="rate(1)" />
+                        <font-awesome-icon :icon="icon2"
+                            @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']"
+                            @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']"
+                            class="fa-heart" @click="rate(2)" />
+                        <font-awesome-icon :icon="icon3"
+                            @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']; icon3 = ['fa-solid', 'fa-star']"
+                            @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']; icon3 = ['fa-regular', 'fa-star']"
+                            class="fa-heart" @click="rate(3)" />
+                        <font-awesome-icon :icon="icon4"
+                            @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']; icon3 = ['fa-solid', 'fa-star']; icon4 = ['fa-solid', 'fa-star']"
+                            @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']; icon3 = ['fa-regular', 'fa-star']; icon4 = ['fa-regular', 'fa-star']"
+                            class="fa-heart" @click="rate(4)" />
+                        <font-awesome-icon :icon="icon5"
+                            @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']; icon3 = ['fa-solid', 'fa-star']; icon4 = ['fa-solid', 'fa-star']; icon5 = ['fa-solid', 'fa-star']"
+                            @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']; icon3 = ['fa-regular', 'fa-star']; icon4 = ['fa-regular', 'fa-star']; icon5 = ['fa-regular', 'fa-star']"
+                            class="fa-heart" @click="rate(5)" />
                     </div>
                     <div v-if="reviewed" style="text-align:center">Thanks for leaving a review!</div>
                 </div>
 
-            <!-- </div> -->
+                <!-- </div> -->
 
             </div>
         </div>
@@ -122,14 +127,14 @@
 
 
     <div class="wave">
-    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-      <path
-        d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
-        class="shape-fill"></path>
-    </svg>
-  </div>
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path
+                d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
+                class="shape-fill"></path>
+        </svg>
+    </div>
 
-  
+
 </template>
 <script>
 import { query, collection, setDoc, doc, updateDoc, where, getDocs, onSnapshot, serverTimestamp, orderBy } from "firebase/firestore"
@@ -216,7 +221,7 @@ export default {
         },
         async loadChat(uid) {
             const q = query(collection(db, "users"), where("uid", "==", uid))
-            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            onSnapshot(q, (querySnapshot) => {
                 querySnapshot.forEach((docu) => {
                     const c = docu.data().chats
                     if (this.$route.params.id != undefined && this.$route.params.id != "") {
@@ -267,8 +272,37 @@ export default {
                         })
                     }
                     this.chats = []
+                    const cUid = []
+                    const orderedcUid = []
+                    var checked = false
                     c.forEach((chat) => {
-                        this.chats.push(chat)
+                        getDocs(query(collection(db, "users")))
+                            .then(qs => {
+                                qs.forEach((doc) => {
+                                    if (doc.id == chat) {
+                                        cUid.push(doc.data().uid)
+                                    }
+                                })
+                                getDocs(query(collection(db, "messages"), orderBy("timestamp", "desc")))
+                                    .then(qs => {
+                                        qs.forEach((doc) => {
+                                            if (doc.data().uid == this.uid && cUid.includes(doc.data().recipient)) {
+                                                if (!orderedcUid.includes(doc.data().recipient)) {
+                                                    orderedcUid.push(doc.data().recipient)
+                                                }
+                                            } else if (cUid.includes(doc.data().uid) && doc.data().recipient == this.uid) {
+                                                if (!orderedcUid.includes(doc.data().recipient)) {
+                                                    orderedcUid.push(doc.data().recipient)
+                                                }
+                                            }
+                                        })
+
+                                        if (!checked) {
+                                            this.loadChatOrder(orderedcUid)
+                                            checked = true
+                                        }
+                                    })
+                            })
                     })
                 })
             })
@@ -285,6 +319,16 @@ export default {
                     this.loadImage();
                 }
             })
+        },
+        async loadChatOrder(ordered) {
+            for (var uid of ordered) {
+                const querySnap = await getDocs(query(collection(db, "users"), where("uid", "==", uid)))
+                querySnap.forEach((doc) => {
+                    if (uid != this.uid) {
+                        this.chats.push(doc.id)
+                    }
+                })
+            }
         },
         async loadCard() {
             const q = query(collection(db, "users"), where("uid", "==", this.recipient))
@@ -400,6 +444,7 @@ export default {
 
             const messagesRef = collection(db, "messages")
             await setDoc(doc(messagesRef), newMessage);
+            this.loadChat(this.uid)
         },
         async loadImage() {
             const q = query(collection(db, "users"))
@@ -574,111 +619,123 @@ export default {
 }
 
 .wave {
-  position: fixed;
-  z-index: -9;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  line-height: 0;
+    position: fixed;
+    z-index: -9;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
 }
 
 .wave svg {
-  position: relative;
-  display: block;
-  width: calc(192% + 1.3px);
-  height: 500px;
+    position: relative;
+    display: block;
+    width: calc(192% + 1.3px);
+    height: 500px;
 }
 
 .wave .shape-fill {
-  fill: #75acb4;
+    fill: #75acb4;
 }
 
-.chatList{
+.chatList {
     padding-left: 5px !important;
 }
 
-#profile{
+#profile {
     border-radius: 5%;
 }
 
-#send-booking, #accept-booking{
+#send-booking,
+#accept-booking {
     background-color: #75acb4 !important;
     color: white
 }
 
-#send-booking:hover, #booking-sent, #accept-booking:hover, #booking-accepted{
+#send-booking:hover,
+#booking-sent,
+#accept-booking:hover,
+#booking-accepted {
     background-color: #1f5c64 !important;
     color: white;
 }
 
-#booking-sent{
+#booking-sent {
     background-color: #1f5c64 !important;
 }
 
-#accept-booking, #booking-accepted{
+#accept-booking,
+#booking-accepted {
     width: 50%;
     margin-left: 25%;
     margin-right: 25%
 }
 
-#stars-text{
+#stars-text {
     margin-top: 20px;
 }
+
 @media only screen and (max-width: 1200px) {
-    .booking-btn{
+    .booking-btn {
         margin-top: 10%;
     }
 }
+
 @media only screen and (max-width: 750px) {
-    .chatList{
+    .chatList {
         width: 30%;
         height: 45%;
     }
-    .chat-container{
+
+    .chat-container {
         height: 45%;
-        width: 60% !important;  
+        width: 60% !important;
         left: 35%;
     }
+
     .profile {
-        
+
         padding-top: 25px;
         top: 63%;
         left: 5%;
         width: 90%;
         height: 35% !important;
     }
-    .booking-btn{
+
+    .booking-btn {
         margin-top: 5%;
         height: 100%;
         font-size: 20px !important;
     }
+
     #profile {
         width: 200px !important;
         height: 200px !important;
         /* border-radius: 40%; */
     }
-    .imagebox{
-        /* padding-left: 0px; */
-    }
+
     .card-name {
         font-size: xx-large !important;
     }
-    .fa-star{
+
+    .fa-star {
         font-size: 20px;
     }
-    .ratings{
+
+    .ratings {
         font-size: 20px;
     }
+
     .year_major {
         font-size: 15px;
     }
-    .payment{
+
+    .payment {
         font-size: 15px;
     }
-    
-}
 
+}
 </style>
 
 <!-- .profile {

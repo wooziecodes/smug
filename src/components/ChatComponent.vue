@@ -2,8 +2,8 @@
     <div class="parent-container" @click="toggleSelect">
         <img :src="imgUrl" class="pfp" />
         <div class="preview">
-            <p class="name">{{ name }}</p>
-            <p class="text">{{ recent }}</p>
+            <span class="name">{{ name }}</span>
+            <span class="text">{{ recent }}</span>
         </div>
     </div>
 </template>
@@ -32,12 +32,15 @@ export default {
     methods: {
         async getRecentMessage() {
             const q = query(collection(db, "messages"), orderBy("timestamp"))
-            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            onSnapshot(q, (querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     if (doc.data().uid == this.uid && doc.data().recipient == this.user) {
                         this.recent = doc.data().text
                     } else if (doc.data().recipient == this.uid && doc.data().uid == this.user) {
                         this.recent = doc.data().text
+                    }
+                    if (this.recent.length > 20) {
+                        this.recent = this.recent.slice(0, 20) + "..."
                     }
                 })
             })
@@ -82,7 +85,6 @@ export default {
 </script>
 <style>
 .parent-container {
-    margin-top: 0;
     display: flex;
     align-items: center;
     width: 100%;
@@ -103,16 +105,20 @@ export default {
 
 .preview {
     margin-left: 5%;
+    display: grid;
 }
 
 .name {
-    margin-top: 12%;
     font-size: 16px;
     color: black;
+    grid-column: 1;
+    grid-row: 1;
 }
 
 .text {
-    margin-top: -12%;
     font-size: 14px;
+    display: inline;
+    grid-column: 1;
+    grid-row: 2;
 }
 </style>

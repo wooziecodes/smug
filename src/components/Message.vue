@@ -58,6 +58,8 @@ export default {
 }
 
 .recipient {
+    word-break:break-all;
+    white-space: pre-wrap !important;
     width: 30%;
     background: #75acb4;
     color: white;
@@ -67,6 +69,8 @@ export default {
 }
 
 .user {
+    word-break:break-all;
+    white-space: pre-wrap !important;
     width: 30%;
     background: #1f5c64;
     color: white;
