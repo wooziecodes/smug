@@ -1,99 +1,126 @@
 <template>
     <Navbar></Navbar>
-    <div class="chatList">
-        <ChatComponent v-for="chat in chats" :id="chat" :user="uid" @toggleSelect="toggleSelect"></ChatComponent>
-    </div>
-    <div class="container chat-container" v-if="selected">
-        <div class="d-flex align-items-center chat-header">
-            <img :src="imgUrl" />
-            <span class="display-name">{{ name }}</span>
-        </div>
-        <div class="message-container">
-            <Message v-for="message in messages" :user="message.uid" :recipient="message.recipient" :text="message.text"
-                :isUser="message.isUser"></Message>
-        </div>
-        <div class="d-flex justify-content-between align-items-center message-parent">
-            <input type="text" class="form-control message-box" placeholder="Enter your message"
-                @keypress.enter="sendMessage" v-model="text">
-            <button type="button" class="btn" @click="sendMessage" id="send-btn">Send</button>
-        </div>
-    </div>
-    <div class="container chat-container" v-if="selected == false">
-        <div class="d-flex align-items-center chat-header">
-            <span class="display-name">{{ name }}</span>
-            Select a user first!
-        </div>
-    </div>
-    <div class="profile" v-if="selected">
-        <div class="d-flex">
-            <div class="container details">
-                <div class="row" style="padding-top: 10px">
-                    <div class="col col-xl-6" style="text-align:center;">
-                        <img :src="imgUrl" class="img-fluid w-100 h-100" id="profile"/>
-                    </div>
-                    <div class="col col-xl-6 details-info">
-                        <div class="row">
-                            <div class="col">
-                                <span class="card-name">{{ name }}&nbsp;</span>
-                            </div>
+
+
+    <div class="container">
+        <div>
+            <div class="row">
+                
+            <!-- <div class="col-sm-4 "> -->
+                <div class="chatList">
+                    <ChatComponent v-for="chat in chats" :id="chat" :user="uid" @toggleSelect="toggleSelect"></ChatComponent>
+                </div>
+            <!-- </div> -->
+
+            <!-- <div class="col-sm-4"> -->
+                    <div class="container chat-container" v-if="selected">
+                        <div class="d-flex align-items-center chat-header">
+                            <img :src="imgUrl" />
+                            <span class="display-name">{{ name }}</span>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <font-awesome-icon icon="fa-solid fa-star" class="fa-star" />
-                                <span class="ratings">{{ rating }} ({{ ratingCount }})</span>
-                            </div>
+                        <div class="message-container">
+                            <Message v-for="message in messages" :user="message.uid" :recipient="message.recipient" :text="message.text"
+                            :isUser="message.isUser"></Message>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <span>Year {{ year }} {{ major }} Major</span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <span>{{ payment }}</span>
-                            </div>
+                        <div class="d-flex justify-content-between align-items-center message-parent">
+                            <input type="text" class="form-control message-box" placeholder="Enter your message"
+                            @keypress.enter="sendMessage" v-model="text">
+                        <button type="button" class="btn" @click="sendMessage" id="send-btn">Send</button>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div v-if="!reviewing">
-            <div v-if="!isAccepted">
-                <div v-if="!isWaiting">
-                    <div class="btn btn-light booking-btn" v-if="!hasSentBooking" @click="sendBooking" id="send-booking">Send booking
+
+                    <div class="container chat-container" v-if="selected == false">
+                        <div class="d-flex align-items-center chat-header">
+                        <span class="display-name">{{ name }}</span>
+                        Select a user first!
+                        </div>
                     </div>
-                    <div class="btn btn-success booking-btn" v-if="hasSentBooking" id="booking-sent">Booking sent</div>
+            <!-- </div> -->
+
+            <!-- <div class="col-sm-4"> -->
+                <div class="profile" v-if="selected">
+                    <div class="d-flex">
+                        <div class="container details">
+                            <div class="row" style="padding-top: 10px">
+                                <div class="col col-xl-6" style="text-align:center;">
+                                    <img :src="imgUrl" class="img-fluid w-100 h-100" id="profile"/>
+                                </div>
+                                <div class="col col-xl-6 details-info">
+                                    <div class="row">
+                                        <div class="col">
+                                            <span class="card-name">{{ name }}&nbsp;</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <font-awesome-icon icon="fa-solid fa-star" class="fa-star" />
+                                            <span class="ratings">{{ rating }} ({{ ratingCount }})</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <span>Year {{ year }} {{ major }} Major</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <span>{{ payment }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="!reviewing">
+                        <div v-if="!isAccepted">
+                            <div v-if="!isWaiting">
+                                <div class="btn btn-light booking-btn" v-if="!hasSentBooking" @click="sendBooking" id="send-booking">Send booking
+                                </div>
+                                <div class="btn btn-success booking-btn" v-if="hasSentBooking" id="booking-sent">Booking sent</div>
+                            </div>
+                            <div class="btn btn-light booking-btn" v-if="isWaiting" @click="acceptBooking($event)" id="accept-booking">Accept booking
+                            </div>
+                        </div>
+                    <div class="btn btn-light booking-btn" v-if="isAccepted" id="booking-accepted">Booking Accepted</div>
+                    </div>
+                    <div class="d-flex justify-content-center heartBox" v-if="reviewing" id="stars-text">
+                        <p style="font-weight: bold">Please rate your tuition experience!</p>
+                    </div>
+                    <div class="stars" style="text-align: center" v-if="reviewing">
+                    <font-awesome-icon :icon="icon1" @mouseover="icon1 = ['fa-solid', 'fa-star']"
+                        @mouseout="icon1 = ['fa-regular', 'fa-star']" class="fa-heart" @click="rate(1)" />
+                    <font-awesome-icon :icon="icon2"
+                        @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']"
+                        @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']" class="fa-heart"
+                        @click="rate(2)" />
+                    <font-awesome-icon :icon="icon3"
+                        @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']; icon3 = ['fa-solid', 'fa-star']"
+                        @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']; icon3 = ['fa-regular', 'fa-star']"
+                        class="fa-heart" @click="rate(3)" />
+                    <font-awesome-icon :icon="icon4"
+                        @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']; icon3 = ['fa-solid', 'fa-star']; icon4 = ['fa-solid', 'fa-star']"
+                        @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']; icon3 = ['fa-regular', 'fa-star']; icon4 = ['fa-regular', 'fa-star']"
+                        class="fa-heart" @click="rate(4)" />
+                    <font-awesome-icon :icon="icon5"
+                        @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']; icon3 = ['fa-solid', 'fa-star']; icon4 = ['fa-solid', 'fa-star']; icon5 = ['fa-solid', 'fa-star']"
+                        @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']; icon3 = ['fa-regular', 'fa-star']; icon4 = ['fa-regular', 'fa-star']; icon5 = ['fa-regular', 'fa-star']"
+                        class="fa-heart" @click="rate(5)" />
+                    </div>
+                    <div v-if="reviewed" style="text-align:center">Thanks for leaving a review!</div>
                 </div>
-                <div class="btn btn-light booking-btn" v-if="isWaiting" @click="acceptBooking($event)" id="accept-booking">Accept booking
-                </div>
+
+            <!-- </div> -->
+
             </div>
-            <div class="btn btn-light booking-btn" v-if="isAccepted" id="booking-accepted">Booking Accepted</div>
         </div>
-        <div class="d-flex justify-content-center heartBox" v-if="reviewing" id="stars-text">
-            <p style="font-weight: bold">Please rate your tuition experience!</p>
-            </div>
-            <div class="stars" style="text-align: center" v-if="reviewing">
-            <font-awesome-icon :icon="icon1" @mouseover="icon1 = ['fa-solid', 'fa-star']"
-                @mouseout="icon1 = ['fa-regular', 'fa-star']" class="fa-heart" @click="rate(1)" />
-            <font-awesome-icon :icon="icon2"
-                @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']"
-                @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']" class="fa-heart"
-                @click="rate(2)" />
-            <font-awesome-icon :icon="icon3"
-                @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']; icon3 = ['fa-solid', 'fa-star']"
-                @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']; icon3 = ['fa-regular', 'fa-star']"
-                class="fa-heart" @click="rate(3)" />
-            <font-awesome-icon :icon="icon4"
-                @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']; icon3 = ['fa-solid', 'fa-star']; icon4 = ['fa-solid', 'fa-star']"
-                @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']; icon3 = ['fa-regular', 'fa-star']; icon4 = ['fa-regular', 'fa-star']"
-                class="fa-heart" @click="rate(4)" />
-            <font-awesome-icon :icon="icon5"
-                @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']; icon3 = ['fa-solid', 'fa-star']; icon4 = ['fa-solid', 'fa-star']; icon5 = ['fa-solid', 'fa-star']"
-                @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']; icon3 = ['fa-regular', 'fa-star']; icon4 = ['fa-regular', 'fa-star']; icon5 = ['fa-regular', 'fa-star']"
-                class="fa-heart" @click="rate(5)" />
-        </div>
-        <div v-if="reviewed" style="text-align:center">Thanks for leaving a review!</div>
     </div>
+
+
+   
+
+
+
+
 
     <div class="wave">
     <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -102,6 +129,8 @@
         class="shape-fill"></path>
     </svg>
   </div>
+
+  
 </template>
 <script>
 import { query, collection, setDoc, doc, updateDoc, where, getDocs, onSnapshot, serverTimestamp, orderBy } from "firebase/firestore"
