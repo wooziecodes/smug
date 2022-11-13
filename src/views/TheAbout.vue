@@ -14,16 +14,17 @@
           >
             <div class="section-title">
 
-              <h3 class="title">
+              <h3 class="title" style="margin-bottom:10%">
                 {{ title }}
               </h3>
             </div> <!-- section title -->
-            <p class="text" id="content-text">
+            <h3 class="text" id="content-text">
               {{ content }}
-            </p>
+            </h3>
             <!-- <a href="#" class="main-btn">Sign Up Today</a> -->
-            <button class="btn" type="button" id="start-btn" v-on:click="this.$router.push({ path: '/signup' })">Get Started</button>
+            
           </div> <!-- about content -->
+          <button class="btn" type="button" id="start-btn" v-on:click="this.$router.push({ path: '/signup' })" style="margin-top:20%">Get Started</button>
         </div>
         <div class="col-lg-6" :class="{ 'order-lg-first': right }">
           <div
@@ -64,7 +65,7 @@ export default {
     right: Boolean,
     title: {
       type: String,
-      default: 'About'
+      default: 'What is SMUG?'
     },
     img: {
       type: String,
@@ -72,7 +73,7 @@ export default {
     },
     content: {
       type: String,
-      default: 'SMUG is a platform for you to find experienced mentors so you that you never have to worry about finding 1-1 academic help again'
+      default: 'SMUG is a platform for you to find experienced mentors so you that you never have to worry about finding 1-1 academic help again. Our quality mentors will ensure you acheive academic success. '
     }
   },
   data () {
