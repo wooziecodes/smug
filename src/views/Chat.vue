@@ -38,9 +38,9 @@
         <div class="d-flex">
 
             <div class="container details">
-                <div class="row">
-                    <div class="col col-xl-6" style="text-align:center">
-                        <img :src="imgUrl" class="img-fluid w-100 h-100" />
+                <div class="row" style="padding-top: 10px">
+                    <div class="col col-xl-6" style="text-align:center;">
+                        <img :src="imgUrl" class="img-fluid w-100 h-100" id="profile"/>
                     </div>
 
                     <div class="col col-xl-6">
@@ -71,16 +71,19 @@
         <div v-if="!reviewing">
             <div v-if="!isAccepted">
                 <div v-if="!isWaiting">
-                    <div class="btn btn-light booking-btn" v-if="!hasSentBooking" @click="sendBooking">Send booking
+                    <div class="btn btn-light booking-btn" v-if="!hasSentBooking" @click="sendBooking" id="send-booking">Send booking
                     </div>
-                    <div class="btn btn-light booking-btn" v-if="hasSentBooking">Booking sent</div>
+                    <div class="btn btn-success booking-btn" v-if="hasSentBooking" id="booking-sent">Booking sent</div>
                 </div>
-                <div class="btn btn-light booking-btn" v-if="isWaiting" @click="acceptBooking($event)">Accept booking
+                <div class="btn btn-light booking-btn" v-if="isWaiting" @click="acceptBooking($event)" id="accept-booking">Accept booking
                 </div>
             </div>
-            <div class="btn btn-light booking-btn" v-if="isAccepted">Booking Accepted</div>
+            <div class="btn btn-light booking-btn" v-if="isAccepted" id="booking-accepted">Booking Accepted</div>
         </div>
-        <div class="d-flex justify-content-center heartBox" v-if="reviewing">
+        <div class="d-flex justify-content-center heartBox" v-if="reviewing" id="stars-text">
+            <p style="font-weight: bold">Please rate your tuition experience!</p>
+            </div>
+            <div class="stars" style="text-align: center" v-if="reviewing">
             <font-awesome-icon :icon="icon1" @mouseover="icon1 = ['fa-solid', 'fa-heart']"
                 @mouseout="icon1 = ['fa-regular', 'fa-heart']" class="fa-heart" @click="rate(1)" />
             <font-awesome-icon :icon="icon2"
@@ -100,8 +103,20 @@
                 @mouseout="icon1 = ['fa-regular', 'fa-heart']; icon2 = ['fa-regular', 'fa-heart']; icon3 = ['fa-regular', 'fa-heart']; icon4 = ['fa-regular', 'fa-heart']; icon5 = ['fa-regular', 'fa-heart']"
                 @click="rate(5)" />
         </div>
-        <div v-if="reviewed">Thanks for leaving a review!</div>
+        <div v-if="reviewed" style="text-align:center">Thanks for leaving a review!</div>
     </div>
+
+    <div class="wave">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path
+        d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
+        class="shape-fill"></path>
+    </svg>
+  </div>
+
+  
+
+  <!-- <svg id="visual" viewBox="0 0 900 600" width="900" height="600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"><rect x="0" y="0" width="900" height="600" fill="#FFFFFF"></rect><defs><linearGradient id="grad1_0" x1="33.3%" y1="0%" x2="100%" y2="100%"><stop offset="20%" stop-color="#ffffff" stop-opacity="1"></stop><stop offset="80%" stop-color="#ffffff" stop-opacity="1"></stop></linearGradient></defs><defs><linearGradient id="grad2_0" x1="0%" y1="0%" x2="66.7%" y2="100%"><stop offset="20%" stop-color="#ffffff" stop-opacity="1"></stop><stop offset="80%" stop-color="#ffffff" stop-opacity="1"></stop></linearGradient></defs><g transform="translate(900, 0)"><path d="M0 418C-64.3 439 -128.7 459.9 -183.3 442.5C-238 425.2 -282.9 369.4 -318.2 318.2C-353.5 267 -379.1 220.3 -405.6 168C-432.1 115.7 -459.4 57.9 -486.7 0L0 0Z" fill="#e2edf1"></path></g><g transform="translate(0, 600)"><path d="M0 -449C44.7 -414.3 89.4 -379.7 153.5 -370.5C217.6 -361.3 301.1 -377.5 344.2 -344.2C387.3 -310.8 390 -227.9 391.7 -162.3C393.5 -96.6 394.2 -48.3 395 0L0 0Z" fill="#e2edf1"></path></g></svg> -->
 </template>
 <script>
 import { query, collection, setDoc, doc, updateDoc, where, getDocs, onSnapshot, serverTimestamp, orderBy } from "firebase/firestore"
@@ -528,4 +543,54 @@ export default {
     height: 70%;
     margin-right: 2%;
 }
+
+.wave {
+  position: fixed;
+  z-index: -9;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.wave svg {
+  position: relative;
+  display: block;
+  width: calc(192% + 1.3px);
+  height: 500px;
+}
+
+.wave .shape-fill {
+  fill: #75acb4;
+}
+
+#profile{
+    border-radius: 5%;
+}
+
+#send-booking, #accept-booking{
+    background-color: #75acb4 !important;
+    color: white
+}
+
+#send-booking:hover, #booking-sent, #accept-booking:hover, #booking-accepted{
+    background-color: #1f5c64 !important;
+    color: white;
+}
+
+#booking-sent{
+    background-color: #1f5c64 !important;
+}
+
+#accept-booking, #booking-accepted{
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%
+}
+
+#stars-text{
+    margin-top: 20px;
+}
+
 </style>

@@ -263,7 +263,7 @@ export default {
 }
 
 .wave .shape-fill {
-  fill: #F3F9FB;
+  fill: #e2edf1;
 }
 
 
