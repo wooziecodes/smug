@@ -1,18 +1,12 @@
 <template>
     <Navbar></Navbar>
-
-
     <div class="container">
         <div>
             <div class="row">
-
-                <!-- <div class="col-sm-4 "> -->
                 <div class="chatList">
                     <ChatComponent v-for="chat in chats" :id="chat" :user="uid" @toggleSelect="toggleSelect">
                     </ChatComponent>
                 </div>
-                <!-- </div> -->
-                <!-- <div class="col-sm-4"> -->
                 <div class="container chat-container" v-if="selected">
                     <div class="d-flex align-items-center chat-header">
                         <img :src="imgUrl" />
@@ -28,16 +22,12 @@
                         <button type="button" class="btn" @click="sendMessage" id="send-btn">Send</button>
                     </div>
                 </div>
-
                 <div class="container chat-container" v-if="selected == false">
                     <div class="d-flex align-items-center chat-header">
                         <span class="display-name">{{ name }}</span>
                         Select a user first!
                     </div>
                 </div>
-                <!-- </div> -->
-
-                <!-- <div class="col-sm-4"> -->
                 <div class="profile" v-if="selected">
                     <div class="d-flex">
                         <div class="container details">
@@ -112,19 +102,9 @@
                     </div>
                     <div v-if="reviewed" style="text-align:center">Thanks for leaving a review!</div>
                 </div>
-
-                <!-- </div> -->
-
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
     <div class="wave">
         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path
@@ -132,8 +112,6 @@
                 class="shape-fill"></path>
         </svg>
     </div>
-
-
 </template>
 <script>
 import { query, collection, setDoc, doc, updateDoc, where, getDocs, onSnapshot, serverTimestamp, orderBy, getDoc } from "firebase/firestore"

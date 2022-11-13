@@ -9,10 +9,9 @@
               {{ SignUpErrMsg }}
             </div>
           </div>
+          <input type="text" placeholder="Your name" v-model="name" style="border-radius: 8px" />
           <input type="email" placeholder="Email" v-model="email" style="border-radius:8px" />
-          <br>
           <input name="password1" type="password" placeholder="Password" v-model="password" style="border-radius:8px" />
-          <br>
           <input name="password2" v-on:blur="validate" type="password" placeholder="Confirm Password"
             v-model="check_password" style="border-radius:8px" />
           <button type="submit" class="submit_button btn-light" style="margin-top:40px; border-radius:8px">Sign
@@ -79,6 +78,7 @@ export default {
     const email = ref("");
     const password = ref("");
     const check_password = ref("");
+    const name = ref("");
     let SignUpErrMsg = ref("");
     let LogInErrMsg = ref("");
     let isError = ref(false);
@@ -86,7 +86,11 @@ export default {
     let LogInError = ref(false);
 
     const SignUp = () => {
-      if (password.value == check_password.value) {
+      if (name.value == "") {
+        console.log(name.value)
+        SignUpError.value = true
+        SignUpErrMsg.value = "Please enter a username"
+      } else if (password.value == check_password.value) {
         createUserWithEmailAndPassword(auth, email.value, password.value)
           .then((data) => {
             alert("You have successfully signed up!");
@@ -103,7 +107,8 @@ export default {
               ratingCount: 0,
               year: 1,
               uid: data.user.uid,
-              user: data.user.email.split("@")[0]
+              user: name.value,
+              description: ""
             }
             const usersRef = collection(db, "users")
             setDoc(doc(usersRef), newUser).then(() => {
@@ -170,7 +175,8 @@ export default {
                   ratingCount: 0,
                   year: 1,
                   uid: result.user.uid,
-                  user: result.user.displayName
+                  user: result.user.displayName,
+                  description: ""
                 }
                 const usersRef = collection(db, "users")
                 setDoc(doc(usersRef), newUser).then(() => {
@@ -235,6 +241,7 @@ export default {
       SignUp,
       email,
       password,
+      name,
       check_password,
       SignUpErrMsg,
       LogInErrMsg,

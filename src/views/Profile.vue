@@ -185,9 +185,7 @@ export default {
         this.getUser(user.uid)
         this.getListings(user.uid)
         this.loadModules()
-      } else {
-        console.log("Not signed in")
-      }
+      } 
     })
   },
   methods: {
@@ -256,7 +254,7 @@ export default {
       querySnap.forEach((d) => {
         const userRef = doc(db, "users", d.id)
         updateDoc(userRef, userData).then(() => {
-          console.log("updated")
+          alert("Updated!")
           this.toggleEdit()
         })
       })
@@ -327,6 +325,7 @@ export default {
     },
     async deleteListing() {
       await deleteDoc(doc(db, "listings", this.listingId))
+      alert("Listing deleted!")
       this.editingListing = false
     },
     toggleEditListing() {
