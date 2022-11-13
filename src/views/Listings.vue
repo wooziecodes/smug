@@ -4,11 +4,11 @@
 
     <div class="filter-container d-flex align-items-center">
       <div class="sort-container d-flex justify-content-between mb-5">
-        <button type="button" class="btn btn-light" :class="{ active: isAll }" @click="getListings(uid)">All
+        <button type="button" class="btn btn-light" :class="{ active: isAll }" @click="getListings(uid)" id="listings-btn">All
           listings</button>
         <div class="vertical-rule"></div>
         <button type="button" class="btn btn-light" :class="{ active: isBookmark }"
-          @click="filterBookmark">Bookmarked</button>
+          @click="filterBookmark" id="bookmark-btn">Bookmarked</button>
         <div class="input-container mt-5">
           <input class="searchBar form-control" style="width: 393px;" @focusin="searching = true"
             @keydown.enter="search" placeholder="Search for modules here" id="searchBar"
@@ -362,6 +362,11 @@ export default {
     flex-basis: 80%;
     margin-left: 10%;
   }
+}
+
+#bookmark-btn:hover, #listings-btn:hover{
+  background-color: #75acb4 !important;
+  color: white
 }
 </style>
 <!-- fdsafdsa -->
