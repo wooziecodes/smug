@@ -507,10 +507,6 @@ export default {
   margin-left: 20px
 }
 
-#add-module-input img {
-  /* content: url("../assets/images/add-listing.png") */
-}
-
 .desc {
   margin-top: 20px;
   margin-left: 340px;
