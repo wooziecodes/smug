@@ -212,7 +212,7 @@ export default {
 
 .bookmarkBtn, .listingsBtn {
   font-size: 1.2vw !important;
-  height: 4vw !important;
+  height: 3vw !important;
   white-space: nowrap;
 }
 
@@ -260,7 +260,7 @@ export default {
 }
 
 .listings-container {
-  margin-top: 3%;
+  margin-top: 5%;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   padding-top: 1%;
   margin-bottom: 5%;
@@ -270,7 +270,7 @@ export default {
 
 .listing-component {
   flex-basis: 20%;
-  margin-bottom: 2%;
+  margin-bottom: 4%;
   margin-left: 3%;
 }
 
@@ -311,6 +311,15 @@ export default {
     /* max-width: 1700px !important; */
     max-width: 1400px !important;
   }
+
+}
+@media only screen and (min-width: 1138px) {
+  .bookmarkBtn, .listingsBtn {
+  font-size: 1.2vw !important;
+  height: vw !important;
+  white-space: nowrap;
+}
+
 }
 
 @media only screen and (max-width: 1200px) {
@@ -325,6 +334,11 @@ export default {
     flex-basis: 27%;
     margin-left: 3.2%;
   }
+  .bookmarkBtn, .listingsBtn {
+  font-size: 2vw !important;
+  height: 5vw !important;
+  white-space: nowrap;
+}
 }
 
 @media only screen and (max-width: 767px) {
@@ -340,9 +354,10 @@ export default {
     margin-left: 3%;
   }
   .listingsBtn, .bookmarkBtn {
-    font-size: 2vw !important;
-    height: 6vw !important;
+    font-size: 3vw !important;
+    height: 8vw !important;
   }
+
 }
 
 @media only screen and (max-width: 513px) {
