@@ -17,7 +17,7 @@ export default {
         return {
             uid: "",
             recent: "",
-            imgUrl: "",
+            imgUrl: require("../assets/images/profile-placeholder.png"),
             name: "",
         }
     },

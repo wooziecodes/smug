@@ -17,7 +17,7 @@ export default {
     data() {
         return {
             message: "",
-            imgUrl: ""
+            imgUrl: require("../assets/images/profile-placeholder.png")
         }
     },
     props: {

@@ -1,8 +1,5 @@
 <template>
-
   <div id="body">
-    <!-- <img class="logo_img" alt="" style="width:30%"> -->
-
     <div class="container" id="container">
       <div class="form-container sign-up-container">
         <form @submit.prevent="SignUp" action="#">
@@ -12,39 +9,30 @@
               {{ SignUpErrMsg }}
             </div>
           </div>
-          <!-- <span>or use your email for registration</span> -->
-          <!-- <input type="text" placeholder="Name" /> -->
           <input type="email" placeholder="Email" v-model="email" style="border-radius:8px" />
           <br>
           <input name="password1" type="password" placeholder="Password" v-model="password" style="border-radius:8px" />
           <br>
           <input name="password2" v-on:blur="validate" type="password" placeholder="Confirm Password"
             v-model="check_password" style="border-radius:8px" />
-
           <button type="submit" class="submit_button btn-light" style="margin-top:40px; border-radius:8px">Sign
             Up</button>
         </form>
       </div>
       <div class="form-container sign-in-container">
         <form @submit.prevent="Login" action="#">
-          
           <h2>Sign in</h2>
           <div class="social-container">
             <div class="errorMsg" v-if="LogInError" style="margin-bottom:5px">
               {{ LogInErrMsg }}
             </div>
-            <!-- <a href="#" class="social"><i class="fab fa-facebook-f"></i></a> -->
             <button type="button" class="login-with-google-btn" @click="signInWithGoogle">
               Sign in with Google
             </button>
-
           </div>
-          <!-- <span>or use your account</span> -->
           <input type="email" placeholder="Email" v-model="email" style="border-radius:8px" />
           <br>
           <input type="password" placeholder="Password" v-model="password" style="border-radius:8px" />
-          <!-- <a href="#">Forgot your password?</a> -->
-          <!-- <router-link to="forgot">Forgot your password?</router-link> -->
           <button type="submit" class="submit_button btn-light" style="margin-top:40px; border-radius:8px">Sign
             In</button>
         </form>
@@ -57,12 +45,11 @@
             <p>
               To keep connected with us please login with your personal info
             </p>
-            <button class="submit_button_ghost ghost" style="font-family: 'Open Sans'; border-radius: 8px;" id="signIn">Sign In</button>
+            <button class="submit_button_ghost ghost" style="font-family: 'Open Sans'; border-radius: 8px;"
+              id="signIn">Sign In</button>
           </div>
           <div class="overlay-panel overlay-right">
-            <!-- <img src="../../images/logo.png" style="margin-left:50px" alt=""> -->
             <img class="logo_img" alt="">
-
             <h2>Hello, Smuggers!</h2>
             <p>Enter your personal details and start journey with us</p>
             <button class="submit_button_ghost ghost" style="border-radius: 8px;" id="signUp">Sign Up</button>
@@ -70,103 +57,98 @@
         </div>
       </div>
     </div>
-    <!-- <div>
-      <img src="" alt="">
-    </div> -->
   </div>
 </template>
 
 <script>
-import { ref, mounted } from "vue";
+import { ref } from "vue";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  OAuthProvider,
 } from "firebase/auth";
 import router from "../router";
 import { getDocs, query, collection, setDoc, doc, where } from "firebase/firestore"
-import { ref as sRef, uploadBytes } from "firebase/storage"
+import { ref as sRef, uploadBytes, uploadString } from "firebase/storage"
 import { db, auth, storage } from "../firebase/init"
 
 export default {
   setup() {
-    // const username = ref("");
     const email = ref("");
     const password = ref("");
     const check_password = ref("");
-    // const errMsg = ref();
-    let SignUpErrMsg = ref(""); //ERROR MESSAGE
-    let LogInErrMsg = ref(""); //ERROR MESSAGE
+    let SignUpErrMsg = ref("");
+    let LogInErrMsg = ref("");
     let isError = ref(false);
     let SignUpError = ref(false);
     let LogInError = ref(false);
 
     const SignUp = () => {
-      if(password.value == check_password.value){
+      if (password.value == check_password.value) {
         createUserWithEmailAndPassword(auth, email.value, password.value)
-        .then((data) => {
-          alert("You have successfully signed up!");
-          const newUser = {
-            bookmarked: [],
-            chats: [],
-            email: data.user.email,
-            rating: 0,
-            uid: data.user.uid,
-            user: data.user.email.split("@")[0]
-          }
-          const usersRef = collection(db, "users")
-          setDoc(doc(usersRef), newUser).then((res) => {
-            // router.push({ name: "Listings" })
+          .then((data) => {
+            alert("You have successfully signed up!");
+            const newUser = {
+              bookmarked: [],
+              confirmedBookings: [],
+              pendingBookings: [],
+              chats: [],
+              email: data.user.email,
+              faculty: "",
+              major: "",
+              payment: "Cash",
+              rating: 0,
+              ratingCount: 0,
+              year: 1,
+              uid: data.user.uid,
+              user: data.user.email.split("@")[0]
+            }
+            const usersRef = collection(db, "users")
+            setDoc(doc(usersRef), newUser).then(() => {
+              getDocs(query(collection(db, "users"), where("uid", "==", data.user.uid)))
+                .then((qs) => {
+                  qs.forEach((doc) => {
+                    const usersRef = sRef(storage, "users/" + doc.id)
+                    uploadString(usersRef, require("../assets/images/profile-placeholder.png"), 'data_url').then(() => {
+                    })
+                  })
+                })
+            });
+          })
+          .catch((err) => {
+            console.log(err.code);
+            isError.value = true;
+            SignUpError.value = true;
+            switch (err.code) {
+              case "auth/email-already-in-use":
+                SignUpErrMsg.value = "This email is already in use!";
+                break;
+              case "auth/invalid-email":
+                SignUpErrMsg.value = "Invalid email";
+                break;
+              case "auth/invalid-password":
+                SignUpErrMsg.value = "Password must be at least 6 characters";
+                console.log(SignUpErrMsg.value);
+                break;
+              case "auth/weak-password":
+                SignUpErrMsg.value = "Your password is too weak!";
+                console.log(SignUpErrMsg.value);
+                break;
+              case "auth/too-many-requests":
+                SignUpErrMsg.value = "Too many requests";
+                break;
+              default:
+                SignUpErrMsg.value = "Email or password was incorrect";
+                break;
+            }
           });
-          // console.log(password)
-          // console.log(check_password)
-          // this.$router.push('/views/login');
-          // router.push({ name: "Login" });
-        })
-        .catch((err) => {
-          console.log(err.code);
-          isError.value = true;
-          SignUpError.value = true;
-          // if(this.password !== this.check_password){
-          //   errMsg.value = "The passwords does not match"
-          // } else
-          switch (err.code) {
-            case "auth/email-already-in-use":
-              SignUpErrMsg.value = "This email is already in use!";
-              // console.log(SignUpErrMsg.value);
-              break;
-            case "auth/invalid-email":
-              SignUpErrMsg.value = "Invalid email";
-              // console.log(SignUpErrMsg.value);
-              break;
-            case "auth/invalid-password":
-              SignUpErrMsg.value = "Password must be at least 6 characters";
-              console.log(SignUpErrMsg.value);
-              break;
-            case "auth/weak-password":
-              SignUpErrMsg.value = "Your password is too weak!";
-              console.log(SignUpErrMsg.value);
-              break;
-            case "auth/too-many-requests":
-              SignUpErrMsg.value = "Too many requests";
-              // console.log(errMsg.value);
-
-              break;
-            default:
-              SignUpErrMsg.value = "Email or password was incorrect";
-              break;
-          }
-        });
       } else {
         SignUpError.value = true
         SignUpErrMsg.value = "Two passwords do not match!";
       }
-      
     };
-
 
     const signInWithGoogle = () => {
       const provider = new GoogleAuthProvider();
@@ -177,14 +159,21 @@ export default {
               if (querySnapshot.docs == 0) {
                 const newUser = {
                   bookmarked: [],
+                  confirmedBookings: [],
+                  pendingBookings: [],
                   chats: [],
                   email: result.user.email,
+                  faculty: "",
+                  major: "",
+                  payment: "Cash",
                   rating: 0,
+                  ratingCount: 0,
+                  year: 1,
                   uid: result.user.uid,
                   user: result.user.displayName
                 }
                 const usersRef = collection(db, "users")
-                setDoc(doc(usersRef), newUser).then((res) => {
+                setDoc(doc(usersRef), newUser).then(() => {
                   getDocs(query(collection(db, "users"), where("uid", "==", result.user.uid)))
                     .then((querySnapshot) => {
                       querySnapshot.forEach((doc) => {
@@ -195,7 +184,7 @@ export default {
                             const storageRef = sRef(storage, "users/" + doc.id)
                             uploadBytes(storageRef, file).then((snapshot) => {
                               console.log("Uploaded!")
-                              router.push({ name: "Listings" })
+                              router.push({ name: "Profile" })
                             })
                           })
                       })
@@ -213,20 +202,15 @@ export default {
 
     const Login = () => {
       signInWithEmailAndPassword(auth, email.value, password.value)
-        // console.log(data)
-        .then((data) => {
+        .then(() => {
           console.log("success")
           alert("You have successfully Logged In!");
-          // this.$router.push('/views/login');
           router.push({ name: "Listings" });
         })
         .catch((err) => {
           console.log(err)
           isError.value = true;
           LogInError.value = true;
-          // if(this.password !== this.check_password){
-          //   errMsg.value = "The passwords does not match"
-          // } else
           switch (err.code) {
             case "auth/invalid-email":
               LogInErrMsg.value = "Invalid email";
@@ -239,12 +223,9 @@ export default {
               break;
             case "auth/too-many-requests":
               LogInErrMsg.value = "Too many requests";
-              // console.log(errMsg.value);
-
               break;
           }
         });
-
     };
 
 
@@ -285,6 +266,7 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+
 * {
   box-sizing: border-box;
 }
@@ -297,21 +279,16 @@ export default {
   flex-direction: column;
   font-family: "Open Sans";
   height: 100vh;
-  /* margin: -20px 0 50px; */
 }
 
 .overlay-left {
-  /* background: #f6f5f7; */
-  /* background: black; */
   background-color: #1F5C64;
 
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  /* font-family: "Montserrat", sans-serif; */
   height: 100vh;
-  /* margin: -20px 0 50px; */
 }
 
 h1 {
@@ -368,16 +345,12 @@ button:focus {
   color: #1F5C64;
   /* border-color: black; */
 }
+
 .submit_button_ghost:hover {
   background-color: #1F5C64;
   color: white;
   border: 1px solid white;
-  /* border-color: black; */
 }
-/* .ghost:hover {
-  background-color: red;
-  color: yellow;
-} */
 
 form {
   background-color: #ffffff;
@@ -396,9 +369,6 @@ input {
   padding: 12px 15px;
   margin: 8px 0;
   width: 100%;
-  /* border-image-source: linear-gradient(rgba(0, 51, 102, 0.5), rgba(0, 0, 51, 0.5));
-  border-width: 5pt;
-  border-image-slice: 1; */
 }
 
 input:focus {
@@ -516,22 +486,6 @@ input:focus {
   color: #1F5C64;
   background-color: white;
   border: 1px solid #1F5C64;
-  /* width: 200px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #fff;
-    cursor: pointer;
-    margin: 20px;
-    height: 55px;
-    text-align:center;
-    border: none;
-    background-size: 300% 100%;
-
-    border-radius: 50px;
-    moz-transition: all .4s ease-in-out;
-    -o-transition: all .4s ease-in-out;
-    -webkit-transition: all .4s ease-in-out;
-    transition: all .4s ease-in-out; */
 }
 
 .overlay-left {
@@ -610,6 +564,7 @@ footer a {
   background-position: 12px 11px;
 
 }
+
 .login-with-google-btn:hover {
   background-color: #1F5C64;
   color: white;
@@ -618,11 +573,9 @@ footer a {
 .errorMsg {
   color: red;
 }
+
 .logo_img {
   content: url("../assets/images/smug-white.png");
-  /* width: 10000px; */
-  /* z-index: 1000; */
-  /* background-color: white; */
   width: 70%;
   margin-bottom: 23px;
 }

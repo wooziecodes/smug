@@ -1,24 +1,19 @@
-import { Vue, createApp } from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
 import * as firebase from "firebase/app";
-// import { initializeApp } from 'firebase/app';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import AOS from 'aos';
 import 'aos/dist/aos.css'
 import 'animate.css';
-import wow from 'wowjs';
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
-import Vue3Transitions from 'vue3-transitions'
 import VueKinesis from "vue-kinesis";
-import { Icon } from '@iconify/vue';
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import { faCamera, faStar, faHeart, faCommentDots, faBookmark, faFilter, faChevronUp, faChevronDown, faPlus} from '@fortawesome/free-solid-svg-icons'
-import { faHeart as solidHeart } from '@fortawesome/free-regular-svg-icons';
+import { faHeart as solidHeart, faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
 
 // import { getAnalytics } from "firebase/analytics";
 
@@ -36,7 +31,7 @@ const firebaseConfig = {
 
   
 firebase.initializeApp(firebaseConfig);
-library.add(faCamera, faPlus, faStar, faHeart, faCommentDots, faBookmark, faFilter, faChevronUp, faChevronDown, solidHeart)
+library.add(faCamera, faPlus, faStar, faHeart, faCommentDots, faBookmark, faFilter, faChevronUp, faChevronDown, solidHeart, regularStar)
 // const analytics = getAnalytics(app);
 
 

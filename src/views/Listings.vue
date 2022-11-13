@@ -1,24 +1,20 @@
 <template>
   <Navbar></Navbar>
   <div class="search-results container">
-
     <div class="filter-container d-flex align-items-center">
       <div class="sort-container d-flex justify-content-between mb-5">
-        <button type="button" class="btn btn-light" :class="{ active: isAll }" @click="getListings(uid)" id="listings-btn">All
-          listings</button>
-        <div class="vertical-rule"></div>
-        <button type="button" class="btn btn-light" :class="{ active: isBookmark }"
+        <button type="button" class="btn btn-light listingsBtn mt-5" :class="{ active: isAll }" @click="getListings(uid)" id="listings-btn">View All
+          </button>
+        <button type="button" class="btn btn-light bookmarkBtn mt-5" :class="{ active: isBookmark }"
           @click="filterBookmark" id="bookmark-btn">Bookmarked</button>
         <div class="input-container mt-5">
           <input class="searchBar form-control" style="width: 393px;" @focusin="searching = true"
             @keydown.enter="search" placeholder="Search for modules here" id="searchBar"
             type="text" v-model="searchStr" />
-
           <ul class="dropdown" id="dropdown" v-if="searching" style="position:absolute">
             <li class="dropdown-item shadow" v-for="mod of modulesDropdown" @click="searchClick(mod)">{{ mod }}</li>
           </ul>
         </div>
-        <span class="results" v-if="searched">search results for "{{ searchStr }}"</span>
       </div>
     </div>
   </div>
@@ -214,8 +210,14 @@ export default {
   padding-top: 5vh;
 }
 
-.results {
-  font-size: 1vw;
+.bookmarkBtn, .listingsBtn {
+  font-size: 1.2vw !important;
+  height: 4vw !important;
+  white-space: nowrap;
+}
+
+.bookmarkBtn {
+  margin-left: 1vw;
 }
 
 .filter-container {
@@ -233,6 +235,16 @@ export default {
 
 .btn span {
   margin-right: 0.5vw;
+}
+
+#searchBar {
+  color: black;
+  background-color: white;
+  width: 40vw !important;
+}
+
+#searchBar::placeholder {
+  color: grey;
 }
 
 .active {
@@ -327,6 +339,10 @@ export default {
     flex-basis: 26%;
     margin-left: 3%;
   }
+  .listingsBtn, .bookmarkBtn {
+    font-size: 2vw !important;
+    height: 6vw !important;
+  }
 }
 
 @media only screen and (max-width: 513px) {
@@ -347,6 +363,10 @@ export default {
   .listing-component {
     flex-basis: 40%;
     margin-left: 4%;
+  }
+  .listingsBtn, .bookmarkBtn {
+    font-size: 3vw !important;
+    height: 8vw !important;
   }
 }
 

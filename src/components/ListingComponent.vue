@@ -10,7 +10,8 @@
           </div>
           <div v-if="!isOwn">
             <font-awesome-icon v-if="isBookmarked" icon="fa-solid fa-heart" class="fa-heart" @click="unbookmarked" />
-            <font-awesome-icon v-if="!isBookmarked" @mouseenter="onHover" @mouseleave="onHover" :icon="heartIcon" class="fa-heart" @click="bookmarked" />
+            <font-awesome-icon v-if="!isBookmarked" @mouseenter="onHover" @mouseleave="onHover" :icon="heartIcon"
+              class="fa-heart" @click="bookmarked" />
           </div>
         </div>
         <span class="listingMod" @click="sendId">{{ code }} - {{ mod }}</span>
@@ -42,8 +43,8 @@ export default {
     return {
       mod: "",
       rating: 0,
-      listingImg: "",
-      tutorImg: "",
+      listingImg: require("../assets/images/module-placeholder.png"),
+      tutorImg: require("../assets/images/profile-placeholder.png"),
       userID: "",
       isBookmarked: false,
       heartIcon: ["fa-regular", "fa-heart"]
@@ -59,8 +60,18 @@ export default {
     isOwn: false
   },
   created() {
+    if (!this.uid) {
+      onAuthStateChanged(auth, (user) => {
+        this.getRating(user.uid)
+        this.getBookmarked(user.uid);
+      })
+    } else {
+      onAuthStateChanged(auth, (user) => {
+        this.getBookmarked(user.uid)
+      })
+      this.getRating(this.uid)
+    }
     this.getModules();
-    this.getRating();
     var listRef = ref(storage, "listings")
     listAll(listRef)
       .then((res) => {
@@ -88,20 +99,6 @@ export default {
           }
         })
       })
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.getBookmarked(user.uid);
-      } else {
-        console.log("Not signed in")
-      }
-    })
-  },
-  mounted() {
-    // Sticky headesr
-    $(window).on('scroll', () => {
-      this.scrolled = $(window).scrollTop() > 20
-    })
   },
   methods: {
     async getModules() {
@@ -120,6 +117,8 @@ export default {
       const querySnap = await getDocs(query(collection(db, "users"), where("uid", "==", uid)));
       querySnap.forEach((doc) => {
         if (doc.data().uid == uid) {
+          console.log(doc.data())
+          console.log(this.id)
           if (doc.data().bookmarked.includes(this.id)) {
             this.isBookmarked = true
           }
@@ -127,10 +126,10 @@ export default {
       }
       );
     },
-    async getRating() {
+    async getRating(uid) {
       const querySnap = await getDocs(query(collection(db, "users")));
       querySnap.forEach((doc) => {
-        if (doc.data().uid == this.uid) {
+        if (doc.data().uid == uid) {
           this.rating = doc.data().rating.toFixed(2)
           this.userID = doc.id
         }
@@ -265,7 +264,10 @@ export default {
     font-size: 2vw
   }
 
-  .listingMod, .prof, .price, .rating {
+  .listingMod,
+  .prof,
+  .price,
+  .rating {
     font-size: 1.4vw
   }
 
@@ -273,7 +275,8 @@ export default {
     height: 38vw
   }
 
-  .fa-star, .fa-heart {
+  .fa-star,
+  .fa-heart {
     font-size: 2vw
   }
 }
@@ -283,7 +286,10 @@ export default {
     font-size: 3vw
   }
 
-  .listingMod, .prof, .price, .rating {
+  .listingMod,
+  .prof,
+  .price,
+  .rating {
     font-size: 2vw
   }
 
@@ -291,13 +297,18 @@ export default {
     height: 50vw
   }
 
-  .fa-star, .fa-heart {
+  .fa-star,
+  .fa-heart {
     font-size: 3vw
   }
 }
 
 @media only screen and (max-width: 393px) {
-  .listingMod, .prof, .price, .rating {
+
+  .listingMod,
+  .prof,
+  .price,
+  .rating {
     font-size: 2.3vw
   }
 
@@ -307,7 +318,11 @@ export default {
 }
 
 @media only screen and (max-width: 363px) {
-  .listingMod, .prof, .price, .rating {
+
+  .listingMod,
+  .prof,
+  .price,
+  .rating {
     font-size: 2.5vw
   }
 
@@ -321,7 +336,10 @@ export default {
     font-size: 6vw
   }
 
-  .listingMod, .prof, .price, .rating {
+  .listingMod,
+  .prof,
+  .price,
+  .rating {
     font-size: 4vw
   }
 
@@ -329,7 +347,8 @@ export default {
     height: 100vw
   }
 
-  .fa-star, .fa-heart {
+  .fa-star,
+  .fa-heart {
     font-size: 6vw
   }
 }

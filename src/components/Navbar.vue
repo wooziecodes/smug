@@ -1,91 +1,28 @@
 <template>
-
-
-  <!-- Choi's work -->
   <nav class="navbar navbar-dark bg-white navbar-expand-md mb-3">
     <a class="navbar-brand" href="#">
       <img class="logo ml-3" @click="goHome" />
-
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-8"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon d-none"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-between" id="navbar-list-8">
-
-
       <div class="right-side d-flex">
-
-        <!-- <div class="input-container">
-          <input class="searchBar form-control" style="width: 393px;" @focusin="searching = true" @focusout="searching = false" @keydown.enter="search"
-            placeholder="Search for modules here" id="searchBar" type="text" v-model="searchStr" />
-
-          <ul class="dropdown" id="dropdown" v-if="searching" style="position:absolute">
-            <li class="dropdown-item shadow" v-for="mod of modulesDropdown">{{ mod }}</li>
-          </ul>
-        </div> -->
-
       </div>
-
     </div>
-    <!-- <font-awesome-icon icon="fas fa-comment-dots" class="fa-chat mr-2 fa-lg" style="width: min-content;" @click="openChat()" /> -->
-    
     <img :src="imgUrl" class="profile-pic" @click="this.$router.push('/profile')" />
     <p class="greeting" style="margin-bottom: 0px">Hi, {{ username }}</p>
-
     <img class="icon-msg" :src="chatBtnSrc" @mouseenter="onHover" @mouseleave="onHover" style="max-width: 100%; max-height: 100%; width: 30px; height: 31px;"
       @click="openChat()" id="message-btn" />
-
-
-
-    <!-- <div class="right-side d-flex flex-row-reverse"> -->
     <button class="btn btn-sm logout" @click="Logout" type="button" id="start-btn">Logout</button>
-
-
-    <!-- </div>  -->
   </nav>
-
-  <!-- Elijah's work -->
-  <!-- <div class="container-fluid">
-      <div class="row">
-        <nav class="navbar">
-          
-          <div class="col">
-            <img class="logo" @click="goHome" />
-          </div>
-  
-          <div class="col">
-            <div class="input-container">
-            <input class="form-control" @focusin="searching = true" @focusout="searching = false" @keydown.enter="search" placeholder="Search for modules here" id="searchBar" type="text" v-model="searchStr"/>
-            <ul class="dropdown" id="dropdown" v-if="searching" style="position:absolute">
-              <li class="dropdown-item shadow-sm" v-for="mod of modulesDropdown">{{mod}}</li>
-            </ul>
-            </div>
-          </div>
-  
-          <div class="col">
-            <span class="greeting">Hi, {{ username }}</span>
-            <img :src="imgUrl" class="profile-pic" @click="this.$router.push('/profile')"/>
-          </div>
-  
-          <div class="col">
-            <button class="logout" @click="Logout">Logout</button>
-          </div>
-          <div class="col">
-            <font-awesome-icon icon="fas fa-comment-dots" class="fa-chat" @click="openChat()" />
-          </div>
-            
-        </nav>
-      </div>
-    </div> -->
-
 </template>
 <script>
 import { db, auth, storage } from "../firebase/init"
 import { onAuthStateChanged } from "firebase/auth"
-import { getDocs, query, collection, where, orderBy } from "firebase/firestore"
+import { getDocs, query, collection, where } from "firebase/firestore"
 import { ref, getDownloadURL, listAll } from "firebase/storage"
-import { onBeforeMount } from 'vue';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
@@ -94,7 +31,7 @@ export default {
   data() {
     return {
       username: "",
-      imgUrl: "",
+      imgUrl: require("../assets/images/profile-placeholder.png"),
       chatBtnSrc: require('../assets/images/message-btn.svg')
     }
   },
@@ -159,18 +96,6 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
 
-/* .navbar {
-    font-family: "Open Sans";
-    position: relative;
-    display: flex;
-    width: 100%;
-    height: 10vh;
-    max-height: 40px;
-    align-items: center;
-  } */
-/* #start-btn{
-  border-radius: 12%;
-} */
 .logo {
   margin-left: 2%;
   height: 40px;
@@ -193,16 +118,6 @@ export default {
 .input-container {
   margin-left: 5vw;
   width: 40%;
-}
-
-#searchBar {
-  color: black;
-  background-color: white;
-  width: 370px;
-}
-
-#searchBar::placeholder {
-  color: grey;
 }
 
 .greeting {

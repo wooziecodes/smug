@@ -18,32 +18,20 @@
             <button type="button" class="btn" @click="sendMessage" id="send-btn">Send</button>
         </div>
     </div>
-
     <div class="container chat-container" v-if="selected == false">
         <div class="d-flex align-items-center chat-header">
-            <img :src="imgUrl" />
             <span class="display-name">{{ name }}</span>
             Select a user first!
         </div>
-        <div class="message-container">
-        </div>
-        <div class="d-flex justify-content-between align-items-center message-parent">
-            <input type="text" class="form-control message-box" placeholder="Enter your message"
-                @keypress.enter="sendMessage" v-model="text">
-            <button type="button" class="btn" id="disabled-btn" disabled>Send</button>
-        </div>
     </div>
-
     <div class="profile" v-if="selected">
         <div class="d-flex">
-
             <div class="container details">
                 <div class="row" style="padding-top: 10px">
                     <div class="col col-xl-6" style="text-align:center;">
                         <img :src="imgUrl" class="img-fluid w-100 h-100" id="profile"/>
                     </div>
-
-                    <div class="col col-xl-6">
+                    <div class="col col-xl-6 details-info">
                         <div class="row">
                             <div class="col">
                                 <span class="card-name">{{ name }}&nbsp;</span>
@@ -60,14 +48,15 @@
                                 <span>Year {{ year }} {{ major }} Major</span>
                             </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col">
+                                <span>{{ payment }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
-        <!-- <div class="desc">{{ description }}</div> -->
         <div v-if="!reviewing">
             <div v-if="!isAccepted">
                 <div v-if="!isWaiting">
@@ -84,24 +73,24 @@
             <p style="font-weight: bold">Please rate your tuition experience!</p>
             </div>
             <div class="stars" style="text-align: center" v-if="reviewing">
-            <font-awesome-icon :icon="icon1" @mouseover="icon1 = ['fa-solid', 'fa-heart']"
-                @mouseout="icon1 = ['fa-regular', 'fa-heart']" class="fa-heart" @click="rate(1)" />
+            <font-awesome-icon :icon="icon1" @mouseover="icon1 = ['fa-solid', 'fa-star']"
+                @mouseout="icon1 = ['fa-regular', 'fa-star']" class="fa-heart" @click="rate(1)" />
             <font-awesome-icon :icon="icon2"
-                @mouseover="icon1 = ['fa-solid', 'fa-heart']; icon2 = ['fa-solid', 'fa-heart']"
-                @mouseout="icon1 = ['fa-regular', 'fa-heart']; icon2 = ['fa-regular', 'fa-heart']" class="fa-heart"
+                @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']"
+                @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']" class="fa-heart"
                 @click="rate(2)" />
             <font-awesome-icon :icon="icon3"
-                @mouseover="icon1 = ['fa-solid', 'fa-heart']; icon2 = ['fa-solid', 'fa-heart']; icon3 = ['fa-solid', 'fa-heart']"
-                @mouseout="icon1 = ['fa-regular', 'fa-heart']; icon2 = ['fa-regular', 'fa-heart']; icon3 = ['fa-regular', 'fa-heart']"
+                @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']; icon3 = ['fa-solid', 'fa-star']"
+                @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']; icon3 = ['fa-regular', 'fa-star']"
                 class="fa-heart" @click="rate(3)" />
             <font-awesome-icon :icon="icon4"
-                @mouseover="icon1 = ['fa-solid', 'fa-heart']; icon2 = ['fa-solid', 'fa-heart']; icon3 = ['fa-solid', 'fa-heart']; icon4 = ['fa-solid', 'fa-heart']"
-                @mouseout="icon1 = ['fa-regular', 'fa-heart']; icon2 = ['fa-regular', 'fa-heart']; icon3 = ['fa-regular', 'fa-heart']; icon4 = ['fa-regular', 'fa-heart']"
+                @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']; icon3 = ['fa-solid', 'fa-star']; icon4 = ['fa-solid', 'fa-star']"
+                @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']; icon3 = ['fa-regular', 'fa-star']; icon4 = ['fa-regular', 'fa-star']"
                 class="fa-heart" @click="rate(4)" />
             <font-awesome-icon :icon="icon5"
-                @mouseover="icon1 = ['fa-solid', 'fa-heart']; icon2 = ['fa-solid', 'fa-heart']; icon3 = ['fa-solid', 'fa-heart']; icon4 = ['fa-solid', 'fa-heart']; icon5 = ['fa-solid', 'fa-heart']"
-                @mouseout="icon1 = ['fa-regular', 'fa-heart']; icon2 = ['fa-regular', 'fa-heart']; icon3 = ['fa-regular', 'fa-heart']; icon4 = ['fa-regular', 'fa-heart']; icon5 = ['fa-regular', 'fa-heart']"
-                @click="rate(5)" />
+                @mouseover="icon1 = ['fa-solid', 'fa-star']; icon2 = ['fa-solid', 'fa-star']; icon3 = ['fa-solid', 'fa-star']; icon4 = ['fa-solid', 'fa-star']; icon5 = ['fa-solid', 'fa-star']"
+                @mouseout="icon1 = ['fa-regular', 'fa-star']; icon2 = ['fa-regular', 'fa-star']; icon3 = ['fa-regular', 'fa-star']; icon4 = ['fa-regular', 'fa-star']; icon5 = ['fa-regular', 'fa-star']"
+                class="fa-heart" @click="rate(5)" />
         </div>
         <div v-if="reviewed" style="text-align:center">Thanks for leaving a review!</div>
     </div>
@@ -113,10 +102,6 @@
         class="shape-fill"></path>
     </svg>
   </div>
-
-  
-
-  <!-- <svg id="visual" viewBox="0 0 900 600" width="900" height="600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"><rect x="0" y="0" width="900" height="600" fill="#FFFFFF"></rect><defs><linearGradient id="grad1_0" x1="33.3%" y1="0%" x2="100%" y2="100%"><stop offset="20%" stop-color="#ffffff" stop-opacity="1"></stop><stop offset="80%" stop-color="#ffffff" stop-opacity="1"></stop></linearGradient></defs><defs><linearGradient id="grad2_0" x1="0%" y1="0%" x2="66.7%" y2="100%"><stop offset="20%" stop-color="#ffffff" stop-opacity="1"></stop><stop offset="80%" stop-color="#ffffff" stop-opacity="1"></stop></linearGradient></defs><g transform="translate(900, 0)"><path d="M0 418C-64.3 439 -128.7 459.9 -183.3 442.5C-238 425.2 -282.9 369.4 -318.2 318.2C-353.5 267 -379.1 220.3 -405.6 168C-432.1 115.7 -459.4 57.9 -486.7 0L0 0Z" fill="#e2edf1"></path></g><g transform="translate(0, 600)"><path d="M0 -449C44.7 -414.3 89.4 -379.7 153.5 -370.5C217.6 -361.3 301.1 -377.5 344.2 -344.2C387.3 -310.8 390 -227.9 391.7 -162.3C393.5 -96.6 394.2 -48.3 395 0L0 0Z" fill="#e2edf1"></path></g></svg> -->
 </template>
 <script>
 import { query, collection, setDoc, doc, updateDoc, where, getDocs, onSnapshot, serverTimestamp, orderBy } from "firebase/firestore"
@@ -141,19 +126,20 @@ export default {
             description: "",
             rating: "",
             ratingCount: "",
+            payment: "",
             text: "",
-            imgUrl: "",
+            imgUrl: require("../assets/images/profile-placeholder.png"),
             selected: false,
             hasSentBooking: false,
             isWaiting: false,
             isAccepted: false,
             reviewing: false,
             reviewed: false,
-            icon1: ['fa-regular', 'fa-heart'],
-            icon2: ['fa-regular', 'fa-heart'],
-            icon3: ['fa-regular', 'fa-heart'],
-            icon4: ['fa-regular', 'fa-heart'],
-            icon5: ['fa-regular', 'fa-heart']
+            icon1: ['fa-regular', 'fa-star'],
+            icon2: ['fa-regular', 'fa-star'],
+            icon3: ['fa-regular', 'fa-star'],
+            icon4: ['fa-regular', 'fa-star'],
+            icon5: ['fa-regular', 'fa-star']
         }
     },
     created() {
@@ -239,8 +225,6 @@ export default {
                                                         })
                                                     })
                                                 })
-
-
                                             } else {
                                                 this.recipient = recipient.data().uid
                                                 this.getMessages();
@@ -283,6 +267,7 @@ export default {
                     this.rating = doc.data().rating.toFixed(2)
                     this.ratingCount = doc.data().ratingCount
                     this.description = doc.data().description
+                    this.payment = doc.data().payment
                     var q = query(collection(db, "users"), where("uid", "==", this.uid))
                     getDocs(q).then((qs) => {
                         qs.forEach((d) => {
@@ -435,7 +420,7 @@ export default {
 }
 
 .ratings {
-    font-size: 12px;
+    font-size: 1vw;
     color: #75ACB4;
 }
 
@@ -443,6 +428,7 @@ export default {
     margin-top: 5%;
     width: 40%;
     margin-left: 30%;
+    font-size: 1.2vw !important;
 }
 
 .profile {
@@ -465,6 +451,10 @@ export default {
     width: 100%
 }
 
+.details-info {
+    font-size: 1.1vw;
+}
+
 .profile img {
     width: 40%;
 }
@@ -484,7 +474,7 @@ export default {
 }
 
 .card-name {
-    font-size: 18px;
+    font-size: 1.4vw;
 }
 
 .chat-header {

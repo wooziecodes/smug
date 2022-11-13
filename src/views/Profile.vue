@@ -1,63 +1,36 @@
 <template>
   <Navbar></Navbar>
-
-  <!-- <div class="dropdown">
-  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Dropdown link
-  </a>
-
-  <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="#">Action</a></li>
-    <li><a class="dropdown-item" href="#">Another action</a></li>
-    <li><a class="dropdown-item" href="#">Something else here</a></li>
-  </ul>
-</div> -->
-
-
-
-
-<div class="container" id="my-profile-wording">
+  <div class="container" id="my-profile-wording">
     <h1 id="profile-text" class="text-center mt-4">My Profile</h1>
   </div>
-<div class="container-fluid mt-7">
-  <div class="card card-profile shadow mt-4">
-    <div class="row justify-content-center">
-      <div class="card-profile-image mt-3">
-        <div class="profilePic">
-
-
-            <!-- <img :src="photo" id="photo">
-              <label v-if="editing" for="photo-upload" class="editPhoto">
-                Edit Photo
-              </label>
-              <input type="file" accept="image/png, image/jpeg" id="photo-upload" style="display:none"
-                @change="changePhoto"> -->
+  <div class="container-fluid mt-7">
+    <div class="card card-profile shadow mt-4">
+      <div class="row justify-content-center">
+        <div class="card-profile-image mt-3">
+          <div class="profilePic">
             <div class="profilepic mt-3 mb-3">
-              <img class="profilepic__image"
-                :src="photo"
-                width="300" height="300" alt="Profibild" />
+              <img class="profilepic__image" :src="photo" width="300" height="300" alt="Profibild" />
               <div v-if="editing" class="profilepic__content">
                 <label for="photo-upload">
-                <span class="profilepic__icon"><FontAwesomeIcon icon="fa-solid fa-camera"/></span>
-                <span class="profilepic__text">Edit Photo</span>
-              </label>
+                  <span class="profilepic__icon">
+                    <FontAwesomeIcon icon="fa-solid fa-camera" />
+                  </span>
+                  <span class="profilepic__text">Edit Photo</span>
+                </label>
                 <input type="file" accept="image/png, image/jpeg" id="photo-upload" style="display:none"
-                @change="changePhoto">
+                  @change="changePhoto">
               </div>
             </div>
-
-            <button type="button" class="btn" id="edit-button" v-if="!editing" @click="toggleEdit()">Edit Profile</button>
+            <button type="button" class="btn" id="edit-button" v-if="!editing" @click="toggleEdit()">Edit
+              Profile</button>
             <button type="button" class="btn" id="save-button" v-if="editing" @click="updateData(userid)">Save
               Profile</button>
-
-
-        </div>      
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="card-body pt-0 pt-md-4">
-      
-      <div class="row justify-content-center">
-            <div id="right-side">
+      <div class="card-body pt-0 pt-md-4">
+        <div class="row justify-content-center">
+          <div id="right-side">
             <h1 v-text="name" id="name" class="text-center"></h1>
             <div id="rating" class="text-center mb-2">{{ rating }}
               <font-awesome-icon icon="fa-solid fa-star" class="fa-star" />
@@ -65,11 +38,6 @@
             </div>
             <br>
             <table class="mb-3 ml-5 mr-5">
-              <!-- <tr>
-                  <th>Name</th>
-                  <td>{{name}}</td>
-                </tr> -->
-
               <tr>
                 <th>Faculty</th>
                 <td v-if="!editing">{{ faculty }}</td>
@@ -101,7 +69,6 @@
                     <option>Cash</option>
                   </select>
                 </td>
-
               </tr>
               <tr>
                 <th>Description</th>
@@ -109,191 +76,49 @@
                 <td v-if="editing"><textarea v-model="description" id="desc" name="desc"></textarea></td>
               </tr>
             </table>
-
-
-
-          </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-<!-- 
-
-
-
-
-
-  <div class="container" id="my-profile-wording">
-    <h1 id="profile-text">My Profile</h1>
-  </div>
-  <div class="listings-container container d-flex" id="profile" style="display:flex">
-
-    <div id="left-side">
-
-      <div class="profilePic">
-
-        <div class="profilepic">
-          <img class="profilepic__image" :src="photo" width="150" height="150" alt="Profibild" />
-          <div v-if="editing" class="profilepic__content">
-            <label for="photo-upload">
-              <span class="profilepic__icon">
-                <FontAwesomeIcon icon="fa-solid fa-camera" />
-              </span>
-              <span class="profilepic__text">Edit Photo</span>
-            </label>
-            <input type="file" accept="image/png, image/jpeg" id="photo-upload" style="display:none"
-              @change="changePhoto">
           </div>
         </div>
-
-        <button type="button" class="btn" id="edit-button" v-if="!editing" @click="toggleEdit()">Edit Profile</button>
-        <button type="button" class="btn" id="save-button" v-if="editing" @click="updateData(userid)">Save
-          Profile</button>
-
-
-      </div>
-
-    </div>
-
-    <div id="right-side">
-      <h1 v-text="name" id="name"></h1>
-      <div id="rating">{{ rating }}
-        <font-awesome-icon icon="fa-solid fa-star" class="fa-star" />
-        | {{ ratingCount }} ratings
-      </div>
-      <br>
-      <table>
-        <tr>
-          <th>Faculty</th>
-          <td v-if="!editing">{{ faculty }}</td>
-          <td v-if="editing"><input type="text" v-model="faculty"></td>
-        </tr>
-        <tr>
-          <th>Major</th>
-          <td v-if="!editing">{{ major }}</td>
-          <td v-if="editing"><input type="text" v-model="major"></td>
-        </tr>
-        <tr>
-          <th>Year</th>
-          <td v-if="!editing">{{ year }}</td>
-          <td v-if="editing"><input type="text" v-model="year"></td>
-        </tr>
-        <tr>
-          <th>Email</th>
-          <td v-if="!editing">{{ email }}</td>
-          <td v-if="editing"><input type="text" v-model="email"></td>
-        </tr>
-        <tr>
-          <th>Payment method</th>
-          <td v-if="!editing && payment == ''">Unspecified</td>
-          <td v-if="!editing">{{ payment }}</td>
-          <td v-if="editing">
-            <select v-model="payment">
-              <option>PayLah</option>
-              <option>PayNow</option>
-              <option>Cash</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <th>Description</th>
-          <td v-if="!editing">{{ description }}</td>
-          <td v-if="editing"><textarea v-model="description" id="desc" name="desc"></textarea></td>
-        </tr>
-      </table>
-    </div>
-  </div> -->
-
-
-
-  <!-- <div class="container" id="my-profile-wording">
-    <h1 id="profile-text" class="text-center mt-4">My Profile</h1>
-  </div>
-<div class="container-fluid mt-7">
-  <div class="card card-profile shadow mt-4">
-    <div class="row">
-      <div class="col-6">
-          <ListingComponent v-for="listing in listings" class="listing-component" :id="listing.id" :tutor="listing.user"
-            :code="listing.module" :prof="listing.prof" :price="listing.price" :userID="listing.userID" :isOwn="true">
-      </ListingComponent>
-
-      </div>
-      <div class="col-6 justify-content-left">
-          <div v-if="!adding" class="add-module-container" id="add-new" @click="toggleAdd()">
-            <div class="plus-sign">
-              <font-awesome-icon icon="fa-solid fa-plus" size="6x" />
-              <div style="text-align:center; color:white; margin-top:10px;">Add listing</div>
-            </div>
-          </div>
-
-          <div v-if="adding" class="add-module-container">
-            <div class="container" id="add-module-input">
-              <img :src="require('../assets/images/add-listing.png')"
-                style="width:100%; max-height: 119px; max-width: 104.2px; margin-bottom: 8px;">
-              <input class="add-fields" type="text" placeholder="Mod">
-
-              <input class="add-fields" type="text" placeholder="Prof">
-
-              <input class="add-fields" type="text" placeholder="Price">
-
-              <button class="btn" id="add-listing-btn" @click="toggleAdd()">Add listing</button>
-            </div>
-          </div>
       </div>
     </div>
   </div>
-</div> -->
-
   <div class="container" id="my-profile-wording">
-    <h1 id="profile-text" class="text-center mt-4">My Listings</h1>
+    <div class="d-flex justify-content-center">
+      <h1 id="profile-text" class="text-center mt-4">My listings &nbsp;</h1>
+      <button class="btn btn-outline-light addListingBtn" @click="toggleAdd()">
+        <font-awesome-icon icon="fa-solid fa-plus" class="fa-plus" />
+      </button>
+    </div>
   </div>
 
-  <div class="listings-container container d-flex mt-4">
-
-    <ListingComponent v-for="listing in listings" class="listing-component" :id="listing.id" :tutor="listing.user"
+  <div class="listings-container container d-flex flex-wrap mt-4">
+    <ListingComponent v-for="listing in listings" class="listing-component query" :id="listing.id" :tutor="listing.user"
       :code="listing.module" :prof="listing.prof" :price="listing.price" :userID="listing.userID" :isOwn="true">
     </ListingComponent>
+  </div>
 
-
-    <div v-if="!adding" class="add-module-container" id="add-new" @click="toggleAdd()">
-      <div class="plus-sign">
-        <font-awesome-icon icon="fa-solid fa-plus" size="6x" />
-        <div style="text-align:center; color:white; margin-top:10px;">Add listing</div>
-      </div>
-
-    </div>
-
-    <div v-if="adding" class="add-module-container">
+  <div v-if="adding" class="big-cont">
+    <div class="listing-container add-module-container">
       <div class="container" id="add-module-input">
         <input type="file" ref="file" style="display: none" @change="loadPhoto" />
         <img :src="listingImg" style="width:100%; max-height: 119px; max-width: 104.2px; margin-bottom: 8px;"
           @click="$refs.file.click()">
-        <input class="add-fields" type="text" placeholder="Mod" v-model="newMod">
-
-        <input class="add-fields" type="text" placeholder="Prof" v-model="newProf">
-
-        <input class="add-fields" type="text" placeholder="Price" v-model="newPrice">
-
-        <button class="btn" id="add-listing-btn" @click="toggleAdd()">Add listing</button>
+        <select class="select" v-model="newMod">
+          <option value="" disabled selected>Select module</option>
+          <option v-for="mod of modules" :value="mod.code">{{ mod.code }}: {{ mod.name }}</option>
+        </select>
+        <input class="add-fields form-control" type="text" placeholder="Prof" v-model="newProf">
+        <input class="add-fields form-control" type="text" placeholder="Price" v-model="newPrice">
+        <button class="btn btn-outline-light" id="cancelBtn" @click="close()">Cancel</button>
+        <button class="btn" id="add-listing-btn" @click="toggleAdd()">Create</button>
       </div>
     </div>
   </div>
-
   <div class="about-shape-2">
     <img :src="require('../assets/images/about-shape-2.svg')" />
   </div>
-
   <div class="about-shape-1">
     <img :src="require('../assets/images/about-shape-1.svg')" />
   </div>
-
-
 </template>
 
 <script>
@@ -304,7 +129,7 @@ import { query, collection, doc, where, getDocs, updateDoc, addDoc } from "fireb
 import { db, auth, storage } from "../firebase/init"
 import Navbar from '../components/Navbar.vue'
 import { ref, getDownloadURL, listAll, deleteObject, uploadBytes, uploadString } from "firebase/storage"
-
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 export default {
   data() {
     return {
@@ -324,11 +149,12 @@ export default {
       id: "",
       imgName: "",
       adding: false,
-      listingImg: require("../assets/images/add-listing.png"),
+      listingImg: require("../assets/images/module-placeholder.png"),
       pic: null,
       newMod: "",
       newProf: "",
-      newPrice: ""
+      newPrice: "",
+      modules: []
     };
   },
   created() {
@@ -336,15 +162,21 @@ export default {
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        this.getUser(user.uid);
-        this.getListings(user.uid);
-        console.log(user)
+        this.getUser(user.uid)
+        this.getListings(user.uid)
+        this.loadModules()
       } else {
         console.log("Not signed in")
       }
     })
   },
   methods: {
+    async loadModules() {
+      const querySnap = await getDocs(query(collection(db, "module")))
+      querySnap.forEach((doc) => {
+        this.modules.push(doc.data())
+      })
+    },
     async getListings(uid) {
       const querySnap = await getDocs(query(collection(db, "listings"), where("userID", "==", uid)));
       querySnap.forEach((doc) => {
@@ -414,6 +246,9 @@ export default {
         this.editing = true;
       }
     },
+    close() {
+      this.adding = false;
+    },
     async toggleAdd() {
       if (this.adding) {
         if (this.newPrice.includes(".")) {
@@ -437,7 +272,7 @@ export default {
 
           addDoc(collection(db, "listings"), newListing).then((res) => {
             if (this.pic == null) {
-              this.pic = require("../assets/images/add-listing.png")
+              this.pic = require("../assets/images/module-placeholder.png")
               const listingsRef = ref(storage, "listings/" + res.id)
               uploadString(listingsRef, this.pic, 'data_url').then(() => {
                 alert("Listing created!")
@@ -475,13 +310,27 @@ export default {
       reader.onload = () => (this.listingImg = reader.result)
     }
   },
-  components: { ListingComponent, Navbar },
+  components: { ListingComponent, Navbar, FontAwesomeIcon },
 };
 </script>
 <style>
 * {
   margin: 0;
   padding: 0;
+}
+
+.big-cont {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3)
+}
+
+.select {
+  width: 100%;
+  margin-bottom: 8px;
 }
 
 #profile {
@@ -533,6 +382,11 @@ input {
   width: 100%;
 }
 
+.fa-plus {
+  font-size: 2vw;
+  color: #1F5C64 !important;
+}
+
 #name {
   margin-top: 30px;
   font-weight: bolder;
@@ -545,15 +399,31 @@ input {
   background-color: #75ACB4 !important;
   color: white;
 }
+
 .card {
   margin-left: 40px;
   margin-right: 40px;
 }
+
 #save-button {
   width: 100%;
   margin-top: 10px;
   background-color: #75ACB4 !important;
   color: white
+}
+
+.add-module-container {
+  position: fixed;
+  top: 20%;
+  width: 40vw;
+  height: 50vh;
+  left: 30vw;
+}
+
+.addListingBtn {
+  color: black !important;
+  height: 40px;
+  margin-top: 30px;
 }
 
 #edit-button:hover {
@@ -594,7 +464,6 @@ input {
   background-color: #1F5C64 !important;
 }
 
-/* photo test*/
 .profilepic {
   position: relative;
   margin: auto;
@@ -657,7 +526,6 @@ input {
   text-align: center;
 }
 
-/* photo test */
 #my-profile-wording {
   margin-top: 3%;
   margin-bottom: 1%
@@ -670,27 +538,19 @@ input {
   font-weight: bold;
 }
 
-.add-module-container {
-  border-radius: 5px;
-  width: 18%;
-  height: 45vh;
-  background-color: #f3f9fb;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  transition: box-shadow 0.3s;
-  cursor: pointer;
-  margin-left: 2%;
-  text-align: center;
-  padding-top: 50px;
-  /* margin: 10px; */
+#cancelBtn {
+  color: #1F5C64;
+  width: 40%;
+  border: 1px solid gray;
 }
 
-.add-module-container:hover {
+#cancelBtn:hover {
   box-shadow: #5b6060 0px 2px 6px;
-
 }
 
 #add-listing-btn {
-  width: 100%;
+  margin-left: 10%;
+  width: 50%;
   background-color: #75ACB4 !important;
   color: white;
 }
@@ -731,15 +591,13 @@ input {
   color: #1F5C64
 }
 
-.listings-container {
-  margin-top: 0%;
-  /* margin-left: 55px; */
-}
-
 #add-module-input {
   padding: 0;
   text-align: center;
-
+  width: 90%;
+  height: 55%;
+  margin-top: 5%;
+  margin-left: 5%;
 }
 
 .add-fields {
@@ -762,5 +620,39 @@ input {
   top: 50%;
   transform: translateY(-50%);
 }
+
+@media only screen and (max-width: 464px) {
+  .profilePic {
+    height: 200px;
+    width: 200px;
+  }
+  .profilepic {
+    width: 200px;
+    height: 200px;
+  }
+  .profilepic__image {
+    height: 200px;
+    width: 200px;
+  }
+  #name {
+    margin-top: 100px;
+    font-size: 30px;
+  }
+  th {
+    font-size: 10px;
+  }
+  td {
+    font-size: 10px;
+  }
+  #cancelBtn {
+    width: 45%;
+    font-size: 13px;
+  }
+  #add-listing-btn {
+    width: 45%;
+    font-size: 13px;
+  }
+}
+
 </style>
 
