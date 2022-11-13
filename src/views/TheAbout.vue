@@ -24,7 +24,7 @@
             <!-- <a href="#" class="main-btn">Sign Up Today</a> -->
             
           </div> <!-- about content -->
-          <button class="btn" type="button" id="start-btn" v-on:click="this.$router.push({ path: '/signup' })" style="margin-top:20%">Get Started</button>
+          <button class="btn" type="button" id="start-btn" v-on:click="this.$router.push({ path: '/signup' })" style="margin-top:10%">Get Started</button>
         </div>
         <div class="col-lg-6" :class="{ 'order-lg-first': right }">
           <div
