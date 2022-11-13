@@ -5,8 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "deploy": "node scripts/gh-pages-deploy.js"
+    "lint": "vue-cli-service lint"
   },
   "vueCompilerOptions": {
     "experimentalDisableTemplateSupport": true
@@ -69,8 +68,7 @@
     "postcss": "^8.4.16",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
-    "vue-cli-plugin-vuetify": "~2.5.8",
-    "execa": "latest"
+    "vue-cli-plugin-vuetify": "~2.5.8"
   },
   "vue/multi-word-component-names": [
     "error",
