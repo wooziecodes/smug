@@ -59,6 +59,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <span class="desc">{{ description }}</span>
                         </div>
                     </div>
                     <div v-if="!reviewing">
@@ -477,6 +478,11 @@ export default {
     font-size: 1.1vw;
 }
 
+.desc {
+    font-size: 1.1vw;
+    font-style: italic;
+}
+
 .profile img {
     width: 40%;
 }
@@ -677,6 +683,10 @@ export default {
     }
 
     .year_major {
+        font-size: 15px;
+    }
+
+    .desc {
         font-size: 15px;
     }
 
